@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "name": "Power Plant",
+        "email": "1@gmail.com",
+        "phone number": 12345678,
+        "address": "abc street"
+    },
+    {
+        "id": 2,
+        "name": "TV",
+        "email": "2@gmail.com",
+        "phone number": 123456789,
+        "address": "xyz street"
+    },
+    {
+        "id": 3,
+        "name": "House",
+        "email": "300@gmail.com",
+        "phone number": 5680000,
+        "address": "lkj street"
+    }
+]

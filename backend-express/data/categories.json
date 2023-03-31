@@ -1,0 +1,37 @@
+[
+    {
+        "id": "1",
+        "name": "CPU",
+        "description": "Các loại CPU cho máy tính"
+    },
+    {
+        "id": "2",
+        "name": "RAM",
+        "description": "Các loại ram cho máy tính"
+    },
+    {
+        "id": "3",
+        "name": "SSD",
+        "description": "Đĩa cứng SSD"
+    },
+    {
+        "id": "4",
+        "name": "Mainboard",
+        "description": "Mô tả ..."
+    },
+    {
+        "name": "CTV",
+        "description": "Nhập khẩu từ Đức",
+        "id": "4wWcSNozi_shOCyPuV_MO"
+    },
+    {
+        "name": "CTV",
+        "description": "Nhập khẩu từ Ý",
+        "id": "WgCaRO0Tn20L6T66M026i"
+    },
+    {
+        "name": "CTV",
+        "description": "Nhập khẩu từ vn",
+        "id": "6BefxLfhWTdnuxRFmfpVi"
+    }
+]

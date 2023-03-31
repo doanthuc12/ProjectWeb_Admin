@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "Power Plant",
+        "price": 1500,
+        "discount": 0,
+        "stock": 1500
+    },
+    {
+        "id": 2,
+        "name": "RAM",
+        "price": 50,
+        "discount": 30,
+        "stock": 150
+    },
+    {
+        "id": 3,
+        "name": "SSD",
+        "price": 450,
+        "discount": 140,
+        "stock": 15
+    },
+    {
+        "id": 4,
+        "name": "Mainboard",
+        "price": 100,
+        "discount": 75,
+        "stock": 200
+    }
+]

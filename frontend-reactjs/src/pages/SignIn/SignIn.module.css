@@ -1,0 +1,81 @@
+.surrounding {
+  background-color: #eee;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  position: relative;
+  /* width: 650px; */
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  flex-direction: column;
+  padding-bottom: 14%;
+  align-items: center;
+}
+
+/* HEADER */
+.logo {
+  padding: 64px 0 25px 1px;
+  text-align: center;
+  display: block;
+  font-size: 2em;
+}
+
+/*MAIN FORM */
+/* HEADER FORM */
+.main {
+  width: 500px;
+  /* height: 450px; */
+  background-color: #fff;
+  padding-top: 1px;
+}
+.option {
+  padding: 25px 20px 30px;
+  text-align: center;
+}
+.titleJ {
+  /* TEXT */
+  width: 100%;
+  font-size: 14px;
+  font-weight: 790;
+  color: #767676;
+  letter-spacing: 2px;
+
+  text-decoration: none;
+  text-transform: uppercase;
+  line-height: 1.7;
+
+  /* TEXT-BOX */
+
+  border-radius: 0;
+  padding: 20px 0 17px;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+/* INPUT */
+.form {
+  margin: 0px auto 0;
+  width: 88%;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #767676;
+  letter-spacing: 2px;
+  line-height: 1.7;
+}
+
+/* FOOTER */
+.footer {
+  padding: 10px 0 10px 0;
+  font-size: 0.897em;
+  color: #666;
+  text-align: center;
+}
+.label {
+  text-decoration: underline;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.5px;
+}
