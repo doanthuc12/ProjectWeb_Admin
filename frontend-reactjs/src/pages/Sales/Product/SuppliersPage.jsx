@@ -3,6 +3,8 @@ import axios from "axios";
 import { Form, Input, Button, Modal, Space, Table, Popconfirm } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
+import Styles from "../../CommonPage.module.css";
+
 function SuppliersPage() {
   //Call API
   const [suppliers, setSuppliers] = React.useState([]);
@@ -141,6 +143,7 @@ function SuppliersPage() {
   return (
     <div>
       <Form
+        className={Styles.form}
         form={createForm}
         name="create-supplier"
         labelCol={{
@@ -226,6 +229,7 @@ function SuppliersPage() {
 
       {/* TABLE */}
       <Table
+        className={Styles.table}
         dataSource={suppliers}
         columns={columns}
         pagination={false}

@@ -4,6 +4,8 @@ import numeral from "numeral";
 import moment from "moment";
 import React from "react";
 
+import Styles from "../CommonPage.module.css";
+
 export default function CustomerBirthPage() {
   const [customers, setCustomers] = React.useState([]);
   // Columns of Antd Table
@@ -86,6 +88,7 @@ export default function CustomerBirthPage() {
   return (
     <div>
       <Form
+        className={Styles.form}
         form={searchForm}
         name="search"
         labelCol={{
@@ -125,6 +128,7 @@ export default function CustomerBirthPage() {
 
       {/* TABLE */}
       <Table
+        className={Styles.table}
         rowKey="_id"
         dataSource={customers}
         columns={columns}

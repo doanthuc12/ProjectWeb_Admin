@@ -3,6 +3,8 @@ import axios from "axios";
 import numeral from "numeral";
 import React from "react";
 
+import Styles from "../../CommonPage.module.css";
+
 export default function TotalPricePage() {
   const [products, setProducts] = React.useState([]);
   // Columns of Antd Table
@@ -121,6 +123,7 @@ export default function TotalPricePage() {
   return (
     <div>
       <Form
+        className={Styles.form}
         form={searchForm}
         name="search"
         labelCol={{
@@ -160,6 +163,7 @@ export default function TotalPricePage() {
 
       {/* TABLE */}
       <Table
+        className={Styles.table}
         rowKey="_id"
         dataSource={products}
         columns={columns}

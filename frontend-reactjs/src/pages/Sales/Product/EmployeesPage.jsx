@@ -12,6 +12,8 @@ import {
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
+import Styles from "../../CommonPage.module.css";
+
 function EmployeesPage() {
   //Call API
   const [employees, setEmployees] = React.useState([]);
@@ -174,6 +176,7 @@ function EmployeesPage() {
   return (
     <div>
       <Form
+        className={Styles.form}
         form={createForm}
         name="create-customer"
         labelCol={{
@@ -303,6 +306,7 @@ function EmployeesPage() {
 
       {/* TABLE */}
       <Table
+        className={Styles.table}
         dataSource={employees}
         columns={columns}
         pagination={false}

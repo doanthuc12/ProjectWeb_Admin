@@ -106,10 +106,13 @@ router.delete("/:id", function (req, res, next) {
 // QUESTIONS 7,9
 // ------------------------------------------------------------------------------------------------
 router.get("/question/7", function (req, res) {
-  const text = "COMPLETED";
+  const text = "WAITING";
   const query = { status: new RegExp(`${text}`) };
 
   Order.find(query)
+    .populate("orderDetails.product")
+    .populate("customer")
+    .populate("employee")
     .then((result) => {
       res.json(result);
     })

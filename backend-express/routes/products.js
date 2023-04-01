@@ -137,6 +137,29 @@ router.get("/question/2", function (req, res, next) {
     let stock = req.query.stock;
     let query = { stock: { $lte: stock } };
     Product.find(query)
+      .populate("category")
+      .populate("supplier")
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        res.status(400).send({ message: err.message });
+      });
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
+// ------------------------------------------------------------------------------------------------
+// QUESTION 2/1
+// ------------------------------------------------------------------------------------------------
+//http://localhost:9000/products/question/2?stock=
+router.get("/question/2/1", function (req, res, next) {
+  try {
+    // let stock = req.query.stock;
+    let query = { stock: { $lte: 10 } };
+    Product.find(query)
+
       .then((result) => {
         res.send(result);
       })

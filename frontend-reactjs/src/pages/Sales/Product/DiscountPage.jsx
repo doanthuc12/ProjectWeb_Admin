@@ -3,6 +3,8 @@ import axios from "axios";
 import numeral from "numeral";
 import React from "react";
 
+import Styles from "../../CommonPage.module.css";
+
 export default function DiscountPage() {
   const [products, setProducts] = React.useState([]);
   // Columns of Antd Table
@@ -124,6 +126,7 @@ export default function DiscountPage() {
   return (
     <div>
       <Form
+        className={Styles.form}
         form={searchForm}
         name="search"
         labelCol={{
@@ -163,6 +166,7 @@ export default function DiscountPage() {
 
       {/* TABLE */}
       <Table
+        className={Styles.table}
         rowKey="_id"
         dataSource={products}
         columns={columns}

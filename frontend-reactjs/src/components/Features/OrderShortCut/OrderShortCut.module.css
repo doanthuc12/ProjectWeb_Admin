@@ -1,8 +1,6 @@
-body {
-  padding: 0px;
-  background-color: ghostwhite;
-}
-content {
+.table {
+  background-color: white;
+  border-radius: 1%;
   box-shadow: 0 8px 8px 0 rgba(227, 235, 240, 0.712),
     0 10px 10px 0 rgba(227, 235, 240, 0.712);
 }

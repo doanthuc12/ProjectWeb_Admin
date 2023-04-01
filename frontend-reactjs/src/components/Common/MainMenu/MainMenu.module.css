@@ -1,0 +1,36 @@
+.header {
+  --bs-bg-opacity: 1;
+}
+.head_top {
+  /* display: flex; */
+  flex-direction: column;
+  border-bottom: solid 1px rgb(209, 209, 209);
+}
+.logo_bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  text-align: center;
+
+  border-right: 0.5px solid #464646f1;
+  border-bottom: solid 1px gainsboro;
+}
+.logo {
+  text-decoration: none;
+  font-size: 24px;
+  letter-spacing: 1.5px;
+  font-family: fujiyama;
+  font-weight: 500;
+  color: rgb(77, 77, 77);
+}
+
+.menu {
+  margin-bottom: 30px;
+  text-decoration: none;
+  font-size: 15px;
+  padding-top: 20px;
+  letter-spacing: 2px;
+  font-family: sans-serif;
+  color: rgb(70, 70, 70);
+}

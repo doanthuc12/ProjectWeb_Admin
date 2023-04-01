@@ -1,12 +1,9 @@
 import React from "react";
 import axios from "axios";
 import { Form, Input, Button, Modal, Space, Table, Popconfirm } from "antd";
-import {
-  DeleteOutlined,
-  ExitOutlined,
-  UploadOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+
+import Styles from "../../CommonPage.module.css";
 
 function CategoriesPage() {
   //Call API
@@ -134,6 +131,7 @@ function CategoriesPage() {
     <div>
       <Form
         form={createForm}
+        className={Styles.form}
         name="create-categories"
         labelCol={{
           span: 8,
@@ -186,6 +184,7 @@ function CategoriesPage() {
 
       {/* TABLE */}
       <Table
+        className={Styles.table}
         dataSource={categories}
         columns={columns}
         pagination={false}

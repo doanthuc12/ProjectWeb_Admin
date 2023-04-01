@@ -1,0 +1,46 @@
+.card_body {
+  border-radius: 5px;
+  box-shadow: 0 8px 8px 0 rgba(227, 235, 240, 0.712),
+    0 10px 10px 0 rgba(227, 235, 240, 0.712);
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.container {
+  height: 100px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 5px 5px 5px;
+
+  text-decoration: none;
+  font-size: 17px;
+  letter-spacing: 2px;
+  font-family: sans-serif;
+  line-height: 21px;
+  font-weight: 700;
+  color: rgb(61, 61, 61);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.left {
+  display: flex;
+  background-color: rgb(255, 197, 131);
+  border-radius: 5px;
+  flex-direction: row;
+  height: 100%;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+}
+
+.right {
+  height: 100%;
+  width: 70%;
+  padding-left: 10px;
+  /* text-align: right; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

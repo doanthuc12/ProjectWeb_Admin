@@ -68,3 +68,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+<!-- HomePage -->
+
+npm i reactstrap react react-dom
+
+<!-- SalesChart -->
+
+npm install next react react-dom
+npm install next/dynamic
+npm install react-apexcharts

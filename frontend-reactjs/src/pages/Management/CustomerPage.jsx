@@ -4,6 +4,8 @@ import moment from "moment";
 import { Form, Input, Button, Modal, Space, Table, Popconfirm } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
+import Styles from "../CommonPage.module.css";
+
 function CustomerPage() {
   //Call API
   const [customers, setCustomers] = React.useState([]);
@@ -165,6 +167,7 @@ function CustomerPage() {
   return (
     <div>
       <Form
+        className={Styles.form}
         form={createForm}
         name="create-customer"
         labelCol={{
@@ -281,6 +284,7 @@ function CustomerPage() {
 
       {/* TABLE */}
       <Table
+        className={Styles.table}
         dataSource={customers}
         columns={columns}
         pagination={false}

@@ -14,6 +14,8 @@ import {
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
+import Styles from "../../CommonPage.module.css";
+
 function OrdersPage() {
   //Call API
   const [orders, setOrders] = React.useState([]);
@@ -268,6 +270,7 @@ function OrdersPage() {
   return (
     <div>
       <Form
+        className={Styles.form}
         form={createForm}
         name="create-orders"
         labelCol={{
@@ -501,6 +504,7 @@ function OrdersPage() {
 
       {/* TABLE */}
       <Table
+        className={Styles.table}
         dataSource={orders}
         columns={columns}
         pagination={false}

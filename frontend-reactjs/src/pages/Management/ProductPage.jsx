@@ -20,6 +20,9 @@ import {
 import numeral from "numeral";
 import "numeral/locales/vi";
 
+import Styles from "../CommonPage.module.css";
+import MultiButtonGroup from "../../components/Features/MultiButtonGroup/MultiButtonGroup";
+
 numeral.locale("vi");
 
 function ProductPage() {
@@ -234,7 +237,11 @@ function ProductPage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
+        className={Styles.form}
         form={createForm}
         name="create-product"
         labelCol={{
@@ -364,6 +371,7 @@ function ProductPage() {
 
       {/* TABLE */}
       <Table
+        className={Styles.table}
         dataSource={products}
         columns={columns}
         pagination={false}
@@ -386,6 +394,7 @@ function ProductPage() {
         }}
       >
         <Form
+          className={Styles.form}
           form={updateForm}
           name="updateProducts"
           labelCol={{
