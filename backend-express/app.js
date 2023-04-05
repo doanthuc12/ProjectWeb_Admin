@@ -3,20 +3,20 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const cors = require("cors");
-var mongoose = require("mongoose");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var categoriesRouter = require("./routes/categories");
+const passport = require("passport");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const jwtSettings = require("./constants/jwtSettings");
+
+const cors = require("cors");
+
 var productsRouter = require("./routes/products");
-var suppliersRouter = require("./routes/suppliers");
+var categoriesRouter = require("./routes/categories");
 var customersRouter = require("./routes/customers");
+var suppliersRouter = require("./routes/suppliers");
 var employeesRouter = require("./routes/employees");
 var ordersRouter = require("./routes/orders");
-
-var mwRouter = require("./routes/mw");
-
 var authRouter = require("./routes/auth");
 
 var app = express();
@@ -39,23 +39,48 @@ app.use(
 );
 
 const myLogger = function (req, res, next) {
-  console.log("LOGGED");
+  console.log("LOGGER");
   next();
 };
 
 app.use(myLogger);
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/categories", categoriesRouter);
+// Passport: jwt
+const opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = jwtSettings.SECRET;
+opts.audience = jwtSettings.AUDIENCE;
+opts.issuer = jwtSettings.ISSUER;
+
+// passport.use(
+//   new JwtStrategy(opts, function (payload, done) {
+//     console.log("payload", payload);
+//     let error = null;
+//     let user = true;
+//     return done(error, user);
+//   })
+// );
+passport.use(
+  new JwtStrategy(opts, function (payload, done) {
+    console.log(payload);
+    if (jwtSettings.WHITE_LIST.includes(payload.sub)) {
+      let error = null;
+      let user = true;
+      return done(error, user);
+    } else {
+      let error = null;
+      let user = false;
+      return done(error, user);
+    }
+  })
+);
+
 app.use("/products", productsRouter);
-app.use("/suppliers", suppliersRouter);
 app.use("/customers", customersRouter);
+app.use("/suppliers", suppliersRouter);
 app.use("/employees", employeesRouter);
 app.use("/orders", ordersRouter);
-
-app.use("/mw", mwRouter);
-
+app.use("/categories", categoriesRouter);
 app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
@@ -73,18 +98,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-const CONNECTION_URL = "mongodb://localhost:27017/thucntd";
-const PORT = process.env.PORT || 5000;
-
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() =>
-    app.listen(PORT, () =>
-      console.log(`Server Running on Port: http://localhost:${PORT}`)
-    )
-  )
-  .catch((error) => console.log(`${error} did not connect`));
 
 module.exports = app;

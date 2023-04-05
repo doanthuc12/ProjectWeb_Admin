@@ -5,6 +5,7 @@ import React from "react";
 
 import Styles from "../../CommonPage.module.css";
 
+import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
 export default function TotalPricePage() {
   const [products, setProducts] = React.useState([]);
   // Columns of Antd Table
@@ -24,7 +25,7 @@ export default function TotalPricePage() {
 
     {
       title: () => {
-        return <div style={{ whiteSpace: "nowrap" }}>Danh mục</div>;
+        return <div style={{ whiteSpace: "nowrap" }}>Category</div>;
       },
       dataIndex: "category",
       key: "category",
@@ -40,7 +41,7 @@ export default function TotalPricePage() {
 
     {
       title: () => {
-        return <div style={{ whiteSpace: "nowrap" }}>Nhà cung cấp</div>;
+        return <div style={{ whiteSpace: "nowrap" }}>Supplier</div>;
       },
       dataIndex: "supplier",
       key: "supplier",
@@ -54,7 +55,7 @@ export default function TotalPricePage() {
       },
     },
     {
-      title: "Tên sản phẩm",
+      title: "Product Name",
       key: "name",
       dataIndex: "name",
       render: (text, record, index) => {
@@ -66,7 +67,7 @@ export default function TotalPricePage() {
       },
     },
     {
-      title: "Giá bán",
+      title: "Price",
       dataIndex: "price",
       key: "price",
       width: "1%",
@@ -79,7 +80,7 @@ export default function TotalPricePage() {
       },
     },
     {
-      title: "Giảm giá",
+      title: "Discount",
       dataIndex: "discount",
       key: "discount",
       width: "1%",
@@ -92,7 +93,7 @@ export default function TotalPricePage() {
       },
     },
     {
-      title: "Tồn kho",
+      title: "Stock",
       dataIndex: "stock",
       key: "stock",
       width: "1%",
@@ -122,6 +123,9 @@ export default function TotalPricePage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
         className={Styles.form}
         form={searchForm}
@@ -136,7 +140,7 @@ export default function TotalPricePage() {
       >
         {/* FIRST NAME */}
         <Form.Item
-          label="Giới hạn mức giá sau giảm"
+          label="Giới hạn mức giá sau Discount"
           name="discount"
           rules={[
             {

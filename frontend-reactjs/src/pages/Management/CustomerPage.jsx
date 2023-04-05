@@ -6,6 +6,8 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import Styles from "../CommonPage.module.css";
 
+import MultiButtonGroup from "../../components/Features/MultiButtonGroup/MultiButtonGroup";
+
 function CustomerPage() {
   //Call API
   const [customers, setCustomers] = React.useState([]);
@@ -32,7 +34,7 @@ function CustomerPage() {
       },
     },
     {
-      title: "Họ và tên",
+      title: "Full of name",
       key: "fullName",
       render: (text, record, index) => {
         return (
@@ -45,22 +47,22 @@ function CustomerPage() {
       },
     },
     {
-      title: "Số điện thoại",
+      title: "Phone Number",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
     {
-      title: "Địa chỉ",
+      title: "Address",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Thư điện tử",
+      title: "Email Address",
       dataIndex: "email",
       key: "email",
     },
     {
-      title: "Ngày sinh",
+      title: "Date of birth",
       key: "birthday",
       render: (text, record, index) => {
         return (
@@ -81,8 +83,8 @@ function CustomerPage() {
               style={{ width: 1000 }}
               title="Bạn muốn xoá khách hàng này?"
               description="Bạn muốn xoá khách hàng này?"
-              okText="Đồng ý"
-              cancelText="Đóng"
+              okText="Accept"
+              cancelText="Close"
               onConfirm={() => {
                 deleteCustomers(record._id);
               }}
@@ -166,6 +168,9 @@ function CustomerPage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
         className={Styles.form}
         form={createForm}
@@ -180,7 +185,7 @@ function CustomerPage() {
       >
         {/* LAST NAME */}
         <Form.Item
-          label="Tên"
+          label="First Name"
           name="lastName"
           rules={[
             {
@@ -194,7 +199,7 @@ function CustomerPage() {
 
         {/* FIRST NAME */}
         <Form.Item
-          label="Họ"
+          label="Last Name"
           name="firstName"
           rules={[
             {
@@ -208,7 +213,7 @@ function CustomerPage() {
 
         {/* EMAIL */}
         <Form.Item
-          label="Thư điện tử"
+          label="Email Address"
           name="email"
           rules={[
             {
@@ -226,7 +231,7 @@ function CustomerPage() {
 
         {/* ADDRESS */}
         <Form.Item
-          label="Địa chỉ"
+          label="Address"
           name="address"
           rules={[
             {
@@ -240,7 +245,7 @@ function CustomerPage() {
 
         {/* PHONE NUMBER */}
         <Form.Item
-          label="Số điện thoại"
+          label="Phone Number"
           name="phoneNumber"
           rules={[
             {
@@ -256,7 +261,7 @@ function CustomerPage() {
 
         {/* BIRTHDAY */}
         <Form.Item
-          label="Ngày sinh (mm/dd/yyyy)"
+          label="Date of birth (mm/dd/yyyy)"
           name="birthday"
           rules={[
             {
@@ -277,7 +282,7 @@ function CustomerPage() {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Lưu thông tin
+            Save
           </Button>
         </Form.Item>
       </Form>
@@ -295,12 +300,12 @@ function CustomerPage() {
       <Modal
         open={editModalVisible}
         centered
-        title="Cập nhật thông tin"
+        title="Update Information"
         onCancel={() => {
           setEditModalVisible(false);
         }}
-        cancelText="Đóng"
-        okText="Lưu thông tin"
+        cancelText="Close"
+        okText="Save"
         onOk={() => {
           alert("Edit successful");
           updateForm.submit();
@@ -319,7 +324,7 @@ function CustomerPage() {
         >
           {/* LAST NAME */}
           <Form.Item
-            label="Tên"
+            label="First Name"
             name="lastName"
             rules={[
               {
@@ -333,7 +338,7 @@ function CustomerPage() {
 
           {/* FIRST NAME */}
           <Form.Item
-            label="Họ"
+            label="Last Name"
             name="firstName"
             rules={[
               {
@@ -347,7 +352,7 @@ function CustomerPage() {
 
           {/* EMAIL */}
           <Form.Item
-            label="Thư điện tử"
+            label="Email Address"
             name="email"
             rules={[
               {
@@ -365,7 +370,7 @@ function CustomerPage() {
 
           {/* PHONE NUMBER */}
           <Form.Item
-            label="Số điện thoại"
+            label="Phone Number"
             name="phoneNumber"
             rules={[
               {
@@ -384,7 +389,7 @@ function CustomerPage() {
 
           {/* ADDRESS */}
           <Form.Item
-            label="Địa chỉ"
+            label="Address"
             name="address"
             rules={[
               {
@@ -403,7 +408,7 @@ function CustomerPage() {
 
           {/* BIRTHDAY */}
           <Form.Item
-            label="Ngày sinh"
+            label="Date of birth"
             name="birthday"
             rules={[
               {

@@ -6,7 +6,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/thucntd");
 try {
   const data = {
     name: "Mỹ phẩm",
-    description: "Mô tả ...",
+    description: "Description ...",
   };
 
   const newItem = new Category(data);

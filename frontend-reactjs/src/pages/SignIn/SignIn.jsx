@@ -1,38 +1,49 @@
 import React, { useState } from "react";
+
+// import garena from "../images/garena.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import Styles from "./SignIn.module.css";
 import logo from "../../images/logo.png";
 import { Button, Checkbox, Form, Input } from "antd";
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
-
-export default function SignIn({ onLogin }) {
+export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      const response = await fetch("http://localhost:9000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    axios
+      .post("http://localhost:9000/auth/login-jwt", {
+        email: email,
+        password: password,
+      })
+      .then(
+        (response) => {
+          navigate("/home");
+          console.log(response);
+          alert("Success Password!!!");
         },
-        body: JSON.stringify({ email, password }),
-      });
-      if (response.ok) {
-        console.log("success");
-        // Redirect to homepage here
-        window.location.href = "/home";
-      } else {
-        console.log("Login failed");
-      }
-    } catch (error) {
-      console.log(error);
+        (error) => {
+          console.log(error);
+          alert("Wrong Password!!!");
+        }
+      );
+  };
+
+  const handleChange = (event) => {
+    switch (event.target.name) {
+      case "email":
+        setEmail(event.target.value);
+        break;
+      case "password":
+        setPassword(event.target.value);
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -47,87 +58,45 @@ export default function SignIn({ onLogin }) {
           <div className={Styles.option}>
             <div className={Styles.titleJ}>Log in to your Admin Page!</div>
           </div>
+          <div className={Styles.form}>
+            <form className={Styles.input} onSubmit={handleSubmit}>
+              <p className={Styles.label_input}>Email</p>
 
-          <Form
-            className={Styles.form}
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            style={{
-              maxWidth: 600,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onSubmit={handleSubmit}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your email!",
-                },
-                {
-                  type: "email",
-                  message: "Please input your valid email!",
-                },
-              ]}
-            >
-              <Input
-                id="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+              <input
+                className={Styles.input_item}
+                type="text"
+                name="email"
+                value={email ? email : ""}
+                onChange={handleChange}
+                placeholder="Enter your email"
               />
-            </Form.Item>
 
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input.Password
-                id="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
+              <p className={Styles.label_input}>Password</p>
+
+              <input
+                className={Styles.input_item}
+                type="password"
+                onChange={handleChange}
+                value={password ? password : ""}
+                name="password"
+                placeholder="Enter your Password"
               />
-            </Form.Item>
+              <br />
+              <button
+                style={{ marginBottom: "15px", backgroundColor: "#5ece76" }}
+                className={Styles.button}
+              >
+                Login
+              </button>
 
-            <Form.Item
-              name="remember"
-              valuePropName="checked"
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
+              <button
+                style={{ marginBottom: "15px", backgroundColor: "#65b4d3" }}
+                className={Styles.button}
+              >
+                Create Account
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 

@@ -32,7 +32,7 @@ function ProductPage() {
       },
     },
     // {
-    //   title: "Danh mục",
+    //   title: "Category",
     //   dataIndex: "category",
     //   key: "category",
     //   with: "1%",
@@ -46,9 +46,9 @@ function ProductPage() {
     // },
     {
       title: () => {
-        return <div style={{ whiteSpace: "nowrap" }}>Tên sản phẩm</div>;
+        return <div style={{ whiteSpace: "nowrap" }}>Product Name</div>;
       },
-      // title: "Tên sản phẩm",
+      // title: "Product Name",
       dataIndex: "name",
       key: "name",
       render: (text, record, index) => {
@@ -60,7 +60,7 @@ function ProductPage() {
       },
     },
     // {
-    //   title: "Nhà cung cấp",
+    //   title: "Supplier",
     //   dataIndex: "supplier",
     //   key: "supplier",
     //   render: (text, record, index) => {
@@ -73,7 +73,7 @@ function ProductPage() {
     // },
 
     {
-      title: "Tồn kho",
+      title: "Stock",
       dataIndex: "stock",
       key: "stock",
       render: (text, record, index) => {

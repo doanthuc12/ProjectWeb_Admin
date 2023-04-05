@@ -1,5 +1,5 @@
 .surrounding {
-  background-color: #eee;
+  background-color: #eeeeee;
   margin: 0;
   padding: 0;
 }
@@ -27,20 +27,23 @@
 /* HEADER FORM */
 .main {
   width: 500px;
-  /* height: 450px; */
+  height: 480px;
   background-color: #fff;
   padding-top: 1px;
+
+  box-shadow: 0 8px 8px 0 rgba(227, 235, 240, 0.712),
+    0 10px 10px 0 rgba(227, 235, 240, 0.712);
 }
 .option {
-  padding: 25px 20px 30px;
+  padding: 25px 20px 10px;
   text-align: center;
 }
 .titleJ {
   /* TEXT */
   width: 100%;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 790;
-  color: #767676;
+  color: #ce3737;
   letter-spacing: 2px;
 
   text-decoration: none;
@@ -56,14 +59,51 @@
 
 /* INPUT */
 .form {
-  margin: 0px auto 0;
-  width: 88%;
-  border: none;
-  font-size: 14px;
+  margin: 0px 50px 0px 50px;
+  /* font-size: 17px;
   font-weight: 500;
   color: #767676;
   letter-spacing: 2px;
-  line-height: 1.7;
+  line-height: 1.7; */
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5%;
+}
+
+.label_input {
+  width: 100%;
+  font-size: 17px;
+  font-weight: 600;
+  color: #767676;
+  letter-spacing: 2px;
+
+  text-decoration: none;
+  line-height: 2.7;
+  margin-bottom: 10px;
+}
+.input_item {
+  height: 45px;
+  font-size: 16px;
+  padding-left: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.button {
+  border-radius: 7px;
+  height: 40px;
+
+  /* TEXT */
+  font-size: 15px;
+  font-weight: 600;
+  color: #fcfcfc;
+  letter-spacing: 2px;
+}
+.button:hover {
+  background-color: #eceaea !important;
+  color: #ce3737;
 }
 
 /* FOOTER */

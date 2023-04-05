@@ -20,7 +20,7 @@ export default function HomePage() {
       <div className={Styles.bottom}>
         <div className={Styles.bot_left}>
           <span className={Styles.title}>Waiting Orders</span>
-          <OrderShortCut />
+          <OrderShortCut style={{ width: "100%" }} />
         </div>
         <div className={Styles.bot_right}>
           <span className={Styles.title}>Need fullfilled Products</span>

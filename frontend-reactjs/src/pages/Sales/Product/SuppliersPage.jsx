@@ -5,6 +5,8 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import Styles from "../../CommonPage.module.css";
 
+import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
+
 function SuppliersPage() {
   //Call API
   const [suppliers, setSuppliers] = React.useState([]);
@@ -31,7 +33,7 @@ function SuppliersPage() {
       },
     },
     {
-      title: "Nhà cung cấp",
+      title: "Supplier",
       key: "name",
       render: (text, record, index) => {
         return (
@@ -42,17 +44,17 @@ function SuppliersPage() {
       },
     },
     {
-      title: "Địa chỉ",
+      title: "Address",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Thư điện tử",
+      title: "Email Address",
       dataIndex: "email",
       key: "email",
     },
     {
-      title: "Số điện thoại",
+      title: "Phone Number",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
@@ -67,8 +69,8 @@ function SuppliersPage() {
               style={{ width: 1000 }}
               title="Bạn muốn xoá nhà cung cấp này?"
               description="Bạn muốn xoá nhà cung cấp này?"
-              okText="Đồng ý"
-              cancelText="Đóng"
+              okText="Accept"
+              cancelText="Close"
               onConfirm={() => {
                 deleteSuppliers(record._id);
               }}
@@ -142,6 +144,9 @@ function SuppliersPage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
         className={Styles.form}
         form={createForm}
@@ -156,7 +161,7 @@ function SuppliersPage() {
       >
         {/* NAME */}
         <Form.Item
-          label="Nhà cung cấp"
+          label="Supplier"
           name="name"
           rules={[
             {
@@ -170,7 +175,7 @@ function SuppliersPage() {
 
         {/* EMAIL */}
         <Form.Item
-          label="Thư điện tử"
+          label="Email Address"
           name="email"
           rules={[
             {
@@ -188,7 +193,7 @@ function SuppliersPage() {
 
         {/* ADDRESS */}
         <Form.Item
-          label="Địa chỉ"
+          label="Address"
           name="address"
           rules={[
             {
@@ -202,7 +207,7 @@ function SuppliersPage() {
 
         {/* PHONE NUMBER */}
         <Form.Item
-          label="Số điện thoại"
+          label="Phone Number"
           name="phoneNumber"
           rules={[
             {
@@ -222,7 +227,7 @@ function SuppliersPage() {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Lưu thông tin
+            Save
           </Button>
         </Form.Item>
       </Form>
@@ -240,12 +245,12 @@ function SuppliersPage() {
       <Modal
         open={editModalVisible}
         centered
-        title="Cập nhật thông tin"
+        title="Update Information"
         onCancel={() => {
           setEditModalVisible(false);
         }}
-        cancelText="Đóng"
-        okText="Lưu thông tin"
+        cancelText="Close"
+        okText="Save"
         onOk={() => {
           alert("Edit successful");
           updateForm.submit();
@@ -264,7 +269,7 @@ function SuppliersPage() {
         >
           {/* NAME */}
           <Form.Item
-            label="Nhà cung cấp"
+            label="Supplier"
             name="name"
             rules={[
               {
@@ -278,7 +283,7 @@ function SuppliersPage() {
 
           {/* EMAIL */}
           <Form.Item
-            label="Thư điện tử"
+            label="Email Address"
             name="email"
             rules={[
               {
@@ -296,7 +301,7 @@ function SuppliersPage() {
 
           {/* ADDRESS */}
           <Form.Item
-            label="Địa chỉ"
+            label="Address"
             name="address"
             rules={[
               {
@@ -311,7 +316,7 @@ function SuppliersPage() {
 
           {/* PHONE NUMBER */}
           <Form.Item
-            label="Số điện thoại"
+            label="Phone Number"
             name="phoneNumber"
             rules={[
               {

@@ -53,7 +53,7 @@ function ProductPage() {
       },
     },
     {
-      title: "Danh mục",
+      title: "Category",
       dataIndex: "category",
       key: "category",
       with: "1%",
@@ -67,9 +67,9 @@ function ProductPage() {
     },
     {
       title: () => {
-        return <div style={{ whiteSpace: "nowrap" }}>Tên sản phẩm</div>;
+        return <div style={{ whiteSpace: "nowrap" }}>Product Name</div>;
       },
-      // title: "Tên sản phẩm",
+      // title: "Product Name",
       dataIndex: "name",
       key: "name",
       render: (text, record, index) => {
@@ -81,7 +81,7 @@ function ProductPage() {
       },
     },
     {
-      title: "Nhà cung cấp",
+      title: "Supplier",
       dataIndex: "supplier",
       key: "supplier",
       render: (text, record, index) => {
@@ -93,7 +93,7 @@ function ProductPage() {
       },
     },
     {
-      title: "Đơn giá",
+      title: "Price",
       dataIndex: "price",
       key: "price",
       render: (text, record, index) => {
@@ -105,7 +105,7 @@ function ProductPage() {
       },
     },
     {
-      title: "Giảm giá",
+      title: "Discount",
       dataIndex: "discount",
       key: "discount",
       render: (text, record, index) => {
@@ -117,7 +117,7 @@ function ProductPage() {
       },
     },
     {
-      title: "Tồn kho",
+      title: "Stock",
       dataIndex: "stock",
       key: "stock",
       render: (text, record, index) => {
@@ -139,8 +139,8 @@ function ProductPage() {
               style={{ width: 1000 }}
               title="Bạn muốn xoá sản phẩm này?"
               description="Bạn muốn xoá sản phẩm này?"
-              okText="Đồng ý"
-              cancelText="Đóng"
+              okText="Accept"
+              cancelText="Close"
               onConfirm={() => {
                 deleteProducts(record._id);
               }}
@@ -152,8 +152,8 @@ function ProductPage() {
               style={{ width: 1000 }}
               title="Bạn muốn sửa sản phẩm này?"
               description="Bạn muốn sửa sản phẩm này?"
-              okText="Đồng ý"
-              cancelText="Đóng"
+              okText="Accept"
+              cancelText="Close"
               onConfirm={() => {
                 selectProducts(record);
               }}
@@ -254,7 +254,7 @@ function ProductPage() {
       >
         {/* PRODUCT NAME */}
         <Form.Item
-          label="Tên sản phẩm"
+          label="Product Name"
           name="name"
           rules={[
             {
@@ -268,7 +268,7 @@ function ProductPage() {
 
         {/* PRICE */}
         <Form.Item
-          label="Đơn giá"
+          label="Price"
           name="price"
           rules={[
             {
@@ -282,7 +282,7 @@ function ProductPage() {
 
         {/* DISCOUNT */}
         <Form.Item
-          label="Giảm giá (%)"
+          label="Discount (%)"
           name="discount"
           rules={[
             {
@@ -296,7 +296,7 @@ function ProductPage() {
 
         {/* STOCK */}
         <Form.Item
-          label="Tồn kho"
+          label="Stock"
           name="stock"
           rules={[
             {
@@ -310,7 +310,7 @@ function ProductPage() {
 
         {/* CATEGORY */}
         <Form.Item
-          label="Danh mục"
+          label="Category"
           name="categoryId"
           rules={[
             {
@@ -334,7 +334,7 @@ function ProductPage() {
 
         {/* SUPPLIER */}
         <Form.Item
-          label="Nhà cung cấp"
+          label="Supplier"
           name="supplierId"
           rules={[
             {
@@ -364,7 +364,7 @@ function ProductPage() {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Lưu thông tin
+            Save
           </Button>
         </Form.Item>
       </Form>
@@ -382,12 +382,12 @@ function ProductPage() {
       <Modal
         open={editModalVisible}
         centered
-        title="Cập nhật thông tin"
+        title="Update Information"
         onCancel={() => {
           setEditModalVisible(false);
         }}
-        cancelText="Đóng"
-        okText="Lưu thông tin"
+        cancelText="Close"
+        okText="Save"
         onOk={() => {
           alert("Edit successful");
           updateForm.submit();
@@ -407,7 +407,7 @@ function ProductPage() {
         >
           {/* PRODUCT NAME */}
           <Form.Item
-            label="Tên sản phẩm"
+            label="Product Name"
             name="name"
             rules={[
               {
@@ -421,7 +421,7 @@ function ProductPage() {
 
           {/* PRICE */}
           <Form.Item
-            label="Đơn giá"
+            label="Price"
             name="price"
             rules={[
               {
@@ -435,7 +435,7 @@ function ProductPage() {
 
           {/* DISCOUNT */}
           <Form.Item
-            label="Giảm giá (%)"
+            label="Discount (%)"
             name="discount"
             rules={[
               {
@@ -449,7 +449,7 @@ function ProductPage() {
 
           {/* STOCK */}
           <Form.Item
-            label="Tồn kho"
+            label="Stock"
             name="stock"
             rules={[
               {
@@ -463,7 +463,7 @@ function ProductPage() {
 
           {/* CATEGORY */}
           <Form.Item
-            label="Danh mục"
+            label="Category"
             name="categoryId"
             rules={[
               {
@@ -487,7 +487,7 @@ function ProductPage() {
 
           {/* SUPPLIER */}
           <Form.Item
-            label="Nhà cung cấp"
+            label="Supplier"
             name="supplierId"
             rules={[
               {

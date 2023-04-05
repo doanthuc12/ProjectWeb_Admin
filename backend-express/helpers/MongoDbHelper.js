@@ -1,15 +1,17 @@
-'use strict';
+"use strict";
+const { CONNECTION_STRING, DATABASE_NAME } = require("../constants/dbSettings");
 // Khai báo thư viện MongoClient
-const { MongoClient, ObjectId } = require('mongodb');
-
-// Chuỗi kết nối đến MongoDB
-const DATABASE_NAME = 'training-database';
-const CONNECTION_STRING = 'mongodb://127.0.0.1:27017/' + DATABASE_NAME;
+const { MongoClient, ObjectId } = require("mongodb");
 
 // INSERT: Thêm mới (một)
+// insertDocument({ name: 'Peter', email: 'peter@gmail.com' }, 'employees').then((result) => {}).catch(err => {});
+
 function insertDocument(data, collectionName) {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    MongoClient.connect(CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
       .then((client) => {
         const dbo = client.db(DATABASE_NAME);
         const collection = dbo.collection(collectionName);
@@ -34,7 +36,10 @@ function insertDocument(data, collectionName) {
 // INSERT: Thêm mới (nhiều)
 function insertDocuments(list, collectionName) {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    MongoClient.connect(CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
       .then((client) => {
         const dbo = client.db(DATABASE_NAME);
         const collection = dbo.collection(collectionName);
@@ -59,7 +64,10 @@ function insertDocuments(list, collectionName) {
 // UPDATE: Sửa
 function updateDocument(id, data, collectionName) {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    MongoClient.connect(CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
       .then((client) => {
         const dbo = client.db(DATABASE_NAME);
         const collection = dbo.collection(collectionName);
@@ -85,7 +93,10 @@ function updateDocument(id, data, collectionName) {
 // UPDATE: Sửa (nhiều)
 function updateDocuments(query, data, collectionName) {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    MongoClient.connect(CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
       .then((client) => {
         const dbo = client.db(DATABASE_NAME);
         const collection = dbo.collection(collectionName);
@@ -110,7 +121,10 @@ function updateDocuments(query, data, collectionName) {
 // REMOVE: Xoá
 function deleteDocument(id, collectionName) {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    MongoClient.connect(CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
       .then((client) => {
         const dbo = client.db(DATABASE_NAME);
         const collection = dbo.collection(collectionName);
@@ -136,7 +150,10 @@ function deleteDocument(id, collectionName) {
 // REMOVE: Xoá (nhiều)
 function deleteDocuments(query, collectionName) {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    MongoClient.connect(CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
       .then((client) => {
         const dbo = client.db(DATABASE_NAME);
         const collection = dbo.collection(collectionName);
@@ -160,7 +177,10 @@ function deleteDocuments(query, collectionName) {
 // FIND: Tìm kiếm (id)
 function findDocument(id, collectionName) {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    MongoClient.connect(CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
       .then((client) => {
         const dbo = client.db(DATABASE_NAME);
         const collection = dbo.collection(collectionName);
@@ -184,9 +204,22 @@ function findDocument(id, collectionName) {
 }
 // ----------------------------------------------------------------------------
 // FIND: Tìm kiếm (nhiều)
-function findDocuments({ query = null, sort = null, limit = 50, aggregate = [], skip = 0, projection = null }, collectionName) {
+function findDocuments(
+  {
+    query = null,
+    sort = null,
+    limit = 50,
+    aggregate = [],
+    skip = 0,
+    projection = null,
+  },
+  collectionName
+) {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+    MongoClient.connect(CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
       .then((client) => {
         const dbo = client.db(DATABASE_NAME);
         const collection = dbo.collection(collectionName);
@@ -224,4 +257,13 @@ function findDocuments({ query = null, sort = null, limit = 50, aggregate = [], 
   });
 }
 
-module.exports = { insertDocument, insertDocuments, updateDocument, updateDocuments, deleteDocument, deleteDocuments, findDocument, findDocuments };
+module.exports = {
+  insertDocument,
+  insertDocuments,
+  updateDocument,
+  updateDocuments,
+  deleteDocument,
+  deleteDocuments,
+  findDocument,
+  findDocuments,
+};

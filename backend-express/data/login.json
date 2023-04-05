@@ -1,0 +1,13 @@
+[
+    {
+        "email": "admin@gmail.com",
+        "password": "admin",
+        "active": true,
+        "roles": [
+            {
+                "0": "administrator",
+                "1": "manager"
+            }
+        ]
+    }
+]

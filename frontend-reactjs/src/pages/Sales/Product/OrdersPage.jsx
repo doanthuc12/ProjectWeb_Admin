@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
 import {
   Form,
   Input,
@@ -10,12 +11,12 @@ import {
   Popconfirm,
   DatePicker,
   Select,
-  TreeSelect,
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import Styles from "../../CommonPage.module.css";
 
+import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
 function OrdersPage() {
   //Call API
   const [orders, setOrders] = React.useState([]);
@@ -45,29 +46,30 @@ function OrdersPage() {
       },
     },
     {
-      title: "Ngày tạo đơn",
+      title: "Created Date",
       key: "createdDate",
       render: (text, record, index) => {
         return (
           <div>
-            <strong>{record.createdDate}</strong>
+            <span>{moment(record.createdDate).format("MMMM Do YYYY")}</span>
+            {/* <strong>{record.createdDate}</strong> */}
           </div>
         );
       },
     },
     {
-      title: "Ngày giao",
+      title: "Shipped Date",
       key: "shippedDate",
       render: (text, record, index) => {
         return (
           <div>
-            <strong>{record.shippedDate}</strong>
+            <span>{moment(record.shippedDate).format("MMMM Do YYYY")}</span>
           </div>
         );
       },
     },
     {
-      title: "Hình thức thanh toán",
+      title: "Payment Type",
       key: "paymentType",
       render: (text, record, index) => {
         return (
@@ -78,7 +80,7 @@ function OrdersPage() {
       },
     },
     {
-      title: "Tình trạng đơn",
+      title: "Status",
       key: "status",
       render: (text, record, index) => {
         return (
@@ -88,19 +90,19 @@ function OrdersPage() {
         );
       },
     },
+    // {
+    //   title: "Description",
+    //   key: "description",
+    //   render: (text, record, index) => {
+    //     return (
+    //       <div>
+    //         <span>{record.description}</span>
+    //       </div>
+    //     );
+    //   },
+    // },
     {
-      title: "Mô tả",
-      key: "description",
-      render: (text, record, index) => {
-        return (
-          <div>
-            <span>{record.description}</span>
-          </div>
-        );
-      },
-    },
-    {
-      title: "Khách hàng",
+      title: "Customer",
       dataIndex: "customer",
       key: "customer",
 
@@ -115,7 +117,7 @@ function OrdersPage() {
       },
     },
     {
-      title: "Nhân viên bán hàng",
+      title: "Employee",
       dataIndex: "employee",
       key: "employee",
 
@@ -130,7 +132,7 @@ function OrdersPage() {
       },
     },
     {
-      title: "Thông tin giao hàng",
+      title: "Shipping Information",
       dataIndex: "shippingAddress",
       key: "shippingAddress",
 
@@ -143,7 +145,7 @@ function OrdersPage() {
       },
     },
     {
-      title: "Nội dung đơn hàng",
+      title: "Order Detail",
       dataIndex: "orderDetails",
       key: "orderDetails",
 
@@ -166,8 +168,8 @@ function OrdersPage() {
               style={{ width: 1000 }}
               title="Bạn muốn xoá đơn hàng này?"
               description="Bạn muốn xoá đơn hàng này?"
-              okText="Đồng ý"
-              cancelText="Đóng"
+              okText="Accept"
+              cancelText="Close"
               onConfirm={() => {
                 deleteOrders(record._id);
               }}
@@ -179,8 +181,8 @@ function OrdersPage() {
               style={{ width: 1000 }}
               title="Bạn muốn sửa đơn hàng này?"
               description="Bạn muốn sửa đơn hàng này?"
-              okText="Đồng ý"
-              cancelText="Đóng"
+              okText="Accept"
+              cancelText="Close"
               onConfirm={() => {
                 selectOrders(record);
               }}
@@ -269,6 +271,9 @@ function OrdersPage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
         className={Styles.form}
         form={createForm}
@@ -283,7 +288,7 @@ function OrdersPage() {
       >
         {/* createdDate */}
         <Form.Item
-          label="Ngày tạo đơn"
+          label="Created Date"
           name="createdDate"
           rules={[
             {
@@ -297,7 +302,7 @@ function OrdersPage() {
 
         {/* shippedDate */}
         <Form.Item
-          label="Ngày giao"
+          label="Shipped Date"
           name="shippedDate"
           rules={[
             {
@@ -311,7 +316,7 @@ function OrdersPage() {
 
         {/* STATUS */}
         <Form.Item
-          label="Tình trạng đơn"
+          label="Status"
           name="status"
           rules={[
             {
@@ -341,7 +346,7 @@ function OrdersPage() {
 
         {/* DESCRIPTION */}
         <Form.Item
-          label="Mô tả"
+          label="Description"
           name="description"
           rules={[
             {
@@ -355,7 +360,7 @@ function OrdersPage() {
 
         {/* PAYMENT */}
         <Form.Item
-          label="Hình thức thanh toán"
+          label="Payment Type"
           name="paymentType"
           rules={[
             {
@@ -381,7 +386,7 @@ function OrdersPage() {
 
         {/* ADDRESS */}
         <Form.Item
-          label="Địa chỉ giao"
+          label="Shipping Address"
           name="shippingAddress"
           rules={[
             {
@@ -396,7 +401,7 @@ function OrdersPage() {
 
         {/* CUSTOMER */}
         <Form.Item
-          label="Khách hàng"
+          label="Customer"
           name="customerId"
           rules={[
             {
@@ -420,7 +425,7 @@ function OrdersPage() {
 
         {/* EMPLOYEE */}
         <Form.Item
-          label="Nhân viên bán hàng"
+          label="Employee"
           name="employeeId"
           rules={[
             {
@@ -444,7 +449,7 @@ function OrdersPage() {
 
         {/* ORDER_DETAILS */}
         {/* <Form.Item
-          label="Sản phẩm"
+          label="Product"
           name="orderDetails"
           rules={[
             {
@@ -467,12 +472,12 @@ function OrdersPage() {
         </Form.Item> */}
 
         <Form.Item
-          label="Sản phẩm"
+          label="Product"
           name="product"
           rules={[
             {
               required: true,
-              message: "Vui lòng chọn sản phẩm",
+              message: "Vui lòng chọn Product",
             },
           ]}
         >
@@ -497,7 +502,7 @@ function OrdersPage() {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Lưu thông tin
+            Save
           </Button>
         </Form.Item>
       </Form>
@@ -519,8 +524,8 @@ function OrdersPage() {
         onCancel={() => {
           setEditModalVisible(false);
         }}
-        cancelText="Đóng"
-        okText="Lưu thông tin"
+        cancelText="Close"
+        okText="Save"
         onOk={() => {
           alert("Edit successful");
           updateForm.submit();
@@ -539,7 +544,7 @@ function OrdersPage() {
         >
           {/* createdDate */}
           <Form.Item
-            label="Ngày tạo đơn"
+            label="Created Date"
             name="createdDate"
             rules={[
               {
@@ -554,7 +559,7 @@ function OrdersPage() {
 
           {/* shippedDate */}
           <Form.Item
-            label="Ngày giao"
+            label="Shipped Date"
             name="shippedDate"
             rules={[
               {
@@ -569,7 +574,7 @@ function OrdersPage() {
 
           {/* STATUS */}
           <Form.Item
-            label="Tình trạng đơn"
+            label="Status"
             name="status"
             rules={[
               {
@@ -599,7 +604,7 @@ function OrdersPage() {
 
           {/* DESCRIPTION */}
           <Form.Item
-            label="Mô tả"
+            label="Description"
             name="description"
             rules={[
               {
@@ -613,7 +618,7 @@ function OrdersPage() {
 
           {/* PAYMENT */}
           <Form.Item
-            label="Hình thức thanh toán"
+            label="Payment Type"
             name="paymentType"
             rules={[
               {
@@ -639,7 +644,7 @@ function OrdersPage() {
 
           {/* ADDRESS */}
           <Form.Item
-            label="Địa chỉ giao"
+            label="Shipping Address"
             name="shippingAddress"
             rules={[
               {
@@ -654,7 +659,7 @@ function OrdersPage() {
 
           {/* CUSTOMER */}
           <Form.Item
-            label="Khách hàng"
+            label="Customer"
             name="customerId"
             rules={[
               {
@@ -678,7 +683,7 @@ function OrdersPage() {
 
           {/* EMPLOYEE */}
           <Form.Item
-            label="Nhân viên bán hàng"
+            label="Employee"
             name="employeeId"
             rules={[
               {
@@ -702,7 +707,7 @@ function OrdersPage() {
 
           {/* ORDER_DETAILS */}
           {/* <Form.Item
-          label="Nội dung đơn hàng"
+          label="Order Detail"
           name="employee"
           rules={[
             {
@@ -722,12 +727,12 @@ function OrdersPage() {
           />
         </Form.Item> */}
           <Form.Item
-            label="Sản phẩm"
+            label="Product"
             name="product"
             rules={[
               {
                 required: true,
-                message: "Vui lònng chọn sản phẩm",
+                message: "Vui lònng chọn Product",
               },
             ]}
           >

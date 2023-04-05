@@ -5,6 +5,8 @@ import React from "react";
 
 import Styles from "../../CommonPage.module.css";
 
+import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
+
 export default function StockPage() {
   const [products, setProducts] = React.useState([]);
   // Columns of Antd Table
@@ -24,7 +26,7 @@ export default function StockPage() {
 
     {
       title: () => {
-        return <div style={{ whiteSpace: "nowrap" }}>Danh mục</div>;
+        return <div style={{ whiteSpace: "nowrap" }}>Category</div>;
       },
       dataIndex: "category",
       key: "category",
@@ -40,7 +42,7 @@ export default function StockPage() {
 
     {
       title: () => {
-        return <div style={{ whiteSpace: "nowrap" }}>Nhà cung cấp</div>;
+        return <div style={{ whiteSpace: "nowrap" }}>Supplier</div>;
       },
       dataIndex: "supplier",
       key: "supplier",
@@ -54,7 +56,7 @@ export default function StockPage() {
       },
     },
     {
-      title: "Tên sản phẩm",
+      title: "Product Name",
       key: "name",
       dataIndex: "name",
       render: (text, record, index) => {
@@ -66,7 +68,7 @@ export default function StockPage() {
       },
     },
     {
-      title: "Giá bán",
+      title: "Price",
       dataIndex: "price",
       key: "price",
       width: "1%",
@@ -79,7 +81,7 @@ export default function StockPage() {
       },
     },
     {
-      title: "Giảm",
+      title: "Discount",
       dataIndex: "discount",
       key: "discount",
       width: "1%",
@@ -92,7 +94,7 @@ export default function StockPage() {
       },
     },
     {
-      title: "Tồn",
+      title: "Stock",
       dataIndex: "stock",
       key: "stock",
       width: "1%",
@@ -122,6 +124,9 @@ export default function StockPage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
         className={Styles.form}
         form={searchForm}
@@ -136,7 +141,7 @@ export default function StockPage() {
       >
         {/* FIRST NAME */}
         <Form.Item
-          label="Nhập tồn kho tối thiểu"
+          label="Input minimum stock!"
           name="stock"
           rules={[
             {

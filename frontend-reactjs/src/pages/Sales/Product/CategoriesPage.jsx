@@ -5,6 +5,8 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import Styles from "../../CommonPage.module.css";
 
+import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
+
 function CategoriesPage() {
   //Call API
   const [categories, setCategories] = React.useState([]);
@@ -31,12 +33,12 @@ function CategoriesPage() {
       },
     },
     {
-      title: "Tên phân loại",
+      title: "Category",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Mô tả",
+      title: "Description",
       dataIndex: "description",
       key: "description",
     },
@@ -51,8 +53,8 @@ function CategoriesPage() {
               style={{ width: 1000 }}
               title="Bạn muốn xoá danh mục hàng hoá này?"
               description="Bạn muốn xoá danh mục hàng hoá này?"
-              okText="Đồng ý"
-              cancelText="Đóng"
+              okText="Accept"
+              cancelText="Close"
               onConfirm={() => {
                 deleteCategories(record._id);
               }}
@@ -129,6 +131,9 @@ function CategoriesPage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
         form={createForm}
         className={Styles.form}
@@ -177,7 +182,7 @@ function CategoriesPage() {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Lưu thông tin
+            Save
           </Button>
         </Form.Item>
       </Form>
@@ -199,8 +204,8 @@ function CategoriesPage() {
         onCancel={() => {
           setEditModalVisible(false);
         }}
-        cancelText="Đóng"
-        okText="Lưu thông tin"
+        cancelText="Close"
+        okText="Save"
         onOk={() => {
           alert("Edit successful");
           updateForm.submit();

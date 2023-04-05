@@ -30,7 +30,7 @@ function OrdersPage() {
       },
     },
     {
-      title: "Ngày tạo đơn",
+      title: "Created Date",
       key: "createdDate",
       render: (text, record, index) => {
         const formattedDate = moment(record.createdDate).format(
@@ -44,7 +44,7 @@ function OrdersPage() {
       },
     },
     {
-      title: "Ngày giao",
+      title: "Shipped Date",
       key: "shippedDate",
       render: (text, record, index) => {
         const formattedDate = moment(record.shippedDate).format(
@@ -58,7 +58,7 @@ function OrdersPage() {
       },
     },
     {
-      title: "Hình thức thanh toán",
+      title: "Payment Type",
       key: "paymentType",
       render: (text, record, index) => {
         return (
@@ -69,7 +69,7 @@ function OrdersPage() {
       },
     },
     {
-      title: "Tình trạng đơn",
+      title: "Status",
       key: "status",
       render: (text, record, index) => {
         return (
@@ -81,7 +81,7 @@ function OrdersPage() {
     },
 
     {
-      title: "Khách hàng",
+      title: "Customer",
       dataIndex: "customer",
       key: "customer",
 
@@ -96,7 +96,7 @@ function OrdersPage() {
       },
     },
     // {
-    //   title: "Nhân viên bán hàng",
+    //   title: "Employee",
     //   dataIndex: "employee",
     //   key: "employee",
 

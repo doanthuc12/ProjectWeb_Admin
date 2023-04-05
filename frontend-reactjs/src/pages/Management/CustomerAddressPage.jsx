@@ -6,6 +6,8 @@ import React from "react";
 
 import Styles from "../CommonPage.module.css";
 
+import MultiButtonGroup from "../../components/Features/MultiButtonGroup/MultiButtonGroup";
+
 export default function CustomerAddressPage() {
   const [customers, setCustomers] = React.useState([]);
   // Columns of Antd Table
@@ -23,7 +25,7 @@ export default function CustomerAddressPage() {
       },
     },
     {
-      title: "Họ và tên",
+      title: "Full of name",
       key: "fullName",
       render: (text, record, index) => {
         return (
@@ -36,22 +38,22 @@ export default function CustomerAddressPage() {
       },
     },
     {
-      title: "Số điện thoại",
+      title: "Phone Number",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
     {
-      title: "Địa chỉ",
+      title: "Address",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Thư điện tử",
+      title: "Email Address",
       dataIndex: "email",
       key: "email",
     },
     {
-      title: "Ngày sinh",
+      title: "Date of birth",
       key: "birthday",
       render: (text, record, index) => {
         return (
@@ -87,6 +89,9 @@ export default function CustomerAddressPage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
         className={Styles.form}
         form={searchForm}
@@ -101,7 +106,7 @@ export default function CustomerAddressPage() {
       >
         {/* FIRST NAME */}
         <Form.Item
-          label="Địa chỉ khách hàng"
+          label="Address"
           name="address"
           rules={[
             {

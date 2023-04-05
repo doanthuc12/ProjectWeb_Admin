@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
 import {
   Form,
   Input,
@@ -13,6 +14,8 @@ import {
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import Styles from "../../CommonPage.module.css";
+
+import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
 
 function EmployeesPage() {
   //Call API
@@ -40,7 +43,7 @@ function EmployeesPage() {
       },
     },
     {
-      title: "Họ và tên nhân viên",
+      title: "Full of name",
       key: "fullName",
       render: (text, record, index) => {
         return (
@@ -53,27 +56,27 @@ function EmployeesPage() {
       },
     },
     {
-      title: "Số điện thoại",
+      title: "Phone Number",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
     {
-      title: "Địa chỉ",
+      title: "Address",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Thư điện tử",
+      title: "Email Address",
       dataIndex: "email",
       key: "email",
     },
     {
-      title: "Ngày sinh (yyyy/mm/dd)",
+      title: "Date of birth (yyyy/mm/dd)",
       key: "birthday",
       render: (text, record, index) => {
         return (
           <div>
-            <span>{record.birthday}</span>
+            <span>{moment(record.birthday).format("MMMM Do YYYY")}</span>
           </div>
         );
       },
@@ -89,8 +92,8 @@ function EmployeesPage() {
               style={{ width: 1000 }}
               title="Bạn muốn xoá khách hàng này?"
               description="Bạn muốn xoá khách hàng này?"
-              okText="Đồng ý"
-              cancelText="Đóng"
+              okText="Accept"
+              cancelText="Close"
               onConfirm={() => {
                 deleteEmployees(record._id);
               }}
@@ -175,10 +178,13 @@ function EmployeesPage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
         className={Styles.form}
         form={createForm}
-        name="create-customer"
+        name="create-employee"
         labelCol={{
           span: 8,
         }}
@@ -189,7 +195,7 @@ function EmployeesPage() {
       >
         {/* LAST NAME */}
         <Form.Item
-          label="Tên"
+          label="First Name"
           name="lastName"
           rules={[
             {
@@ -203,7 +209,7 @@ function EmployeesPage() {
 
         {/* FIRST NAME */}
         <Form.Item
-          label="Họ"
+          label="Last Name"
           name="firstName"
           rules={[
             {
@@ -217,7 +223,7 @@ function EmployeesPage() {
 
         {/* EMAIL */}
         <Form.Item
-          label="Thư điện tử"
+          label="Email Address"
           name="email"
           rules={[
             {
@@ -235,7 +241,7 @@ function EmployeesPage() {
 
         {/* ADDRESS */}
         <Form.Item
-          label="Địa chỉ"
+          label="Address"
           name="address"
           rules={[
             {
@@ -249,7 +255,7 @@ function EmployeesPage() {
 
         {/* PHONE NUMBER */}
         <Form.Item
-          label="Số điện thoại"
+          label="Phone Number"
           name="phoneNumber"
           rules={[
             {
@@ -263,23 +269,8 @@ function EmployeesPage() {
           {/* <InputNumber addonBefore={prefixSelector} style={{ width: "100%" }} /> */}
         </Form.Item>
 
-        {/* BIRTHDAY */}
-        {/* <Form.Item
-          label="Ngày sinh (mm/dd/yyyy)"
-          name="birthday"
-          rules={[
-            {
-              type: "text",
-              required: true,
-              message: "Please input your birthday!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item> */}
-
         <Form.Item
-          label="Ngày sinh"
+          label="Date of birth"
           name="birthday"
           rules={[
             {
@@ -299,7 +290,7 @@ function EmployeesPage() {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Lưu thông tin
+            Save
           </Button>
         </Form.Item>
       </Form>
@@ -317,12 +308,12 @@ function EmployeesPage() {
       <Modal
         open={editModalVisible}
         centered
-        title="Cập nhật thông tin"
+        title="Update Information"
         onCancel={() => {
           setEditModalVisible(false);
         }}
-        cancelText="Đóng"
-        okText="Lưu thông tin"
+        cancelText="Close"
+        okText="Save"
         onOk={() => {
           alert("Edit successful");
           updateForm.submit();
@@ -330,7 +321,7 @@ function EmployeesPage() {
       >
         <Form
           form={updateForm}
-          name="updateCustomers"
+          name="updateEmployees"
           labelCol={{
             span: 8,
           }}
@@ -341,7 +332,7 @@ function EmployeesPage() {
         >
           {/* LAST NAME */}
           <Form.Item
-            label="Tên"
+            label="First Name"
             name="lastName"
             rules={[
               {
@@ -355,7 +346,7 @@ function EmployeesPage() {
 
           {/* FIRST NAME */}
           <Form.Item
-            label="Họ"
+            label="Last Name"
             name="firstName"
             rules={[
               {
@@ -369,7 +360,7 @@ function EmployeesPage() {
 
           {/* EMAIL */}
           <Form.Item
-            label="Thư điện tử"
+            label="Email Address"
             name="email"
             rules={[
               {
@@ -387,7 +378,7 @@ function EmployeesPage() {
 
           {/* PHONE NUMBER */}
           <Form.Item
-            label="Số điện thoại"
+            label="Phone Number"
             name="phoneNumber"
             rules={[
               {
@@ -406,7 +397,7 @@ function EmployeesPage() {
 
           {/* ADDRESS */}
           <Form.Item
-            label="Địa chỉ"
+            label="Address"
             name="address"
             rules={[
               {
@@ -417,24 +408,21 @@ function EmployeesPage() {
             ]}
           >
             <Input />
-            {/* <InputNumber
-              addonBefore={prefixSelector}
-              style={{ width: "100%" }}
-            /> */}
           </Form.Item>
 
           {/* BIRTHDAY */}
           <Form.Item
-            label="Ngày sinh"
+            label="Date of birth"
             name="birthday"
             rules={[
               {
+                type: "text",
                 required: true,
                 message: "Please input your birthday!",
               },
             ]}
           >
-            <DatePicker />
+            <Input />
           </Form.Item>
         </Form>
       </Modal>

@@ -6,6 +6,8 @@ import React from "react";
 
 import Styles from "../CommonPage.module.css";
 
+import MultiButtonGroup from "../../components/Features/MultiButtonGroup/MultiButtonGroup";
+
 export default function CustomerBirthPage() {
   const [customers, setCustomers] = React.useState([]);
   // Columns of Antd Table
@@ -23,7 +25,7 @@ export default function CustomerBirthPage() {
       },
     },
     {
-      title: "Họ và tên",
+      title: "Full of name",
       key: "fullName",
       render: (text, record, index) => {
         return (
@@ -36,22 +38,22 @@ export default function CustomerBirthPage() {
       },
     },
     {
-      title: "Số điện thoại",
+      title: "Phone Number",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
     {
-      title: "Địa chỉ",
+      title: "Address",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Thư điện tử",
+      title: "Email Address",
       dataIndex: "email",
       key: "email",
     },
     {
-      title: "Ngày sinh",
+      title: "Date of birth",
       key: "birthday",
       render: (text, record, index) => {
         return (
@@ -87,6 +89,9 @@ export default function CustomerBirthPage() {
 
   return (
     <div>
+      <div>
+        <MultiButtonGroup />
+      </div>
       <Form
         className={Styles.form}
         form={searchForm}
@@ -101,7 +106,7 @@ export default function CustomerBirthPage() {
       >
         {/* FIRST NAME */}
         <Form.Item
-          label="Năm sinh khách hàng"
+          label="Customer of Birthday"
           name="address"
           rules={[
             {

@@ -6,7 +6,7 @@ import Styles from "./MultiButtonGroup.module.css";
 const ButtonData = [
   {
     title: "Upload",
-    color: "#f7ff86",
+    color: "#fbfd7af4",
     id: 1,
   },
   {
