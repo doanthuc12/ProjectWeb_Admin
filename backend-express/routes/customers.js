@@ -115,24 +115,25 @@ router.get("/question/4", function (req, res) {
       res.status(500).json(error);
     });
 });
+
 // QUESTION 2
 // ------------------------------------------------------------------------------------------------
 //http://localhost:9000/products/question/2?stock=
-// router.get("/question/2", function (req, res, next) {
-//   try {
-//     let stock = req.query.stock;
-//     let query = { stock: { $lte: stock } };
-//     Product.find(query)
-//       .then((result) => {
-//         res.send(result);
-//       })
-//       .catch((err) => {
-//         res.status(400).send({ message: err.message });
-//       });
-//   } catch (err) {
-//     res.sendStatus(500);
-//   }
-// });
+router.get("/question/4/1", function (req, res, next) {
+  try {
+    let text = req.query.address;
+    const query = { address: new RegExp(`${text}`) };
+    Customer.find(query)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => {
+        res.status(400).send({ message: err.message });
+      });
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
 
 // ------------------------------------------------------------------------------------------------
 // QUESTIONS 5

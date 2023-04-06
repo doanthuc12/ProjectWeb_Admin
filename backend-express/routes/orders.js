@@ -179,6 +179,25 @@ router.get("/question/8b", function (req, res) {
     });
 });
 
+// GET ORDERS BY STATUS
+//http://localhost:9000/orders/question/7/1?status=
+router.get("/question/7/1", function (req, res, next) {
+  try {
+    let text = req.query.status;
+    const query = { status: new RegExp(`${text}`) };
+    Order.find(query)
+
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => {
+        res.status(400).send({ message: err.message });
+      });
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
 // ------------------------------------------------------------------------------------------------
 // QUESTIONS 11,12
 // ------------------------------------------------------------------------------------------------

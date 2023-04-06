@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import Styles from "./SignIn.module.css";
 import logo from "../../images/logo.png";
-import { Button, Checkbox, Form, Input } from "antd";
+// import { Button, Checkbox, Form, Input } from "antd";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -56,7 +56,7 @@ export default function SignIn() {
 
         <div className={Styles.main}>
           <div className={Styles.option}>
-            <div className={Styles.titleJ}>Log in to your Admin Page!</div>
+            <div className={Styles.titleJ}>Login to your Admin Page!</div>
           </div>
           <div className={Styles.form}>
             <form className={Styles.input} onSubmit={handleSubmit}>

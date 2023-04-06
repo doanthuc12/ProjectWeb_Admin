@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { Button, Layout, Row } from "antd";
+import { Layout } from "antd";
 import axios from "axios";
 import "./App.css";
 import "antd/dist/reset.css";
+
+// import { useNavigate } from "react-router-dom";
 
 // import numeral from "numeral";
 // import "numeral/locales/vi";
@@ -21,6 +23,7 @@ import CategoriesPage from "./pages/Sales/Product/CategoriesPage";
 import SuppliersPage from "./pages/Sales/Product/SuppliersPage";
 import EmployeesPage from "./pages/Sales/Product/EmployeesPage";
 import OrdersPage from "./pages/Sales/Product/OrdersPage";
+import OrderStatusPage from "./pages/Sales/Product/OrderStatusPage";
 
 import NotFoundPage from "./pages/NotFoundPage";
 import DiscountPage from "./pages/Sales/Product/DiscountPage";
@@ -30,9 +33,20 @@ import CustomerAddressPage from "./pages/Management/CustomerAddressPage";
 import CustomerBirthPage from "./pages/Management/CustomerBirthPage";
 import HeaderAdmin from "./components/Common/Header/HeaderAdmin";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Sider, Content } = Layout;
 
 function App() {
+  // let navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+  };
+
   return (
     <div>
       <BrowserRouter>
@@ -45,7 +59,7 @@ function App() {
                 "0 4px 4px 0 rgba(121, 121, 121, 0.404), 0 6px 10px 0 rgba(197, 197, 197, 0.726)",
             }}
           >
-            <MainMenu />
+            <MainMenu loggedIn={loggedIn} handleLogout={handleLogout} />
           </Sider>
 
           <Layout>
@@ -68,12 +82,20 @@ function App() {
             >
               {/* Register routes */}
               <Routes>
-                <Route path="/" element={<HomePage />} />
+                {" "}
+                {/* If user is not logged in, show login page */}
+                {!loggedIn ? (
+                  <Route
+                    path="/"
+                    element={<SignIn handleLogin={handleLogin} />}
+                  />
+                ) : (
+                  // If user is logged in, show home page
+                  <Route path="/" element={<HomePage />} />
+                )}
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/login" element={<SignIn />} />
-
                 {/* MANAGEMENT */}
-
                 {/* MAN_CUSTOMERS */}
                 <Route
                   path="management/customers/list"
@@ -92,10 +114,8 @@ function App() {
                   path="management/employees/list"
                   element={<EmployeesPage />}
                 />
-
                 {/* MAN_PRODUCTS */}
                 <Route path="/management/products" element={<ProductPage />} />
-
                 {/* SALES */}
                 {/* SALES_PRODUCTS */}
                 <Route path="/sales/products/list" element={<ProductPage />} />
@@ -107,7 +127,6 @@ function App() {
                   path="sales/products/suppliers"
                   element={<SuppliersPage />}
                 />
-
                 {/* ON_SALE */}
                 <Route
                   path="/sales/products/discount"
@@ -117,12 +136,13 @@ function App() {
                 <Route
                   path="/sales/products/totalprice"
                   element={<TotalPricePage />}
-                />
-
+                />{" "}
                 {/* SALES_ORDERS */}
-
                 <Route path="/sales/orders/list" element={<OrdersPage />} />
-
+                <Route
+                  path="/sales/orders/status"
+                  element={<OrderStatusPage />}
+                />
                 {/* NO MATCH ROUTE */}
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

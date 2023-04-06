@@ -76,11 +76,15 @@ export default function CustomerAddressPage() {
   const [searchForm] = Form.useForm();
   const onFinish = (values) => {
     console.log(values);
+    let { address } = values;
     // let { discount } = values;
 
     // CALL API TO CREATE CUSTOMER
     axios
-      .get("http://localhost:9000/customers/question/4", values)
+      .get(
+        "http://localhost:9000/customers/question/4/1?address=" + address,
+        values
+      )
       .then((response) => {
         console.log(response.data);
         setCustomers(response.data);

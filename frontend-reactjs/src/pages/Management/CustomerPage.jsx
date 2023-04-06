@@ -1,7 +1,16 @@
 import React from "react";
 import axios from "axios";
 import moment from "moment";
-import { Form, Input, Button, Modal, Space, Table, Popconfirm } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Modal,
+  Space,
+  Table,
+  Popconfirm,
+  DatePicker,
+} from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import Styles from "../CommonPage.module.css";
@@ -67,7 +76,7 @@ function CustomerPage() {
       render: (text, record, index) => {
         return (
           <div>
-            <span>{moment(text).format("MMMM Do YYYY")}</span>
+            <span>{moment(record.birthday).format("MMMM Do YYYY")}</span>
           </div>
         );
       },
@@ -261,7 +270,7 @@ function CustomerPage() {
 
         {/* BIRTHDAY */}
         <Form.Item
-          label="Date of birth (mm/dd/yyyy)"
+          label="Date of birth"
           name="birthday"
           rules={[
             {
@@ -271,7 +280,7 @@ function CustomerPage() {
             },
           ]}
         >
-          <Input />
+          <DatePicker />
         </Form.Item>
 
         {/* SUBMIT */}

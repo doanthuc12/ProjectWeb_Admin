@@ -71,7 +71,7 @@ function EmployeesPage() {
       key: "email",
     },
     {
-      title: "Date of birth (yyyy/mm/dd)",
+      title: "Date of birth",
       key: "birthday",
       render: (text, record, index) => {
         return (

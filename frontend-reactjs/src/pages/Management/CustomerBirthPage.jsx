@@ -1,4 +1,12 @@
-import { Button, Form, Input, Space, Table, InputNumber } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Space,
+  Table,
+  InputNumber,
+  DatePicker,
+} from "antd";
 import axios from "axios";
 import numeral from "numeral";
 import moment from "moment";
@@ -115,7 +123,7 @@ export default function CustomerBirthPage() {
             },
           ]}
         >
-          <InputNumber />
+          <DatePicker />
         </Form.Item>
 
         {/* SUBMIT */}

@@ -5,6 +5,8 @@ const loginSchema = new Schema(
   {
     email: { type: String, required: true },
     password: { type: String, required: true },
+    roles: { type: Array, required: true },
+    active: { type: Boolean },
   },
   {
     versionKey: false,
