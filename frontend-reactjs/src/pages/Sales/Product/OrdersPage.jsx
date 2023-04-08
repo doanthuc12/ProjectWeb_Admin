@@ -13,6 +13,7 @@ import {
   Select,
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { MdPublishedWithChanges } from "react-icons/md";
 
 import Styles from "../../CommonPage.module.css";
 
@@ -21,6 +22,7 @@ function OrdersPage() {
   //Call API
   const [orders, setOrders] = React.useState([]);
   const [customers, setCustomers] = React.useState([]);
+  const [shippers, setShippers] = React.useState([]);
   const [employees, setEmployees] = React.useState([]);
   const [products, setProducts] = React.useState([]);
 
@@ -52,7 +54,6 @@ function OrdersPage() {
         return (
           <div>
             <span>{moment(record.createdDate).format("MMMM Do YYYY")}</span>
-            {/* <strong>{record.createdDate}</strong> */}
           </div>
         );
       },
@@ -131,6 +132,7 @@ function OrdersPage() {
         );
       },
     },
+
     {
       title: "Shipping Information",
       dataIndex: "shippingAddress",
@@ -145,18 +147,33 @@ function OrdersPage() {
       },
     },
     {
-      title: "Order Detail",
-      dataIndex: "orderDetails",
-      key: "orderDetails",
+      title: "Shipper",
+      dataIndex: "shipper",
+      key: "shipper",
 
       render: (text, record, index) => {
         return (
           <div style={{ whiteSpace: "nowrap" }}>
-            <strong>{record.orderDetails.productId}</strong>
+            <strong>
+              {record.shipper.firstName + " " + record.shipper.lastName}
+            </strong>
           </div>
         );
       },
     },
+    // {
+    //   title: "Order Detail",
+    //   dataIndex: "orderDetails",
+    //   key: "orderDetails",
+
+    //   render: (text, record, index) => {
+    //     return (
+    //       <div style={{ whiteSpace: "nowrap" }}>
+    //         <strong>{record.orderDetails.productId}</strong>
+    //       </div>
+    //     );
+    //   },
+    // },
     {
       title: "",
       key: "action",
@@ -164,10 +181,11 @@ function OrdersPage() {
       render: (text, record, index) => {
         return (
           <Space>
+            {/* BTN DELETE */}
             <Popconfirm
               style={{ width: 1000 }}
-              title="Bạn muốn xoá đơn hàng này?"
-              description="Bạn muốn xoá đơn hàng này?"
+              title="Do you want to delete status of order?"
+              description="Do you want to delete status of order?"
               okText="Accept"
               cancelText="Close"
               onConfirm={() => {
@@ -177,10 +195,11 @@ function OrdersPage() {
               <Button danger type="dashed" icon={<DeleteOutlined />} />
             </Popconfirm>
 
+            {/* BTN EDIT */}
             <Popconfirm
               style={{ width: 1000 }}
-              title="Bạn muốn sửa đơn hàng này?"
-              description="Bạn muốn sửa đơn hàng này?"
+              title="Do you want to edit status of order?"
+              description="Do you want to edit status of order?"
               okText="Accept"
               cancelText="Close"
               onConfirm={() => {
@@ -188,6 +207,19 @@ function OrdersPage() {
               }}
             >
               <Button type="dashed" icon={<EditOutlined />} />
+            </Popconfirm>
+
+            <Popconfirm
+              style={{ width: 1000 }}
+              title="Do you want to change status of order?"
+              description="Do you want to change status of order?"
+              okText="Accept"
+              cancelText="Close"
+              onConfirm={() => {
+                selectOrders(record);
+              }}
+            >
+              <Button type="dashed" icon={<MdPublishedWithChanges />} />
             </Popconfirm>
           </Space>
         );
@@ -219,6 +251,13 @@ function OrdersPage() {
     axios.get("http://localhost:9000/products").then((response) => {
       // console.log(response.data);
       setProducts(response.data);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    axios.get("http://localhost:9000/shippers").then((response) => {
+      // console.log(response.data);
+      setShippers(response.data);
     });
   }, []);
 
@@ -494,6 +533,29 @@ function OrdersPage() {
           />
         </Form.Item>
 
+        {/* SHIPPER */}
+        <Form.Item
+          label="Shipper"
+          name="shipperId"
+          rules={[
+            {
+              required: true,
+              message: "Please choose shipper!",
+            },
+          ]}
+        >
+          <Select
+            options={
+              shippers &&
+              shippers.map((c) => {
+                return {
+                  value: c._id,
+                  label: c.fullName,
+                };
+              })
+            }
+          />
+        </Form.Item>
         {/* SUBMIT */}
         <Form.Item
           wrapperCol={{
@@ -533,7 +595,7 @@ function OrdersPage() {
       >
         <Form
           form={updateForm}
-          name="updateOrders"
+          name=""
           labelCol={{
             span: 8,
           }}
@@ -726,6 +788,30 @@ function OrdersPage() {
             ]}
           />
         </Form.Item> */}
+
+          {/* SHIPPER */}
+          <Form.Item
+            label="Shipper"
+            name="shipperId"
+            rules={[
+              {
+                required: true,
+                message: "Please choose shipper!",
+              },
+            ]}
+          >
+            <Select
+              options={
+                shippers &&
+                shippers.map((c) => {
+                  return {
+                    value: c._id,
+                    label: c.fullName,
+                  };
+                })
+              }
+            />
+          </Form.Item>
           <Form.Item
             label="Product"
             name="product"
@@ -747,6 +833,63 @@ function OrdersPage() {
                 })
               }
             />
+          </Form.Item>
+        </Form>
+
+        {/* FORM EDIT STATUS */}
+        <Form
+          form={updateForm}
+          name="updateOrders"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          onFinish={onEditFinish}
+        >
+          {/* STATUS */}
+          <Form.Item
+            label="Status"
+            name="status"
+            rules={[
+              {
+                required: true,
+                message: "Please choose the payment type!",
+              },
+            ]}
+          >
+            <Select
+              style={{ width: 120 }}
+              options={[
+                {
+                  value: "WAITING",
+                  label: "WAITING",
+                },
+                {
+                  value: "COMPLETED",
+                  label: "COMPLETED",
+                },
+                {
+                  value: "CANCELED",
+                  label: "CANCELED",
+                },
+              ]}
+            />
+          </Form.Item>
+
+          {/* DESCRIPTION */}
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[
+              {
+                type: "text",
+                required: false,
+              },
+            ]}
+          >
+            <Input />
           </Form.Item>
         </Form>
       </Modal>

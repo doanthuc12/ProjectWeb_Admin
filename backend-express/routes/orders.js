@@ -18,6 +18,7 @@ router.get("/", function (req, res, next) {
       .populate("customer")
       .populate("employee")
       .populate("product")
+      .populate("shipper")
       .then((result) => {
         res.send(result);
       })
@@ -36,6 +37,7 @@ router.get("/:id", function (req, res, next) {
     Order.findById(id)
       .populate("customer")
       .populate("employee")
+      .populate("shipper")
       .populate("product")
       .populate("orderDetails.product")
       // .populate({ path: 'orderDetails.product', populate: { path: 'category' } })
@@ -118,6 +120,7 @@ router.get("/question/7", function (req, res) {
     .populate("orderDetails.product")
     .populate("customer")
     .populate("employee")
+    .populate("shipper")
     .then((result) => {
       res.json(result);
     })

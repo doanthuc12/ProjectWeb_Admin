@@ -17,6 +17,7 @@ var customersRouter = require("./routes/customers");
 var suppliersRouter = require("./routes/suppliers");
 var employeesRouter = require("./routes/employees");
 var ordersRouter = require("./routes/orders");
+var shippersRouter = require("./routes/shippers");
 var authRouter = require("./routes/auth");
 
 var app = express();
@@ -52,26 +53,12 @@ opts.secretOrKey = jwtSettings.SECRET;
 opts.audience = jwtSettings.AUDIENCE;
 opts.issuer = jwtSettings.ISSUER;
 
-// passport.use(
-//   new JwtStrategy(opts, function (payload, done) {
-//     console.log("payload", payload);
-//     let error = null;
-//     let user = true;
-//     return done(error, user);
-//   })
-// );
 passport.use(
   new JwtStrategy(opts, function (payload, done) {
-    console.log(payload);
-    if (jwtSettings.WHITE_LIST.includes(payload.sub)) {
-      let error = null;
-      let user = true;
-      return done(error, user);
-    } else {
-      let error = null;
-      let user = false;
-      return done(error, user);
-    }
+    console.log("payload", payload);
+    let error = null;
+    let user = true;
+    return done(error, user);
   })
 );
 
@@ -81,6 +68,7 @@ app.use("/suppliers", suppliersRouter);
 app.use("/employees", employeesRouter);
 app.use("/orders", ordersRouter);
 app.use("/categories", categoriesRouter);
+app.use("/shippers", shippersRouter);
 app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler

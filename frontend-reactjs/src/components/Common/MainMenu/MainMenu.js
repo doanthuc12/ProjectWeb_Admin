@@ -1,16 +1,11 @@
-import {
-  HomeOutlined,
-  SettingOutlined,
-  OrderedListOutlined,
-} from "@ant-design/icons";
+import { HomeOutlined, SettingOutlined } from "@ant-design/icons";
 import { BsPersonCheck, BsBoxSeam, BsPerson } from "react-icons/bs";
 import { FiShoppingBag } from "react-icons/fi";
-
 import Styles from "./MainMenu.module.css";
 import React from "react";
 import { Menu } from "antd";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../../images/logo.png";
 
 const items = [
   { label: "Home Page", key: "home", icon: <HomeOutlined /> }, // remember to pass the key prop
@@ -99,16 +94,12 @@ const items = [
 ];
 
 export default function MainMenu() {
-  const [collapsed, setCollapsed] = useState(false);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
   const navigate = useNavigate();
 
   return (
     <div className={Styles.header}>
       <div className={Styles.logo_bg}>
-        <span className={Styles.logo}>ASOS ADMIN</span>
+        <img src={logo} alt="logo" />
       </div>
 
       <Menu
@@ -116,8 +107,6 @@ export default function MainMenu() {
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["sub1"]}
         mode="inline"
-        // theme="dark"
-        inlineCollapsed={collapsed}
         items={items}
         onClick={({ key }) => {
           navigate("/" + key);

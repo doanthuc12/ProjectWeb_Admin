@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, Table } from "antd";
+import { Button, Form, InputNumber, Table } from "antd";
 import axios from "axios";
 import numeral from "numeral";
 import React from "react";
@@ -127,6 +127,7 @@ export default function StockPage() {
       <div>
         <MultiButtonGroup />
       </div>
+      {/* FORM */}
       <Form
         className={Styles.form}
         form={searchForm}
@@ -141,7 +142,7 @@ export default function StockPage() {
       >
         {/* FIRST NAME */}
         <Form.Item
-          label="Input minimum stock!"
+          label="Input maximum stock!"
           name="stock"
           rules={[
             {
@@ -161,7 +162,7 @@ export default function StockPage() {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Tìm kiếm
+            Search
           </Button>
         </Form.Item>
       </Form>

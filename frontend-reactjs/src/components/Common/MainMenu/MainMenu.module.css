@@ -12,9 +12,8 @@
   justify-content: center;
   height: 64px;
   text-align: center;
-
-  border-right: 0.5px solid #464646f1;
   border-bottom: solid 1px gainsboro;
+  border-right: solid 1px gainsboro;
 }
 .logo {
   text-decoration: none;
@@ -28,8 +27,8 @@
 .menu {
   margin-bottom: 30px;
   text-decoration: none;
-  font-size: 17px;
-  padding-top: 25px;
+  font-size: 15px;
+  padding-top: 20px;
   letter-spacing: 2px;
   font-family: sans-serif;
   color: rgb(70, 70, 70);

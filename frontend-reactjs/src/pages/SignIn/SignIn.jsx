@@ -1,112 +1,81 @@
-import React, { useState } from "react";
-
-// import garena from "../images/garena.png";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
-import Styles from "./SignIn.module.css";
+import React from "react";
+import { Form, Input, Button, Checkbox, Divider } from "antd";
+import { useAuthStore } from "../../hooks/useAuthStore";
 import logo from "../../images/logo.png";
-// import { Button, Checkbox, Form, Input } from "antd";
+import Styles from "./SignIn.module.css";
 
-export default function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  let navigate = useNavigate();
+const LoginPage = () => {
+  const { login } = useAuthStore((state) => state);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios
-      .post("http://localhost:9000/auth/login-jwt", {
-        email: email,
-        password: password,
-      })
-      .then(
-        (response) => {
-          navigate("/home");
-          console.log(response);
-          alert("Success Password!!!");
-        },
-        (error) => {
-          console.log(error);
-          alert("Wrong Password!!!");
-        }
-      );
+  const onFinish = async (values) => {
+    const { email, password } = values;
+    login({ email, password });
   };
 
-  const handleChange = (event) => {
-    switch (event.target.name) {
-      case "email":
-        setEmail(event.target.value);
-        break;
-      case "password":
-        setPassword(event.target.value);
-        break;
-
-      default:
-        break;
-    }
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
   };
 
   return (
-    <div className={Styles.surrounding}>
-      <div className={Styles.container}>
+    <React.Fragment>
+      <h3>Login</h3>
+      <Divider />
+      <Form
+        className={Styles.form}
+        name="login-form"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        initialValues={{ username: "", password: "", remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
         <div className={Styles.logo}>
-          <img src={logo} alt="logo asos" />
+          <img className={Styles.logo} src={logo} alt="logo asos" />
         </div>
+        <div className={Styles.title}>Login to your Admin Page!</div>
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: "Email không được để trống" },
+            { type: "email", message: "Email không hợp lệ" },
+          ]}
+        >
+          <Input placeholder="Nhập email" />
+        </Form.Item>
 
-        <div className={Styles.main}>
-          <div className={Styles.option}>
-            <div className={Styles.titleJ}>Login to your Admin Page!</div>
-          </div>
-          <div className={Styles.form}>
-            <form className={Styles.input} onSubmit={handleSubmit}>
-              <p className={Styles.label_input}>Email</p>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[
+            { required: true, message: "Mật khẩu không được để trống" },
+            {
+              min: 6,
+              max: 10,
+              message: "Độ dài mật khẩu phải nằm trong khoảng 6 đến 10 ký tự",
+            },
+          ]}
+        >
+          <Input.Password placeholder="Nhập mật khẩu" />
+        </Form.Item>
 
-              <input
-                className={Styles.input_item}
-                type="text"
-                name="email"
-                value={email ? email : ""}
-                onChange={handleChange}
-                placeholder="Enter your email"
-              />
+        <Form.Item
+          name="remember"
+          valuePropName="checked"
+          wrapperCol={{ offset: 8, span: 16 }}
+        >
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
 
-              <p className={Styles.label_input}>Password</p>
-
-              <input
-                className={Styles.input_item}
-                type="password"
-                onChange={handleChange}
-                value={password ? password : ""}
-                name="password"
-                placeholder="Enter your Password"
-              />
-              <br />
-              <button
-                style={{ marginBottom: "15px", backgroundColor: "#5ece76" }}
-                className={Styles.button}
-              >
-                Login
-              </button>
-
-              <button
-                style={{ marginBottom: "15px", backgroundColor: "#65b4d3" }}
-                className={Styles.button}
-              >
-                Create Account
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <div className={Styles.footer}>
-        <div className={Styles.label}>
-          <a href="#">Privacy Policy</a>
-          <a style={{ padding: "5px" }}>|</a>
-          <a href="#">Term and Conditions</a>
-        </div>
-      </div>
-    </div>
+        <Form.Item wrapperCol={{ offset: 9, span: 16 }}>
+          <Button type="primary" htmlType="submit" style={{ minWidth: 120 }}>
+            Đăng nhập
+          </Button>
+        </Form.Item>
+      </Form>
+    </React.Fragment>
   );
-}
+};
+
+export default LoginPage;

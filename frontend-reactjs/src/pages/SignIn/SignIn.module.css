@@ -1,122 +1,27 @@
-.surrounding {
-  background-color: rgb(229, 239, 250);
-  margin: 0;
-  padding: 0;
-}
-.container {
-  position: relative;
-  /* width: 650px; */
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-  justify-content: center;
-  flex-direction: column;
-  padding-bottom: 14%;
-  align-items: center;
-}
-
-/* HEADER */
-.logo {
-  padding: 64px 0 25px 1px;
-  text-align: center;
-  display: block;
-  font-size: 2em;
-}
-
-/*MAIN FORM */
-/* HEADER FORM */
-.main {
-  width: 500px;
-  height: 480px;
-  background-color: #fff;
-  padding-top: 1px;
-
-  border-radius: 10px;
-  box-shadow: 0 8px 8px 0 rgba(227, 235, 240, 0.712),
-    0 10px 10px 0 rgba(227, 235, 240, 0.712);
-}
-.option {
-  padding: 25px 20px 10px;
-  text-align: center;
-}
-.titleJ {
-  /* TEXT */
-  width: 100%;
-  font-size: 16px;
-  font-weight: 790;
-  color: #ce3737;
-  letter-spacing: 2px;
-
-  text-decoration: none;
-  text-transform: uppercase;
-  line-height: 1.7;
-
-  /* TEXT-BOX */
-
-  border-radius: 0;
-  padding: 20px 0 17px;
-  border-bottom: 2px solid #f1f1f1;
-}
-
-/* INPUT */
 .form {
-  margin: 0px 50px 0px 50px;
-  /* font-size: 17px;
-  font-weight: 500;
-  color: #767676;
-  letter-spacing: 2px;
-  line-height: 1.7; */
-}
-.input {
-  display: flex;
-  flex-direction: column;
-  border-radius: 5%;
+  background-color: white;
+  width: 500px;
+  margin: auto;
+  padding-top: 40px;
+  padding-bottom: 10px;
+  border-radius: 15px;
 }
 
-.label_input {
+.bg_logo {
   width: 100%;
-  font-size: 17px;
-  font-weight: 600;
-  color: #767676;
-  letter-spacing: 2px;
+}
 
-  text-decoration: none;
-  line-height: 2.7;
+.logo {
+  width: 93px;
+  margin: auto;
   margin-bottom: 10px;
 }
-.input_item {
-  height: 45px;
-  font-size: 16px;
-  padding-left: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
 
-.button {
-  border-radius: 7px;
-  height: 40px;
-
-  /* TEXT */
-  font-size: 15px;
+.title {
+  width: 171px;
+  margin: auto;
+  margin-bottom: 30px;
+  color: red;
   font-weight: 600;
-  color: #fcfcfc;
-  letter-spacing: 2px;
-}
-.button:hover {
-  background-color: #eceaea !important;
-  color: #ce3737;
-}
-
-/* FOOTER */
-.footer {
-  padding: 10px 0 10px 0;
-  font-size: 0.897em;
-  color: #666;
-  text-align: center;
-}
-.label {
-  text-decoration: underline;
-  font-size: 12px;
-  line-height: 14px;
-  letter-spacing: 0.5px;
+  font-size: 14px;
 }

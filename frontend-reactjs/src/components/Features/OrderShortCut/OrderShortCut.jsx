@@ -1,16 +1,27 @@
 import React from "react";
 import axios from "axios";
 import Styles from "./OrderShortCut.module.css";
-import { Table } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Modal,
+  Space,
+  Table,
+  Popconfirm,
+  Select,
+} from "antd";
 import moment from "moment";
-// import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
+import { MdPublishedWithChanges } from "react-icons/md";
 
 function OrdersPage() {
   //Call API
   const [orders, setOrders] = React.useState([]);
   const [customers, setCustomers] = React.useState([]);
-  const [employees, setEmployees] = React.useState([]);
-  const [products, setProducts] = React.useState([]);
+  const [shippers, setShippers] = React.useState([]);
+  const [editModalVisible, setEditModalVisible] = React.useState(false);
+  const [selectedOrders, setSelectedOrders] = React.useState(null);
 
   //Refresh
   const [refresh, setRefresh] = React.useState(0);
@@ -95,21 +106,58 @@ function OrdersPage() {
         );
       },
     },
-    // {
-    //   title: "Employee",
-    //   dataIndex: "employee",
-    //   key: "employee",
+    {
+      title: "Shipper",
+      dataIndex: "shipperr",
+      key: "shipper",
 
-    //   render: (text, record, index) => {
-    //     return (
-    //       <div style={{ whiteSpace: "nowrap" }}>
-    //         <strong>
-    //           {record.employee.firstName + " " + record.employee.lastName}
-    //         </strong>
-    //       </div>
-    //     );
-    //   },
-    // },
+      render: (text, record, index) => {
+        return (
+          <div style={{ whiteSpace: "nowrap" }}>
+            <strong>
+              {record.shipper.firstName + " " + record.shipper.lastName}
+            </strong>
+          </div>
+        );
+      },
+    },
+    {
+      title: "",
+      key: "action",
+      width: "1%",
+      render: (text, record, index) => {
+        return (
+          <Space>
+            {/* BTN DELETE */}
+            <Popconfirm
+              style={{ width: 1000 }}
+              title="Bạn muốn xoá đơn hàng này?"
+              description="Bạn muốn xoá đơn hàng này?"
+              okText="Accept"
+              cancelText="Close"
+              onConfirm={() => {
+                deleteOrders(record._id);
+              }}
+            >
+              <Button danger type="dashed" icon={<DeleteOutlined />} />
+            </Popconfirm>
+
+            <Popconfirm
+              style={{ width: 1000 }}
+              title="Do you want to change status of order?"
+              description="Do you want to change status of order?"
+              okText="Accept"
+              cancelText="Close"
+              onConfirm={() => {
+                selectOrders(record);
+              }}
+            >
+              <Button type="dashed" icon={<MdPublishedWithChanges />} />
+            </Popconfirm>
+          </Space>
+        );
+      },
+    },
   ];
 
   React.useEffect(() => {
@@ -121,25 +169,70 @@ function OrdersPage() {
 
   React.useEffect(() => {
     axios.get("http://localhost:9000/customers").then((response) => {
-      setCustomers(response.data);
+      // setCustomers(response.data);
     });
   }, []);
 
   React.useEffect(() => {
-    axios.get("http://localhost:9000/employees").then((response) => {
+    axios.get("http://localhost:9000/shippers").then((response) => {
       // console.log(response.data);
-      setEmployees(response.data);
+      setShippers(response.data);
     });
   }, []);
 
   React.useEffect(() => {
     axios.get("http://localhost:9000/products").then((response) => {
       // console.log(response.data);
-      setProducts(response.data);
+      // setProducts(response.data);
     });
   }, []);
 
-  //   const [createForm] = Form.useForm();
+  const onFinish = (values) => {
+    console.log(values);
+
+    //CALL API TO CREATE CUSTOMER
+    axios.post("http://localhost:9000/orders", values).then((response) => {
+      if (response.status === 201) {
+        createForm.resetFields();
+        setRefresh((f) => f + 1);
+      }
+      console.log(response.data);
+    });
+  };
+
+  const onEditFinish = (values) => {
+    console.log(values);
+
+    //CALL API TO CREATE CUSTOMER
+    axios
+      .patch("http://localhost:9000/orders/" + selectedOrders._id, values)
+      .then((response) => {
+        if (response.status === 200) {
+          updateForm.resetFields();
+          setEditModalVisible(false);
+          setRefresh((f) => f + 1);
+        }
+      });
+  };
+
+  const selectOrders = (data) => {
+    setEditModalVisible(true);
+    setSelectedOrders(data);
+    updateForm.setFieldsValue(data);
+    console.log(data);
+  };
+
+  const deleteOrders = (_id) => {
+    axios.delete("http://localhost:9000/orders/" + _id).then((response) => {
+      console.log(response);
+      if (response.status === 200) {
+        setRefresh((f) => f + 1);
+      }
+    });
+  };
+
+  const [createForm] = Form.useForm();
+  const [updateForm] = Form.useForm();
 
   return (
     <div>
@@ -151,6 +244,120 @@ function OrdersPage() {
         pagination={false}
         rowKey="_id"
       />
+
+      {/* MODAL */}
+      <Modal
+        open={editModalVisible}
+        centered
+        title="Update orders"
+        onCancel={() => {
+          setEditModalVisible(false);
+        }}
+        cancelText="Close"
+        okText="Save"
+        onOk={() => {
+          alert("Edit successful");
+          updateForm.submit();
+        }}
+      >
+        <Form
+          form={updateForm}
+          name="Status"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          onFinish={onEditFinish}
+        >
+          {/* STATUS */}
+          <Form.Item
+            label="Status"
+            name="status"
+            rules={[
+              {
+                required: true,
+                message: "Please choose the payment type!",
+              },
+            ]}
+          >
+            <Select
+              style={{ width: 120 }}
+              options={[
+                {
+                  value: "COMPLETED",
+                  label: "COMPLETED",
+                },
+                {
+                  value: "CANCELED",
+                  label: "CANCELED",
+                },
+              ]}
+            />
+          </Form.Item>
+
+          {/* DESCRIPTION */}
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[
+              {
+                type: "text",
+                required: false,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          {/* SHIPPER */}
+          <Form.Item
+            label="Shipper"
+            name="shipperId"
+            rules={[
+              {
+                required: true,
+                message: "Please choose shipper!",
+              },
+            ]}
+          >
+            <Select
+              options={
+                shippers &&
+                shippers.map((c) => {
+                  return {
+                    value: c._id,
+                    label: c.fullName,
+                  };
+                })
+              }
+            />
+          </Form.Item>
+
+          {/* ORDER_DETAILS */}
+          {/* <Form.Item
+          label="Order Detail"
+          name="employee"
+          rules={[
+            {
+              required: true,
+              message: "Please choose employee!",
+            },
+          ]}
+        >
+          <TreeSelect
+            treeData={[
+              {
+                title: "productId",
+                value: "productId",
+                children: [{ title: "Bamboo", value: "bamboo" }],
+              },
+            ]}
+          />
+        </Form.Item> */}
+        </Form>
+      </Modal>
     </div>
   );
 }

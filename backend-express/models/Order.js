@@ -83,6 +83,7 @@ const orderSchema = new Schema({
 
   customerId: { type: Schema.Types.ObjectId, ref: "Customer", required: false },
   employeeId: { type: Schema.Types.ObjectId, ref: "Employee", required: false },
+  shipperId: { type: Schema.Types.ObjectId, ref: "Shipper", required: false },
 
   shippingAddress: { type: String, required: true },
   description: { type: String, required: false },
@@ -101,6 +102,13 @@ orderSchema.virtual("customer", {
 orderSchema.virtual("employee", {
   ref: "Employee",
   localField: "employeeId",
+  foreignField: "_id",
+  justOne: true,
+});
+
+orderSchema.virtual("shipper", {
+  ref: "Shipper",
+  localField: "shipperId",
   foreignField: "_id",
   justOne: true,
 });

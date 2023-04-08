@@ -1,154 +1,151 @@
-import React, { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
-import axios from "axios";
 import "./App.css";
 import "antd/dist/reset.css";
-
-// import { useNavigate } from "react-router-dom";
-
-// import numeral from "numeral";
-// import "numeral/locales/vi";
-
-// numeral.locale("vi");
 import MainMenu from "./components/Common/MainMenu/MainMenu";
 
 // PAGES
 import HomePage from "./pages/HomePage/HomePage";
 import SignIn from "./pages/SignIn/SignIn";
-
 import CustomerPage from "./pages/Management/CustomerPage";
 import ProductPage from "./pages/Management/ProductPage";
 import CategoriesPage from "./pages/Sales/Product/CategoriesPage";
 import SuppliersPage from "./pages/Sales/Product/SuppliersPage";
 import EmployeesPage from "./pages/Sales/Product/EmployeesPage";
 import OrdersPage from "./pages/Sales/Product/OrdersPage";
-import OrderStatusPage from "./pages/Sales/Product/OrderStatusPage";
-
 import NotFoundPage from "./pages/NotFoundPage";
 import DiscountPage from "./pages/Sales/Product/DiscountPage";
 import StockPage from "./pages/Sales/Product/StockPage";
 import TotalPricePage from "./pages/Sales/Product/TotaPicePage";
 import CustomerAddressPage from "./pages/Management/CustomerAddressPage";
 import CustomerBirthPage from "./pages/Management/CustomerBirthPage";
-import HeaderAdmin from "./components/Common/Header/HeaderAdmin";
+import { useAuthStore } from "./hooks/useAuthStore";
+import OrderStatusPage from "./pages/Sales/Product/OrderStatusPage";
 
 const { Header, Sider, Content } = Layout;
 
 function App() {
-  // let navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    setLoggedIn(false);
-  };
-
+  const { auth, logout } = useAuthStore((state) => state);
+  console.log(auth?.loggedInUser?.email);
   return (
     <div>
       <BrowserRouter>
-        <Layout>
-          <Sider
-            style={{
-              backgroundColor: "white",
-              minHeight: "100vh",
-              boxShadow:
-                "0 4px 4px 0 rgba(121, 121, 121, 0.404), 0 6px 10px 0 rgba(197, 197, 197, 0.726)",
-            }}
-          >
-            <MainMenu loggedIn={loggedIn} handleLogout={handleLogout} />
-          </Sider>
-
+        {!auth && (
+          <Content style={{ padding: 24 }}>
+            <Routes>
+              <Route path="/" element={<SignIn />} />
+              {/* NO MATCH ROUTE */}
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Content>
+        )}
+        {auth && (
           <Layout>
-            <Header
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                fontSize: "12px",
-              }}
-            >
-              <HeaderAdmin />
-            </Header>
+            <Sider theme="light" style={{ minHeight: "100vh" }}>
+              <MainMenu />
+            </Sider>
+            <Layout>
+              <Header style={{ backgroundColor: "white" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <h1 style={{ color: "black" }}> ONLINE SHOP - ADMIN</h1>
+                  <div style={{ display: "flex", color: "black" }}>
+                    <strong>{auth?.loggedInUser?.email}</strong>
+                    <span style={{ marginInline: 8 }}>|</span>
+                    <strong
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        logout();
+                      }}
+                    >
+                      Log out
+                    </strong>
+                  </div>
+                </div>
+              </Header>
 
-            <Content
-              style={{
-                padding: "50px",
-                paddingTop: "30px",
-                backgroundColor: "#e5effa",
-              }}
-            >
-              {/* Register routes */}
-              <Routes>
-                {" "}
-                {/* If user is not logged in, show login page */}
-                {!loggedIn ? (
-                  <Route
-                    path="/"
-                    element={<SignIn handleLogin={handleLogin} />}
-                  />
-                ) : (
-                  // If user is logged in, show home page
+              <Content
+                style={{
+                  padding: "50px",
+                  paddingTop: "30px",
+                  backgroundColor: "#e5effa",
+                }}
+              >
+                {/* Register routes */}
+                <Routes>
                   <Route path="/" element={<HomePage />} />
-                )}
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/login" element={<SignIn />} />
-                {/* MANAGEMENT */}
-                {/* MAN_CUSTOMERS */}
-                <Route
-                  path="management/customers/list"
-                  element={<CustomerPage />}
-                />
-                <Route
-                  path="management/customers/address"
-                  element={<CustomerAddressPage />}
-                />
-                <Route
-                  path="management/customers/birthday"
-                  element={<CustomerBirthPage />}
-                />
-                {/* MAN_EMPLOYEES */}
-                <Route
-                  path="management/employees/list"
-                  element={<EmployeesPage />}
-                />
-                {/* MAN_PRODUCTS */}
-                <Route path="/management/products" element={<ProductPage />} />
-                {/* SALES */}
-                {/* SALES_PRODUCTS */}
-                <Route path="/sales/products/list" element={<ProductPage />} />
-                <Route
-                  path="sales/products/categories"
-                  element={<CategoriesPage />}
-                />
-                <Route
-                  path="sales/products/suppliers"
-                  element={<SuppliersPage />}
-                />
-                {/* ON_SALE */}
-                <Route
-                  path="/sales/products/discount"
-                  element={<DiscountPage />}
-                />
-                <Route path="/sales/products/stock" element={<StockPage />} />
-                <Route
-                  path="/sales/products/totalprice"
-                  element={<TotalPricePage />}
-                />{" "}
-                {/* SALES_ORDERS */}
-                <Route path="/sales/orders/list" element={<OrdersPage />} />
-                <Route
-                  path="/sales/orders/status"
-                  element={<OrderStatusPage />}
-                />
-                {/* NO MATCH ROUTE */}
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </Content>
+                  <Route path="/home" element={<HomePage />} />
+
+                  {/* MANAGEMENT */}
+
+                  {/* MAN_CUSTOMERS */}
+                  <Route
+                    path="management/customers/list"
+                    element={<CustomerPage />}
+                  />
+                  <Route
+                    path="management/customers/address"
+                    element={<CustomerAddressPage />}
+                  />
+                  <Route
+                    path="management/customers/birthday"
+                    element={<CustomerBirthPage />}
+                  />
+                  {/* MAN_EMPLOYEES */}
+                  <Route
+                    path="management/employees/list"
+                    element={<EmployeesPage />}
+                  />
+
+                  {/* MAN_PRODUCTS */}
+                  <Route
+                    path="/management/products"
+                    element={<ProductPage />}
+                  />
+
+                  {/* SALES */}
+                  {/* SALES_PRODUCTS */}
+                  <Route
+                    path="/sales/products/list"
+                    element={<ProductPage />}
+                  />
+                  <Route
+                    path="sales/products/categories"
+                    element={<CategoriesPage />}
+                  />
+                  <Route
+                    path="sales/products/suppliers"
+                    element={<SuppliersPage />}
+                  />
+
+                  {/* ON_SALE */}
+                  <Route
+                    path="/sales/products/discount"
+                    element={<DiscountPage />}
+                  />
+                  <Route path="/sales/products/stock" element={<StockPage />} />
+                  <Route
+                    path="/sales/products/totalprice"
+                    element={<TotalPricePage />}
+                  />
+
+                  {/* SALES_ORDERS */}
+
+                  <Route path="/sales/orders/list" element={<OrdersPage />} />
+                  <Route
+                    path="/sales/orders/status"
+                    element={<OrderStatusPage />}
+                  />
+
+                  {/* NO MATCH ROUTE */}
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </Content>
+            </Layout>
           </Layout>
-        </Layout>
+        )}
       </BrowserRouter>
     </div>
   );
