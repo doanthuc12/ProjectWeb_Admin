@@ -13,8 +13,8 @@ import {
 } from "antd";
 import {
   DeleteOutlined,
-  ExitOutlined,
-  UploadOutlined,
+  // ExitOutlined,
+  // UploadOutlined,
   EditOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
@@ -28,12 +28,12 @@ numeral.locale("vi");
 
 function ProductPage() {
   //Call API
-  const [categories, setCategories] = React.useState([]);
+  const [branches, setBranches] = React.useState([]);
   const [suppliers, setSuppliers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
 
-  const [colors, setColors] = React.useState([]);
-  const [sizes, setSizes] = React.useState([]);
+  // const [colors, setColors] = React.useState([]);
+  // const [sizes, setSizes] = React.useState([]);
 
   //Select customer
   const [editModalVisible, setEditModalVisible] = React.useState(false);
@@ -57,14 +57,16 @@ function ProductPage() {
       },
     },
     {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
+      title: "Branch",
+      dataIndex: "branchId",
+      key: "branchId",
       with: "1%",
       render: (text, record, index) => {
         return (
           <div style={{ whiteSpace: "nowrap" }}>
-            <strong>{record.category.name}</strong>
+            <strong>
+              {record.branchId.name ? record.branchId.name : null}
+            </strong>
           </div>
         );
       },
@@ -74,8 +76,8 @@ function ProductPage() {
         return <div style={{ whiteSpace: "nowrap" }}>Product Name</div>;
       },
       // title: "Product Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "title",
+      key: "title",
       render: (text, record, index) => {
         return (
           <div>
@@ -91,7 +93,9 @@ function ProductPage() {
       render: (text, record, index) => {
         return (
           <div>
-            <strong>{record.supplier.name}</strong>
+            <strong>
+              {record.supplier.name ? record.supplier.name : null}
+            </strong>
           </div>
         );
       },
@@ -127,7 +131,7 @@ function ProductPage() {
       render: (text, record, index) => {
         return (
           <div>
-            <strong>{numeral(text).format("0,0")}</strong>
+            <strong>{text ? numeral(text).format("0,0") : null}</strong>
           </div>
         );
       },
@@ -141,8 +145,8 @@ function ProductPage() {
           <Space>
             <Popconfirm
               style={{ width: 1000 }}
-              title="Bạn muốn xoá sản phẩm này?"
-              description="Bạn muốn xoá sản phẩm này?"
+              title="Do you want to delete this product?"
+              description="Do you want to delete this product?"
               okText="Accept"
               cancelText="Close"
               onConfirm={() => {
@@ -154,8 +158,8 @@ function ProductPage() {
 
             <Popconfirm
               style={{ width: 1000 }}
-              title="Bạn muốn sửa sản phẩm này?"
-              description="Bạn muốn sửa sản phẩm này?"
+              title="Do you want to edit this product?"
+              description="Do you want to edit this product?"
               okText="Accept"
               cancelText="Close"
               onConfirm={() => {
@@ -172,9 +176,9 @@ function ProductPage() {
   ];
 
   React.useEffect(() => {
-    axios.get("http://localhost:9000/categories").then((response) => {
+    axios.get("http://localhost:9000/branches").then((response) => {
       // console.log(response.data);
-      setCategories(response.data);
+      setBranches(response.data);
     });
   }, []);
 
@@ -277,7 +281,7 @@ function ProductPage() {
         {/* PRODUCT NAME */}
         <Form.Item
           label="Product Name"
-          name="name"
+          name="title"
           rules={[
             {
               required: true,
@@ -332,19 +336,19 @@ function ProductPage() {
 
         {/* CATEGORY */}
         <Form.Item
-          label="Category"
-          name="categoryId"
+          label="Branch"
+          name="branchId"
           rules={[
             {
               required: true,
-              message: "Please choose category of product!",
+              message: "Please choose branch of product!",
             },
           ]}
         >
           <Select
             options={
-              categories &&
-              categories.map((c) => {
+              branches &&
+              branches.map((c) => {
                 return {
                   value: c._id,
                   label: c.name,
@@ -573,7 +577,7 @@ function ProductPage() {
           {/* PRODUCT NAME */}
           <Form.Item
             label="Product Name"
-            name="name"
+            name="title"
             rules={[
               {
                 required: true,
@@ -628,19 +632,19 @@ function ProductPage() {
 
           {/* CATEGORY */}
           <Form.Item
-            label="Category"
-            name="categoryId"
+            label="Branch"
+            name="branchId"
             rules={[
               {
                 required: true,
-                message: "Please choose category of product!",
+                message: "Please choose branch of product!",
               },
             ]}
           >
             <Select
               options={
-                categories &&
-                categories.map((c) => {
+                branches &&
+                branches.map((c) => {
                   return {
                     value: c._id,
                     label: c.name,

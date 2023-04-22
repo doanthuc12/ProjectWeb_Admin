@@ -1,7 +1,7 @@
 const { CONNECTION_STRING } = require("../constants/dbSettings");
 const { default: mongoose } = require("mongoose");
 
-const { Category } = require("../models");
+const { Branch } = require("../models");
 // MONGOOSE
 // mongoose.connect("mongodb://127.0.0.1:27017/thucntd");
 mongoose.set("strictQuery", false);
@@ -14,7 +14,7 @@ var router = express.Router();
 // GET
 router.get("/", function (req, res, next) {
   try {
-    Category.find()
+    Branch.find()
       // .populate("product")
       .then((result) => {
         res.send(result);
@@ -31,7 +31,7 @@ router.get("/", function (req, res, next) {
 router.get("/:id", function (req, res, next) {
   try {
     const { id } = req.params;
-    Category.findById(id)
+    Branch.findById(id)
       // .populate("product")
       .then((result) => {
         res.send(result);
@@ -49,7 +49,7 @@ router.post("/", function (req, res, next) {
   try {
     const data = req.body;
 
-    const newItem = new Category(data);
+    const newItem = new Branch(data);
     newItem
       .save()
       .then((result) => {
@@ -70,7 +70,7 @@ router.patch("/:id", function (req, res, next) {
     const { id } = req.params;
     const data = req.body;
 
-    Category.findByIdAndUpdate(id, data, {
+    Branch.findByIdAndUpdate(id, data, {
       new: true,
     })
       .then((result) => {
@@ -88,7 +88,7 @@ router.patch("/:id", function (req, res, next) {
 router.delete("/:id", function (req, res, next) {
   try {
     const { id } = req.params;
-    Category.findByIdAndDelete(id)
+    Branch.findByIdAndDelete(id)
       .then((result) => {
         res.send(result);
       })

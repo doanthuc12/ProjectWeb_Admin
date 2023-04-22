@@ -818,7 +818,7 @@ function OrdersPage() {
             rules={[
               {
                 required: true,
-                message: "Vui lònng chọn Product",
+                message: "Please choose product!",
               },
             ]}
           >

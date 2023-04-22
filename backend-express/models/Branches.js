@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const categorySchema = new Schema({
-  name: { type: String, required: [true, "Category bắt buộc phải nhập"] },
-  description: String,
+const branchSchema = new Schema({
+  name: { type: String, required: [true, "Branch bắt buộc phải nhập"] },
+  // description: String,
   // productId: { type: Schema.Types.ObjectId, ref: "Product", required: false },
 });
 
@@ -19,6 +19,6 @@ const categorySchema = new Schema({
 // // Virtuals in JSON
 // orderSchema.set("toJSON", { virtuals: true });
 
-const Category = model("Category", categorySchema);
+const Branch = model("Branch", branchSchema);
 
-module.exports = Category;
+module.exports = Branch;

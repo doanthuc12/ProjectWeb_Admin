@@ -39,8 +39,8 @@ const items = [
         key: "sales/products/list",
       },
       {
-        label: "Categories",
-        key: "sales/products/categories",
+        label: "Branches",
+        key: "sales/products/branches",
       },
       {
         label: "Suppliers",
@@ -87,6 +87,17 @@ const items = [
       {
         label: "List of employees",
         key: "management/employees/list",
+      },
+    ],
+  },
+  {
+    label: "Shippers",
+    key: "management/shippers",
+    icon: <BsPerson />,
+    children: [
+      {
+        label: "List of shippers",
+        key: "management/shippers/list",
       },
     ],
   },

@@ -13,9 +13,9 @@ import {
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
-import Styles from "../../CommonPage.module.css";
+import Styles from "../CommonPage.module.css";
 
-import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
+import MultiButtonGroup from "../../components/Features/MultiButtonGroup/MultiButtonGroup";
 
 function EmployeesPage() {
   //Call API
@@ -90,8 +90,8 @@ function EmployeesPage() {
           <Space>
             <Popconfirm
               style={{ width: 1000 }}
-              title="Bạn muốn xoá khách hàng này?"
-              description="Bạn muốn xoá khách hàng này?"
+              title="Do you want to delete this employee?"
+              description="Do you want to delete this employee?"
               okText="Accept"
               cancelText="Close"
               onConfirm={() => {
@@ -195,7 +195,7 @@ function EmployeesPage() {
       >
         {/* LAST NAME */}
         <Form.Item
-          label="First Name"
+          label="Last Name"
           name="lastName"
           rules={[
             {
@@ -209,7 +209,7 @@ function EmployeesPage() {
 
         {/* FIRST NAME */}
         <Form.Item
-          label="Last Name"
+          label="First Name"
           name="firstName"
           rules={[
             {
@@ -332,7 +332,7 @@ function EmployeesPage() {
         >
           {/* LAST NAME */}
           <Form.Item
-            label="First Name"
+            label="Last Name"
             name="lastName"
             rules={[
               {
@@ -346,7 +346,7 @@ function EmployeesPage() {
 
           {/* FIRST NAME */}
           <Form.Item
-            label="Last Name"
+            label="First Name"
             name="firstName"
             rules={[
               {

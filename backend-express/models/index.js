@@ -1,4 +1,4 @@
-const Category = require("./Category");
+const Branch = require("./Branches");
 const Product = require("./Product");
 const Supplier = require("./Supplier");
 const Order = require("./Order");
@@ -8,7 +8,7 @@ const Login = require("./Login");
 const Shipper = require("./Shipper");
 
 module.exports = {
-  Category,
+  Branch,
   Product,
   Supplier,
   Order,

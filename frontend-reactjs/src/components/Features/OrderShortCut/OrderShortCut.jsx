@@ -18,7 +18,7 @@ import { MdPublishedWithChanges } from "react-icons/md";
 function OrdersPage() {
   //Call API
   const [orders, setOrders] = React.useState([]);
-  const [customers, setCustomers] = React.useState([]);
+  // const [customers, setCustomers] = React.useState([]);
   const [shippers, setShippers] = React.useState([]);
   const [editModalVisible, setEditModalVisible] = React.useState(false);
   const [selectedOrders, setSelectedOrders] = React.useState(null);

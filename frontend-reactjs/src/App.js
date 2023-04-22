@@ -10,9 +10,10 @@ import HomePage from "./pages/HomePage/HomePage";
 import SignIn from "./pages/SignIn/SignIn";
 import CustomerPage from "./pages/Management/CustomerPage";
 import ProductPage from "./pages/Management/ProductPage";
-import CategoriesPage from "./pages/Sales/Product/CategoriesPage";
+import BranchesPage from "./pages/Sales/Product/BranchesPage";
 import SuppliersPage from "./pages/Sales/Product/SuppliersPage";
-import EmployeesPage from "./pages/Sales/Product/EmployeesPage";
+import EmployeesPage from "./pages/Management/EmployeesPage";
+import ShipperPage from "./pages/Management/ShipperPage";
 import OrdersPage from "./pages/Sales/Product/OrdersPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import DiscountPage from "./pages/Sales/Product/DiscountPage";
@@ -99,6 +100,12 @@ function App() {
                     element={<EmployeesPage />}
                   />
 
+                  {/* MAN_SHIPPERS */}
+                  <Route
+                    path="management/shippers/list"
+                    element={<ShipperPage />}
+                  />
+
                   {/* MAN_PRODUCTS */}
                   <Route
                     path="/management/products"
@@ -112,8 +119,8 @@ function App() {
                     element={<ProductPage />}
                   />
                   <Route
-                    path="sales/products/categories"
-                    element={<CategoriesPage />}
+                    path="sales/products/branches"
+                    element={<BranchesPage />}
                   />
                   <Route
                     path="sales/products/suppliers"

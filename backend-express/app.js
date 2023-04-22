@@ -12,7 +12,7 @@ const jwtSettings = require("./constants/jwtSettings");
 const cors = require("cors");
 
 var productsRouter = require("./routes/products");
-var categoriesRouter = require("./routes/categories");
+var branchesRouter = require("./routes/branches");
 var customersRouter = require("./routes/customers");
 var suppliersRouter = require("./routes/suppliers");
 var employeesRouter = require("./routes/employees");
@@ -67,7 +67,7 @@ app.use("/customers", customersRouter);
 app.use("/suppliers", suppliersRouter);
 app.use("/employees", employeesRouter);
 app.use("/orders", ordersRouter);
-app.use("/categories", categoriesRouter);
+app.use("/branches", branchesRouter);
 app.use("/shippers", shippersRouter);
 app.use("/auth", authRouter);
 

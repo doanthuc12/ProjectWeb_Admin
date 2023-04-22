@@ -1,19 +1,29 @@
 import React from "react";
 import axios from "axios";
-import { Form, Input, Button, Modal, Space, Table, Popconfirm } from "antd";
+import moment from "moment";
+import {
+  Form,
+  Input,
+  Button,
+  Modal,
+  Space,
+  Table,
+  DatePicker,
+  Popconfirm,
+} from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
-import Styles from "../../CommonPage.module.css";
+import Styles from "../CommonPage.module.css";
 
-import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
+import MultiButtonGroup from "../../components/Features/MultiButtonGroup/MultiButtonGroup";
 
-function SuppliersPage() {
+function ShipperPage() {
   //Call API
-  const [suppliers, setSuppliers] = React.useState([]);
+  const [shippers, setShippers] = React.useState([]);
 
-  //Select customer
+  //Select shipper
   const [editModalVisible, setEditModalVisible] = React.useState(false);
-  const [selectedSupplier, setSelectedSupplier] = React.useState(null);
+  const [selectedShippers, setSelectedShippers] = React.useState(null);
 
   //Refresh
   const [refresh, setRefresh] = React.useState(0);
@@ -33,15 +43,22 @@ function SuppliersPage() {
       },
     },
     {
-      title: "Supplier",
-      key: "name",
+      title: "Full of name",
+      key: "fullName",
       render: (text, record, index) => {
         return (
           <div>
-            <span>{record.name}</span>
+            <span>
+              {record.firstName} {record.lastName}
+            </span>
           </div>
         );
       },
+    },
+    {
+      title: "Phone Number",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
     },
     {
       title: "Address",
@@ -54,9 +71,15 @@ function SuppliersPage() {
       key: "email",
     },
     {
-      title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      title: "Date of birth",
+      key: "birthday",
+      render: (text, record, index) => {
+        return (
+          <div>
+            <span>{moment(record.birthday).format("MMMM Do YYYY")}</span>
+          </div>
+        );
+      },
     },
     {
       title: "",
@@ -67,12 +90,12 @@ function SuppliersPage() {
           <Space>
             <Popconfirm
               style={{ width: 1000 }}
-              title="Do you wưwant to delete this supplier?"
-              description="Do you wưwant to delete this supplier?"
+              title="Do you want to delete this shipper?"
+              description="Do you want to delete this shipper?"
               okText="Accept"
               cancelText="Close"
               onConfirm={() => {
-                deleteSuppliers(record._id);
+                deleteShippers(record._id);
               }}
             >
               <Button danger type="dashed" icon={<DeleteOutlined />} />
@@ -80,7 +103,7 @@ function SuppliersPage() {
             <Button
               type="dashed"
               icon={<EditOutlined />}
-              onClick={() => selectSuppliers(record)}
+              onClick={() => selectShippers(record)}
             ></Button>
           </Space>
         );
@@ -88,10 +111,21 @@ function SuppliersPage() {
     },
   ];
 
+  //Phone Number
+  // const { Option } = Select;
+  // const prefixSelector = (
+  //   <Form.Item name="prefix" noStyle>
+  //     <Select style={{ width: 70 }}>
+  //       <Option value="84">+84</Option>
+  //       <Option value="87">+87</Option>
+  //     </Select>
+  //   </Form.Item>
+  // );
+
   React.useEffect(() => {
-    axios.get("http://localhost:9000/suppliers").then((response) => {
+    axios.get("http://localhost:9000/shippers").then((response) => {
       // console.log(response.data);
-      setSuppliers(response.data);
+      setShippers(response.data);
     });
   }, [refresh]);
 
@@ -99,7 +133,7 @@ function SuppliersPage() {
     console.log(values);
 
     //CALL API TO CREATE CUSTOMER
-    axios.post("http://localhost:9000/suppliers", values).then((response) => {
+    axios.post("http://localhost:9000/shippers", values).then((response) => {
       if (response.status === 201) {
         createForm.resetFields();
         setRefresh((f) => f + 1);
@@ -111,9 +145,9 @@ function SuppliersPage() {
   const onEditFinish = (values) => {
     console.log(values);
 
-    //CALL API TO CREATE CUSTOMER
+    //CALL API TO CREATE SHIPPER
     axios
-      .patch("http://localhost:9000/suppliers/" + selectedSupplier._id, values)
+      .patch("http://localhost:9000/shippers/" + selectedShippers._id, values)
       .then((response) => {
         if (response.status === 200) {
           updateForm.resetFields();
@@ -123,15 +157,15 @@ function SuppliersPage() {
       });
   };
 
-  const selectSuppliers = (data) => {
+  const selectShippers = (data) => {
     setEditModalVisible(true);
-    setSelectedSupplier(data);
+    setSelectedShippers(data);
     updateForm.setFieldsValue(data);
     console.log(data);
   };
 
-  const deleteSuppliers = (id) => {
-    axios.delete("http://localhost:9000/suppliers/" + id).then((response) => {
+  const deleteShippers = (id) => {
+    axios.delete("http://localhost:9000/shippers/" + id).then((response) => {
       console.log(response);
       if (response.status === 200) {
         setRefresh((f) => f + 1);
@@ -150,7 +184,7 @@ function SuppliersPage() {
       <Form
         className={Styles.form}
         form={createForm}
-        name="create-supplier"
+        name="create-shipper"
         labelCol={{
           span: 8,
         }}
@@ -159,14 +193,28 @@ function SuppliersPage() {
         }}
         onFinish={onFinish}
       >
-        {/* NAME */}
+        {/* LAST NAME */}
         <Form.Item
-          label="Supplier"
-          name="name"
+          label="Last Name"
+          name="lastName"
           rules={[
             {
               required: true,
-              message: "Please input supplier!",
+              message: "Please input your lastname!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        {/* FIRST NAME */}
+        <Form.Item
+          label="First Name"
+          name="firstName"
+          rules={[
+            {
+              required: true,
+              message: "Please input your firstname!",
             },
           ]}
         >
@@ -212,11 +260,26 @@ function SuppliersPage() {
           rules={[
             {
               type: "text",
-              required: false,
+              required: true,
+              message: "Please input your phone number!",
             },
           ]}
         >
           <Input />
+          {/* <InputNumber addonBefore={prefixSelector} style={{ width: "100%" }} /> */}
+        </Form.Item>
+
+        <Form.Item
+          label="Date of birth"
+          name="birthday"
+          rules={[
+            {
+              required: true,
+              message: "Please choose your birthday!",
+            },
+          ]}
+        >
+          <DatePicker />
         </Form.Item>
 
         {/* SUBMIT */}
@@ -235,7 +298,7 @@ function SuppliersPage() {
       {/* TABLE */}
       <Table
         className={Styles.table}
-        dataSource={suppliers}
+        dataSource={shippers}
         columns={columns}
         pagination={false}
         rowKey="id"
@@ -245,7 +308,7 @@ function SuppliersPage() {
       <Modal
         open={editModalVisible}
         centered
-        title="Update Information"
+        title="Update shipper"
         onCancel={() => {
           setEditModalVisible(false);
         }}
@@ -258,7 +321,7 @@ function SuppliersPage() {
       >
         <Form
           form={updateForm}
-          name="updateCustomers"
+          name="updateShippers"
           labelCol={{
             span: 8,
           }}
@@ -267,14 +330,28 @@ function SuppliersPage() {
           }}
           onFinish={onEditFinish}
         >
-          {/* NAME */}
+          {/* LAST NAME */}
           <Form.Item
-            label="Supplier"
-            name="name"
+            label="Last Name"
+            name="lastName"
             rules={[
               {
                 required: true,
-                message: "Please input supplier!",
+                message: "Please input your lastname!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          {/* FIRST NAME */}
+          <Form.Item
+            label="First Name"
+            name="firstName"
+            rules={[
+              {
+                required: true,
+                message: "Please input your firstname!",
               },
             ]}
           >
@@ -299,6 +376,25 @@ function SuppliersPage() {
             <Input />
           </Form.Item>
 
+          {/* PHONE NUMBER */}
+          <Form.Item
+            label="Phone Number"
+            name="phoneNumber"
+            rules={[
+              {
+                type: "text",
+                required: true,
+                message: "Please input your phone number!",
+              },
+            ]}
+          >
+            {/* <InputNumber
+              addonBefore={prefixSelector}
+              style={{ width: "100%" }}
+            /> */}
+            <Input />
+          </Form.Item>
+
           {/* ADDRESS */}
           <Form.Item
             label="Address"
@@ -314,14 +410,15 @@ function SuppliersPage() {
             <Input />
           </Form.Item>
 
-          {/* PHONE NUMBER */}
+          {/* BIRTHDAY */}
           <Form.Item
-            label="Phone Number"
-            name="phoneNumber"
+            label="Date of birth"
+            name="birthday"
             rules={[
               {
                 type: "text",
-                required: false,
+                required: true,
+                message: "Please input your birthday!",
               },
             ]}
           >
@@ -333,4 +430,4 @@ function SuppliersPage() {
   );
 }
 
-export default SuppliersPage;
+export default ShipperPage;

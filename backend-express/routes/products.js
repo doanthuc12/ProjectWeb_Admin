@@ -16,7 +16,7 @@ var router = express.Router();
 router.get("/", function (req, res, next) {
   try {
     Product.find()
-      .populate("category")
+      .populate("branchId")
       .populate("supplier")
       .then((result) => {
         res.send(result);
@@ -118,7 +118,7 @@ router.get("/question/1", function (req, res, next) {
     let discount = req.query.discount;
     let query = { discount: { $lte: discount } };
     Product.find(query)
-      .populate("category")
+      .populate("branchId")
       .populate("supplier")
       .then((result) => {
         res.send(result);
@@ -140,7 +140,7 @@ router.get("/question/2", function (req, res, next) {
     let stock = req.query.stock;
     let query = { stock: { $lte: stock } };
     Product.find(query)
-      .populate("category")
+      .populate("branchId")
       .populate("supplier")
       .then((result) => {
         res.send(result);

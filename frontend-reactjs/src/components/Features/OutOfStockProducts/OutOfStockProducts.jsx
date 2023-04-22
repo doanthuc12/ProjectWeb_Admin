@@ -10,8 +10,8 @@ numeral.locale("vi");
 
 function ProductPage() {
   //Call API
-  const [categories, setCategories] = React.useState([]);
-  const [suppliers, setSuppliers] = React.useState([]);
+  // const [branches, setBranches] = React.useState([]);
+  // const [suppliers, setSuppliers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
 
   //Refresh
@@ -49,8 +49,8 @@ function ProductPage() {
         return <div style={{ whiteSpace: "nowrap" }}>Product Name</div>;
       },
       // title: "Product Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "title",
+      key: "title",
       render: (text, record, index) => {
         return (
           <div>
@@ -79,26 +79,26 @@ function ProductPage() {
       render: (text, record, index) => {
         return (
           <div>
-            <strong>{numeral(text).format("0,0")}</strong>
+            <strong>{text ? numeral(text).format("0,0") : null}</strong>
           </div>
         );
       },
     },
   ];
 
-  React.useEffect(() => {
-    axios.get("http://localhost:9000/categories").then((response) => {
-      // console.log(response.data);
-      setCategories(response.data);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   axios.get("http://localhost:9000/branches").then((response) => {
+  //     // console.log(response.data);
+  //     setBranches(response.data);
+  //   });
+  // }, []);
 
-  React.useEffect(() => {
-    axios.get("http://localhost:9000/suppliers").then((response) => {
-      // console.log(response.data);
-      setSuppliers(response.data);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   axios.get("http://localhost:9000/suppliers").then((response) => {
+  //     // console.log(response.data);
+  //     setSuppliers(response.data);
+  //   });
+  // }, []);
 
   React.useEffect(() => {
     axios

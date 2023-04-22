@@ -10,13 +10,13 @@ const mongooseLeanVirtuals = require("mongoose-lean-virtuals");
 
 const productSchema = Schema(
   {
-    name: { type: String, required: true },
+    title: { type: String, required: true },
     price: { type: Number, required: true, min: 0, default: 0 },
     discount: { type: Number, min: 0, max: 75, default: 0 },
     stock: { type: Number, min: 0, default: 0 },
-    categoryId: {
+    branchId: {
       type: Schema.Types.ObjectId,
-      ref: "Category",
+      ref: "Branch",
       required: false,
     },
     supplierId: {
@@ -36,9 +36,9 @@ productSchema.virtual("total").get(function () {
 });
 
 // Virtual with Populate
-productSchema.virtual("category", {
-  ref: "Category",
-  localField: "categoryId",
+productSchema.virtual("branch", {
+  ref: "Branch",
+  localField: "branchId",
   foreignField: "_id",
   justOne: true,
 });

@@ -7,13 +7,13 @@ import Styles from "../../CommonPage.module.css";
 
 import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
 
-function CategoriesPage() {
+function BranchesPage() {
   //Call API
-  const [categories, setCategories] = React.useState([]);
+  const [branches, setBranches] = React.useState([]);
 
   //Select customer
   const [editModalVisible, setEditModalVisible] = React.useState(false);
-  const [selectedCategories, setSelectedCategories] = React.useState(null);
+  const [selectedBranches, setSelectedBranches] = React.useState(null);
 
   //Refresh
   const [refresh, setRefresh] = React.useState(0);
@@ -33,15 +33,15 @@ function CategoriesPage() {
       },
     },
     {
-      title: "Category",
+      title: "Branch",
       dataIndex: "name",
       key: "name",
     },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
+    // {
+    //   title: "Description",
+    //   dataIndex: "description",
+    //   key: "description",
+    // },
     {
       title: "",
       key: "action",
@@ -51,12 +51,12 @@ function CategoriesPage() {
           <Space>
             <Popconfirm
               style={{ width: 1000 }}
-              title="Bạn muốn xoá danh mục hàng hoá này?"
-              description="Bạn muốn xoá danh mục hàng hoá này?"
+              title="Do you want to delete this branch?"
+              description="Do you want to delete this branch?"
               okText="Accept"
               cancelText="Close"
               onConfirm={() => {
-                deleteCategories(record._id);
+                deleteBranches(record._id);
               }}
             >
               <Button danger type="dashed" icon={<DeleteOutlined />} />
@@ -64,7 +64,7 @@ function CategoriesPage() {
             <Button
               type="dashed"
               icon={<EditOutlined />}
-              onClick={() => selectCategories(record)}
+              onClick={() => selectBranches(record)}
             />
           </Space>
         );
@@ -73,9 +73,9 @@ function CategoriesPage() {
   ];
 
   React.useEffect(() => {
-    axios.get("http://localhost:9000/categories").then((response) => {
+    axios.get("http://localhost:9000/branches").then((response) => {
       // console.log(response.data);
-      setCategories(response.data);
+      setBranches(response.data);
     });
   }, [refresh]);
 
@@ -83,7 +83,7 @@ function CategoriesPage() {
     console.log(values);
 
     //CALL API TO CREATE CUSTOMER
-    axios.post("http://localhost:9000/categories", values).then((response) => {
+    axios.post("http://localhost:9000/branches", values).then((response) => {
       if (response.status === 201) {
         createForm.resetFields();
         setRefresh((f) => f + 1);
@@ -97,10 +97,7 @@ function CategoriesPage() {
 
     //CALL API TO CREATE CUSTOMER
     axios
-      .patch(
-        "http://localhost:9000/categories/" + selectedCategories.id,
-        values
-      )
+      .patch("http://localhost:9000/branches/" + selectedBranches._id, values)
       .then((response) => {
         if (response.status === 200) {
           updateForm.resetFields();
@@ -110,15 +107,15 @@ function CategoriesPage() {
       });
   };
 
-  const selectCategories = (data) => {
+  const selectBranches = (data) => {
     setEditModalVisible(true);
-    setSelectedCategories(data);
+    setSelectedBranches(data);
     updateForm.setFieldsValue(data);
     console.log(data);
   };
 
-  const deleteCategories = (id) => {
-    axios.delete("http://localhost:9000/categories/" + id).then((response) => {
+  const deleteBranches = (id) => {
+    axios.delete("http://localhost:9000/branches/" + id).then((response) => {
       console.log(response);
       if (response.status === 200) {
         setRefresh((f) => f + 1);
@@ -137,7 +134,7 @@ function CategoriesPage() {
       <Form
         form={createForm}
         className={Styles.form}
-        name="create-categories"
+        name="create-branches"
         labelCol={{
           span: 8,
         }}
@@ -146,14 +143,14 @@ function CategoriesPage() {
         }}
         onFinish={onFinish}
       >
-        {/* NAME OF CATEGORY*/}
+        {/* NAME OF BRANCH*/}
         <Form.Item
           label="Name"
           name="name"
           rules={[
             {
               required: true,
-              message: "Please input name of category!",
+              message: "Please input name of branch!",
             },
           ]}
         >
@@ -161,7 +158,7 @@ function CategoriesPage() {
         </Form.Item>
 
         {/* DESCRIPTION */}
-        <Form.Item
+        {/* <Form.Item
           label="Description"
           name="description"
           rules={[
@@ -172,7 +169,7 @@ function CategoriesPage() {
           ]}
         >
           <Input />
-        </Form.Item>
+        </Form.Item> */}
 
         {/* SUBMIT */}
         <Form.Item
@@ -190,7 +187,7 @@ function CategoriesPage() {
       {/* TABLE */}
       <Table
         className={Styles.table}
-        dataSource={categories}
+        dataSource={branches}
         columns={columns}
         pagination={false}
         rowKey="id"
@@ -200,7 +197,7 @@ function CategoriesPage() {
       <Modal
         open={editModalVisible}
         centered
-        title="Update categories"
+        title="Update branches"
         onCancel={() => {
           setEditModalVisible(false);
         }}
@@ -213,7 +210,7 @@ function CategoriesPage() {
       >
         <Form
           form={updateForm}
-          name="updateCategories"
+          name="updateBranches"
           labelCol={{
             span: 8,
           }}
@@ -228,14 +225,14 @@ function CategoriesPage() {
             rules={[
               {
                 required: true,
-                message: "Please input name of category!",
+                message: "Please input name of branch!",
               },
             ]}
           >
             <Input />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             label="Description"
             name="description"
             rules={[
@@ -246,11 +243,11 @@ function CategoriesPage() {
             ]}
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
         </Form>
       </Modal>
     </div>
   );
 }
 
-export default CategoriesPage;
+export default BranchesPage;
