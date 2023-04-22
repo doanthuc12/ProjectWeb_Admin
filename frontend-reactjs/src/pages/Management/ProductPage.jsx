@@ -16,6 +16,7 @@ import {
   ExitOutlined,
   UploadOutlined,
   EditOutlined,
+  PlusCircleOutlined,
 } from "@ant-design/icons";
 import numeral from "numeral";
 import "numeral/locales/vi";
@@ -30,6 +31,9 @@ function ProductPage() {
   const [categories, setCategories] = React.useState([]);
   const [suppliers, setSuppliers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
+
+  const [colors, setColors] = React.useState([]);
+  const [sizes, setSizes] = React.useState([]);
 
   //Select customer
   const [editModalVisible, setEditModalVisible] = React.useState(false);
@@ -188,6 +192,24 @@ function ProductPage() {
     });
   }, [refresh]);
 
+  // const fetchColors = async () => {
+  //   try {
+  //     const response = await axios.get("/colors"); // Thay đổi đường dẫn API tương ứng
+  //     setColors(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // React.useEffect(() => {
+  //   axios.get("/sizes").then((response) => {
+  //     setSizes(response.data);
+  //   });
+  //   axios.get("/categories").then((response) => {
+  //     setCategories(response.data);
+  //   });
+  //   fetchColors();
+  // }, []);
+
   const onFinish = (values) => {
     console.log(values);
 
@@ -197,7 +219,7 @@ function ProductPage() {
         createForm.resetFields();
         setRefresh((f) => f + 1);
       }
-      console.log(response.data);
+      // console.log(response.data);
     });
   };
 
@@ -267,7 +289,7 @@ function ProductPage() {
         </Form.Item>
 
         {/* PRICE */}
-        <Form.Item
+        {/* <Form.Item
           label="Price"
           name="price"
           rules={[
@@ -278,10 +300,10 @@ function ProductPage() {
           ]}
         >
           <InputNumber />
-        </Form.Item>
+        </Form.Item> */}
 
         {/* DISCOUNT */}
-        <Form.Item
+        {/* <Form.Item
           label="Discount (%)"
           name="discount"
           rules={[
@@ -292,10 +314,10 @@ function ProductPage() {
           ]}
         >
           <InputNumber min={0} max={75} />
-        </Form.Item>
+        </Form.Item> */}
 
         {/* STOCK */}
-        <Form.Item
+        {/* <Form.Item
           label="Stock"
           name="stock"
           rules={[
@@ -306,7 +328,7 @@ function ProductPage() {
           ]}
         >
           <InputNumber min={0} />
-        </Form.Item>
+        </Form.Item> */}
 
         {/* CATEGORY */}
         <Form.Item
@@ -355,6 +377,149 @@ function ProductPage() {
             }
           />
         </Form.Item>
+
+        <Form.List name="colors">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map((field) => (
+                <div key={field.key}>
+                  <Form.Item
+                    label="Màu"
+                    name={[field.name, "colorId"]}
+                    fieldKey={[field.fieldKey, "colorId"]}
+                    rules={[{ required: true, message: "Hãy chọn một màu!" }]}
+                  >
+                    <Input />
+                    {/* <Select
+                      options={
+                        colors &&
+                        colors.map((c) => {
+                          return {
+                            value: c._id,
+                            label: c.name,
+                          };
+                        })
+                      }
+                    /> */}
+                  </Form.Item>
+                  <Form.Item
+                    label="Price"
+                    name={[field.name, "price"]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Hãy nhập giá bán!",
+                      },
+                    ]}
+                    fieldKey={[field.fieldKey, "price"]}
+                  >
+                    <Input type="number" min={0} style={{ width: 150 }} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Discount"
+                    name={[field.name, "discount"]}
+                    fieldKey={[field.fieldKey, "discount"]}
+                  >
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      style={{ width: 100 }}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Kích cỡ và số lượng"
+                    name={[field.name, "sizes"]}
+                    fieldKey={[field.fieldKey, "sizes"]}
+                  >
+                    <Form.List name={[field.name, "sizes"]}>
+                      {(sizeFields, { add: addSize, remove: removeSize }) => (
+                        <>
+                          {sizeFields.map((sizeField) => (
+                            <div key={sizeField.key}>
+                              <Form.Item
+                                label="Size"
+                                name={[sizeField.name, "sizeId"]}
+                                fieldKey={[sizeField.fieldKey, "sizeId"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Hãy chọn một kích cỡ!",
+                                  },
+                                ]}
+                              >
+                                <Input />
+                                {/* <Select
+                                  style={{ width: 150 }}
+                                  options={
+                                    sizes &&
+                                    sizes.map((c) => {
+                                      return {
+                                        value: c._id,
+                                        label: c.size,
+                                      };
+                                    })
+                                  }
+                                /> */}
+                              </Form.Item>
+                              <Form.Item
+                                label="Quantity"
+                                name={[sizeField.name, "quantity"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Hãy nhập số lượng!",
+                                  },
+                                ]}
+                                fieldKey={[sizeField.fieldKey, "quantity"]}
+                              >
+                                <Input
+                                  type="number"
+                                  min={0}
+                                  style={{ width: 100 }}
+                                />
+                              </Form.Item>
+                              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                                <Button
+                                  onClick={() => removeSize(sizeField.name)}
+                                  icon={<DeleteOutlined />}
+                                >
+                                  Xóa kích cỡ
+                                </Button>
+                              </Form.Item>
+                            </div>
+                          ))}
+                          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                            <Button
+                              onClick={() => addSize()}
+                              icon={<PlusCircleOutlined />}
+                            >
+                              Thêm kích cỡ
+                            </Button>
+                          </Form.Item>
+                        </>
+                      )}
+                    </Form.List>
+                  </Form.Item>
+
+                  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button
+                      onClick={() => remove(field.name)}
+                      icon={<DeleteOutlined />}
+                    >
+                      Xóa màu
+                    </Button>
+                  </Form.Item>
+                </div>
+              ))}
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button onClick={() => add()} icon={<PlusCircleOutlined />}>
+                  Thêm màu
+                </Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>
 
         {/* SUBMIT */}
         <Form.Item
