@@ -50,7 +50,7 @@ function ProductPage() {
       width: "1%",
       render: (text, record, index) => {
         return (
-          <div style={{ textAlign: "right" }}>
+          <div style={{ textAlign: "middle" }}>
             <span>{index + 1}</span>
           </div>
         );
@@ -64,16 +64,16 @@ function ProductPage() {
       render: (text, record, index) => {
         return (
           <div style={{ whiteSpace: "nowrap" }}>
-            <strong>
-              {record.branchId.name ? record.branchId.name : null}
-            </strong>
+            <strong>{record.branchId && record.branchId.name}</strong>
           </div>
         );
       },
     },
     {
       title: () => {
-        return <div style={{ whiteSpace: "nowrap" }}>Product Name</div>;
+        return (
+          <div style={{ whiteSpace: "nowrap", width: "30%" }}>Product Name</div>
+        );
       },
       // title: "Product Name",
       dataIndex: "title",
@@ -93,9 +93,7 @@ function ProductPage() {
       render: (text, record, index) => {
         return (
           <div>
-            <strong>
-              {record.supplier.name ? record.supplier.name : null}
-            </strong>
+            <strong>{record.supplier && record.supplier.name}</strong>
           </div>
         );
       },
@@ -125,17 +123,27 @@ function ProductPage() {
       },
     },
     {
-      title: "Stock",
-      dataIndex: "stock",
-      key: "stock",
-      render: (text, record, index) => {
+      title: "Size/Stock",
+      dataIndex: "sizes",
+      key: "sizes",
+      render: (sizes, record) => {
+        const sizeStockArr = sizes
+          .filter((item) => item.size && item.stock)
+          .map((item) => `${item.size}/${numeral(item.stock).format("0,0")}`);
         return (
-          <div>
-            <strong>{text ? numeral(text).format("0,0") : null}</strong>
-          </div>
+          <>
+            {sizeStockArr.length > 0 && (
+              <div style={{ width: "maxContent" }}>
+                {sizeStockArr.map((item, index) => (
+                  <div key={index}>{item}</div>
+                ))}
+              </div>
+            )}
+          </>
         );
       },
     },
+
     {
       title: "",
       key: "action",
@@ -293,7 +301,7 @@ function ProductPage() {
         </Form.Item>
 
         {/* PRICE */}
-        {/* <Form.Item
+        <Form.Item
           label="Price"
           name="price"
           rules={[
@@ -304,10 +312,10 @@ function ProductPage() {
           ]}
         >
           <InputNumber />
-        </Form.Item> */}
+        </Form.Item>
 
         {/* DISCOUNT */}
-        {/* <Form.Item
+        <Form.Item
           label="Discount (%)"
           name="discount"
           rules={[
@@ -318,7 +326,7 @@ function ProductPage() {
           ]}
         >
           <InputNumber min={0} max={75} />
-        </Form.Item> */}
+        </Form.Item>
 
         {/* STOCK */}
         {/* <Form.Item
@@ -382,148 +390,85 @@ function ProductPage() {
           />
         </Form.Item>
 
-        <Form.List name="colors">
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map((field) => (
-                <div key={field.key}>
-                  <Form.Item
-                    label="Màu"
-                    name={[field.name, "colorId"]}
-                    fieldKey={[field.fieldKey, "colorId"]}
-                    rules={[{ required: true, message: "Hãy chọn một màu!" }]}
-                  >
-                    <Input />
-                    {/* <Select
-                      options={
-                        colors &&
-                        colors.map((c) => {
-                          return {
-                            value: c._id,
-                            label: c.name,
-                          };
-                        })
-                      }
-                    /> */}
-                  </Form.Item>
-                  <Form.Item
-                    label="Price"
-                    name={[field.name, "price"]}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Hãy nhập giá bán!",
-                      },
-                    ]}
-                    fieldKey={[field.fieldKey, "price"]}
-                  >
-                    <Input type="number" min={0} style={{ width: 150 }} />
-                  </Form.Item>
-                  <Form.Item
-                    label="Discount"
-                    name={[field.name, "discount"]}
-                    fieldKey={[field.fieldKey, "discount"]}
-                  >
-                    <Input
-                      type="number"
-                      min={0}
-                      max={100}
-                      style={{ width: 100 }}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Kích cỡ và số lượng"
-                    name={[field.name, "sizes"]}
-                    fieldKey={[field.fieldKey, "sizes"]}
-                  >
-                    <Form.List name={[field.name, "sizes"]}>
-                      {(sizeFields, { add: addSize, remove: removeSize }) => (
-                        <>
-                          {sizeFields.map((sizeField) => (
-                            <div key={sizeField.key}>
-                              <Form.Item
-                                label="Size"
-                                name={[sizeField.name, "sizeId"]}
-                                fieldKey={[sizeField.fieldKey, "sizeId"]}
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "Hãy chọn một kích cỡ!",
-                                  },
-                                ]}
-                              >
-                                <Input />
-                                {/* <Select
-                                  style={{ width: 150 }}
-                                  options={
-                                    sizes &&
-                                    sizes.map((c) => {
-                                      return {
-                                        value: c._id,
-                                        label: c.size,
-                                      };
-                                    })
-                                  }
-                                /> */}
-                              </Form.Item>
-                              <Form.Item
-                                label="Quantity"
-                                name={[sizeField.name, "quantity"]}
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "Hãy nhập số lượng!",
-                                  },
-                                ]}
-                                fieldKey={[sizeField.fieldKey, "quantity"]}
-                              >
-                                <Input
-                                  type="number"
-                                  min={0}
-                                  style={{ width: 100 }}
-                                />
-                              </Form.Item>
-                              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                                <Button
-                                  onClick={() => removeSize(sizeField.name)}
-                                  icon={<DeleteOutlined />}
-                                >
-                                  Xóa kích cỡ
-                                </Button>
-                              </Form.Item>
-                            </div>
-                          ))}
-                          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                            <Button
-                              onClick={() => addSize()}
-                              icon={<PlusCircleOutlined />}
-                            >
-                              Thêm kích cỡ
-                            </Button>
-                          </Form.Item>
-                        </>
-                      )}
-                    </Form.List>
-                  </Form.Item>
+        {/* SIZE & STOCK */}
 
-                  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button
-                      onClick={() => remove(field.name)}
-                      icon={<DeleteOutlined />}
+        <Form.Item label="Sizes" name="size">
+          <Form.List name="size">
+            {(sizeFields, { add: addSize, remove: removeSize }) => (
+              <>
+                {sizeFields.map((sizeField, index) => (
+                  <div key={sizeField.key}>
+                    {/* SIZE */}
+                    <Form.Item
+                      label="Size"
+                      name={[sizeField.name, "size"]}
+                      rules={[{ required: true, message: "Pick one size!" }]}
                     >
-                      Xóa màu
-                    </Button>
-                  </Form.Item>
-                </div>
-              ))}
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button onClick={() => add()} icon={<PlusCircleOutlined />}>
-                  Thêm màu
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
+                      <Select
+                        style={{ width: 120 }}
+                        options={[
+                          {
+                            value: "XS - Chest 33-34",
+                            label: "XS - Chest 33-34",
+                          },
+                          {
+                            value: "S - Chest 36-38",
+                            label: "S - Chest 36-38",
+                          },
+                          {
+                            value: "M - Chest 39-41",
+                            label: "M - Chest 39-41",
+                          },
+                          {
+                            value: "L - Chest 42-44",
+                            label: "L - Chest 42-44",
+                          },
+                          {
+                            value: "XL - Chest 45-48",
+                            label: "XL - Chest 45-48",
+                          },
+                          {
+                            value: "2XL - Chest 49-53",
+                            label: "2XL - Chest 49-53",
+                          },
+                        ]}
+                      />
+                    </Form.Item>
+                    {/* STOCK */}
+                    <Form.Item
+                      label="Stock"
+                      name={[sizeField.name, "stock"]}
+                      rules={[
+                        { required: true, message: "Please input the stock!" },
+                      ]}
+                      fieldKey={[sizeField.fieldKey, "stock"]}
+                    >
+                      <Input type="number" min={0} style={{ width: 100 }} />
+                    </Form.Item>
+                    {/* BTN DELETE SIZE */}
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                      <Button
+                        onClick={() => removeSize(sizeField.name)}
+                        icon={<DeleteOutlined />}
+                      >
+                        Delete size
+                      </Button>
+                    </Form.Item>
+                  </div>
+                ))}
+                {/* BTN ADD SIZE */}
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                  <Button
+                    onClick={() => addSize()}
+                    icon={<PlusCircleOutlined />}
+                  >
+                    Add size
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+        </Form.Item>
 
         {/* SUBMIT */}
         <Form.Item
@@ -617,7 +562,7 @@ function ProductPage() {
           </Form.Item>
 
           {/* STOCK */}
-          <Form.Item
+          {/* <Form.Item
             label="Stock"
             name="stock"
             rules={[
@@ -628,9 +573,9 @@ function ProductPage() {
             ]}
           >
             <InputNumber min={0} />
-          </Form.Item>
+          </Form.Item> */}
 
-          {/* CATEGORY */}
+          {/* BRANCH */}
           <Form.Item
             label="Branch"
             name="branchId"
@@ -676,6 +621,89 @@ function ProductPage() {
                 })
               }
             />
+          </Form.Item>
+
+          {/* SIZE & STOCK */}
+
+          <Form.Item label="Sizes" name="sizes">
+            <Form.List name="sizes">
+              {(sizeFields, { add: addSize, remove: removeSize }) => (
+                <>
+                  {sizeFields.map((sizeField, index) => (
+                    <div key={sizeField.key}>
+                      {/* SIZE */}
+                      <Form.Item
+                        label="Size"
+                        name={[sizeField.name, "size"]}
+                        rules={[{ required: true, message: "Pick one size!" }]}
+                      >
+                        <Select
+                          style={{ width: 120 }}
+                          options={[
+                            {
+                              value: "XS - Chest 33-34",
+                              label: "XS - Chest 33-34",
+                            },
+                            {
+                              value: "S - Chest 36-38",
+                              label: "S - Chest 36-38",
+                            },
+                            {
+                              value: "M - Chest 39-41",
+                              label: "M - Chest 39-41",
+                            },
+                            {
+                              value: "L - Chest 42-44",
+                              label: "L - Chest 42-44",
+                            },
+                            {
+                              value: "XL - Chest 45-48",
+                              label: "XL - Chest 45-48",
+                            },
+                            {
+                              value: "2XL - Chest 49-53",
+                              label: "2XL - Chest 49-53",
+                            },
+                          ]}
+                        />
+                      </Form.Item>
+                      {/* STOCK */}
+                      <Form.Item
+                        label="Stock"
+                        name={[sizeField.name, "stock"]}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input the stock!",
+                          },
+                        ]}
+                        fieldKey={[sizeField.fieldKey, "stock"]}
+                      >
+                        <Input type="number" min={0} style={{ width: 100 }} />
+                      </Form.Item>
+                      {/* BTN DELETE SIZE */}
+                      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <Button
+                          onClick={() => removeSize(sizeField.name)}
+                          icon={<DeleteOutlined />}
+                        >
+                          Delete size
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  ))}
+                  {/* BTN ADD SIZE */}
+                  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button
+                      onClick={() => addSize()}
+                      icon={<PlusCircleOutlined />}
+                    >
+                      Add size
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
           </Form.Item>
         </Form>
       </Modal>

@@ -9,6 +9,7 @@ import logo from "../../../images/logo.png";
 
 const items = [
   { label: "Home Page", key: "home", icon: <HomeOutlined /> }, // remember to pass the key prop
+  // CUSTOMERS
   {
     label: "Customers",
     key: "management/customers",
@@ -26,9 +27,9 @@ const items = [
         label: "Sort by birthday",
         key: "management/customers/birthday",
       },
-      // { label: "Products", key: "management/products" },
     ],
   },
+  // PRODUCT
   {
     label: "Products",
     key: "sales/products",
@@ -60,6 +61,7 @@ const items = [
       },
     ],
   },
+  // ORDERS
   {
     label: "Orders",
     key: "sales/orders",
@@ -79,6 +81,7 @@ const items = [
       },
     ],
   },
+  // EMPLOYEES
   {
     label: "Employees",
     key: "management/employees",
@@ -90,6 +93,7 @@ const items = [
       },
     ],
   },
+  // SHIPPERS
   {
     label: "Shippers",
     key: "management/shippers",
