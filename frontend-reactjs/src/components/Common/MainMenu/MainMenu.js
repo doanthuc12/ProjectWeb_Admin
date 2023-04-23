@@ -1,5 +1,6 @@
 import { HomeOutlined, SettingOutlined } from "@ant-design/icons";
 import { BsPersonCheck, BsBoxSeam, BsPerson } from "react-icons/bs";
+import { FaShippingFast } from "react-icons/fa";
 import { FiShoppingBag } from "react-icons/fi";
 import Styles from "./MainMenu.module.css";
 import React from "react";
@@ -51,9 +52,13 @@ const items = [
         label: "On sale",
         key: "sales/products/discount",
       },
+      // {
+      //   label: "Sort by total price",
+      //   key: "sales/products/totalprice",
+      // },
       {
-        label: "Sort by total price",
-        key: "sales/products/totalprice",
+        label: "Product Name",
+        key: "sales/products/name",
       },
       {
         label: "Stock",
@@ -97,7 +102,7 @@ const items = [
   {
     label: "Shippers",
     key: "management/shippers",
-    icon: <BsPerson />,
+    icon: <FaShippingFast />,
     children: [
       {
         label: "List of shippers",

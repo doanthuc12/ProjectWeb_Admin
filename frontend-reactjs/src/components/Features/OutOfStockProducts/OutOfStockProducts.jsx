@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Styles from "./OutOfStockProducts.module.css";
-import { Table } from "antd";
+import { Table, Pagination } from "antd";
 
 import numeral from "numeral";
 import "numeral/locales/vi";
@@ -9,9 +9,6 @@ import "numeral/locales/vi";
 numeral.locale("vi");
 
 function ProductPage() {
-  //Call API
-  // const [branches, setBranches] = React.useState([]);
-  // const [suppliers, setSuppliers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
 
   //Refresh
@@ -31,19 +28,7 @@ function ProductPage() {
         );
       },
     },
-    // {
-    //   title: "Category",
-    //   dataIndex: "category",
-    //   key: "category",
-    //   with: "1%",
-    //   render: (text, record, index) => {
-    //     return (
-    //       <div style={{ whiteSpace: "nowrap" }}>
-    //         <strong>{record.category.name}</strong>
-    //       </div>
-    //     );
-    //   },
-    // },
+
     {
       title: () => {
         return <div style={{ whiteSpace: "nowrap" }}>Product Name</div>;
@@ -53,52 +38,31 @@ function ProductPage() {
       key: "title",
       render: (text, record, index) => {
         return (
-          <div>
+          <div style={{ whiteSpace: "wrap", width: "130px" }}>
             <strong>{text}</strong>
           </div>
         );
       },
     },
-    // {
-    //   title: "Supplier",
-    //   dataIndex: "supplier",
-    //   key: "supplier",
-    //   render: (text, record, index) => {
-    //     return (
-    //       <div>
-    //         <strong>{record.supplier.name}</strong>
-    //       </div>
-    //     );
-    //   },
-    // },
 
     {
-      title: "Stock",
-      dataIndex: "stock",
-      key: "stock",
-      render: (text, record, index) => {
+      title: "Sizes/Stock",
+      dataIndex: "sizes",
+      key: "sizes",
+      render: (sizes, record) => {
+        const sizeStockArr = sizes.map(
+          (item) => `${item.size}/${numeral(item.stock).format("0,0")}`
+        );
         return (
           <div>
-            <strong>{text ? numeral(text).format("0,0") : null}</strong>
+            {sizeStockArr.map((item, index) => (
+              <div key={index}>{item}</div>
+            ))}
           </div>
         );
       },
     },
   ];
-
-  // React.useEffect(() => {
-  //   axios.get("http://localhost:9000/branches").then((response) => {
-  //     // console.log(response.data);
-  //     setBranches(response.data);
-  //   });
-  // }, []);
-
-  // React.useEffect(() => {
-  //   axios.get("http://localhost:9000/suppliers").then((response) => {
-  //     // console.log(response.data);
-  //     setSuppliers(response.data);
-  //   });
-  // }, []);
 
   React.useEffect(() => {
     axios
@@ -109,12 +73,34 @@ function ProductPage() {
       });
   }, [refresh]);
 
+  // PAGINATION
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5, // change this value to the number of products you want to show per page
+  });
+
+  const handlePageChange = (page, pageSize) => {
+    setPagination({ current: page, pageSize });
+  };
+
   return (
     <div style={{ width: "100%" }}>
+      <Pagination
+        current={pagination.current}
+        pageSize={pagination.pageSize}
+        total={products.length}
+        onChange={handlePageChange}
+        style={{ display: "flex", justifyContent: "center" }}
+      />
+      <br />
+
       {/* TABLE */}
       <Table
         className={Styles.table}
-        dataSource={products}
+        dataSource={products.slice(
+          (pagination.current - 1) * pagination.pageSize,
+          pagination.current * pagination.pageSize
+        )}
         columns={columns}
         pagination={false}
         rowKey="id"

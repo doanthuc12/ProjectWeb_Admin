@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import {
@@ -11,6 +11,7 @@ import {
   Popconfirm,
   DatePicker,
   Select,
+  Pagination,
 } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { MdPublishedWithChanges } from "react-icons/md";
@@ -308,6 +309,16 @@ function OrdersPage() {
   const [createForm] = Form.useForm();
   const [updateForm] = Form.useForm();
 
+  // PAGINATION
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10, // change this value to the number of products you want to show per page
+  });
+
+  const handlePageChange = (page, pageSize) => {
+    setPagination({ current: page, pageSize });
+  };
+
   return (
     <div>
       <div>
@@ -569,10 +580,21 @@ function OrdersPage() {
         </Form.Item>
       </Form>
 
+      <Pagination
+        current={pagination.current}
+        pageSize={pagination.pageSize}
+        total={orders.length}
+        onChange={handlePageChange}
+      />
+      <br />
+
       {/* TABLE */}
       <Table
         className={Styles.table}
-        dataSource={orders}
+        dataSource={orders.slice(
+          (pagination.current - 1) * pagination.pageSize,
+          pagination.current * pagination.pageSize
+        )}
         columns={columns}
         pagination={false}
         rowKey="_id"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Styles from "./OrderShortCut.module.css";
 import {
@@ -10,6 +10,7 @@ import {
   Table,
   Popconfirm,
   Select,
+  Pagination,
 } from "antd";
 import moment from "moment";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -234,12 +235,33 @@ function OrdersPage() {
   const [createForm] = Form.useForm();
   const [updateForm] = Form.useForm();
 
+  // PAGINATION
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5, // change this value to the number of products you want to show per page
+  });
+
+  const handlePageChange = (page, pageSize) => {
+    setPagination({ current: page, pageSize });
+  };
   return (
     <div>
+      <Pagination
+        current={pagination.current}
+        pageSize={pagination.pageSize}
+        total={orders.length}
+        onChange={handlePageChange}
+        style={{ display: "flex", justifyContent: "center" }}
+      />
+      <br />
+
       {/* TABLE */}
       <Table
         className={Styles.table}
-        dataSource={orders}
+        dataSource={orders.slice(
+          (pagination.current - 1) * pagination.pageSize,
+          pagination.current * pagination.pageSize
+        )}
         columns={columns}
         pagination={false}
         rowKey="_id"

@@ -3,9 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
 import "./App.css";
 import "antd/dist/reset.css";
-import MainMenu from "./components/Common/MainMenu/MainMenu";
 
 // PAGES
+import MainMenu from "./components/Common/MainMenu/MainMenu";
+
 import HomePage from "./pages/HomePage/HomePage";
 import SignIn from "./pages/SignIn/SignIn";
 import CustomerPage from "./pages/Management/CustomerPage";
@@ -18,11 +19,12 @@ import OrdersPage from "./pages/Sales/Product/OrdersPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import DiscountPage from "./pages/Sales/Product/DiscountPage";
 import StockPage from "./pages/Sales/Product/StockPage";
-import TotalPricePage from "./pages/Sales/Product/TotaPicePage";
+import TitlePage from "./pages/Sales/Product/TitlePage";
 import CustomerAddressPage from "./pages/Management/CustomerAddressPage";
 import CustomerBirthPage from "./pages/Management/CustomerBirthPage";
-import { useAuthStore } from "./hooks/useAuthStore";
 import OrderStatusPage from "./pages/Sales/Product/OrderStatusPage";
+
+import { useAuthStore } from "./hooks/useAuthStore";
 
 const { Header, Sider, Content } = Layout;
 
@@ -133,10 +135,7 @@ function App() {
                     element={<DiscountPage />}
                   />
                   <Route path="/sales/products/stock" element={<StockPage />} />
-                  <Route
-                    path="/sales/products/totalprice"
-                    element={<TotalPricePage />}
-                  />
+                  <Route path="/sales/products/name" element={<TitlePage />} />
 
                   {/* SALES_ORDERS */}
 

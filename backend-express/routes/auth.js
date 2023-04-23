@@ -222,7 +222,7 @@ const allowRoles = (...roles) => {
 router.get(
   "/roles",
   passport.authenticate("jwt", { session: false }),
-  allowRoles("managers", "supervisors", "administrator"),
+  allowRoles("manager", "shipper", "administrator"),
   function (req, res, next) {
     res.json({ ok: true });
   }

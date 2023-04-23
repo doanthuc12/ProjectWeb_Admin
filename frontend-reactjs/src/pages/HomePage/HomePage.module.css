@@ -23,7 +23,7 @@
   flex-direction: column;
   width: 65%;
   background-color: white;
-  border-radius: 1%;
+  border-radius: 5px;
   box-shadow: 0 8px 8px 0 rgba(227, 235, 240, 0.712),
     0 10px 10px 0 rgba(227, 235, 240, 0.712);
   align-items: center;
@@ -47,7 +47,7 @@
   flex-direction: column;
   width: 35%;
   background-color: white;
-  border-radius: 2%;
+  border-radius: 5px;
   box-shadow: 0 8px 8px 0 rgba(227, 235, 240, 0.712),
     0 10px 10px 0 rgba(227, 235, 240, 0.712);
   align-items: center;

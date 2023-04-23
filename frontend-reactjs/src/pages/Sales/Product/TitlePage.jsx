@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import axios from "axios";
 import {
   Form,
   Input,
@@ -7,32 +5,29 @@ import {
   Modal,
   Space,
   Table,
+  Popconfirm,
   InputNumber,
   Select,
-  Popconfirm,
-  Pagination,
 } from "antd";
+import axios from "axios";
+import numeral from "numeral";
+import React from "react";
+
 import {
   DeleteOutlined,
   EditOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-import numeral from "numeral";
-import "numeral/locales/vi";
 
-import Styles from "../CommonPage.module.css";
-import MultiButtonGroup from "../../components/Features/MultiButtonGroup/MultiButtonGroup";
+import Styles from "../../CommonPage.module.css";
 
-numeral.locale("vi");
+import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
 
-function ProductPage() {
+export default function TitlePage() {
   //Call API
   const [branches, setBranches] = React.useState([]);
   const [suppliers, setSuppliers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
-
-  // const [colors, setColors] = React.useState([]);
-  // const [sizes, setSizes] = React.useState([]);
 
   //Select customer
   const [editModalVisible, setEditModalVisible] = React.useState(false);
@@ -41,17 +36,29 @@ function ProductPage() {
   //Refresh
   const [refresh, setRefresh] = React.useState(0);
 
-  //columns of antd table
+  // Columns of Antd Table
   const columns = [
     {
-      title: "STT",
+      title: "TT",
       key: "no",
       width: "1%",
       render: (text, record, index) => {
         return (
-          <div style={{ textAlign: "middle" }}>
+          <div style={{ textAlign: "right" }}>
             <span>{index + 1}</span>
           </div>
+        );
+      },
+    },
+    {
+      title: "Product Name",
+      key: "title",
+      dataIndex: "title",
+      render: (text, record, index) => {
+        return (
+          <p style={{ whiteSpace: "wrap", width: "150px" }}>
+            <strong>{text}</strong>
+          </p>
         );
       },
     },
@@ -69,21 +76,6 @@ function ProductPage() {
       },
     },
     {
-      title: () => {
-        return <div style={{ whiteSpace: "nowrap" }}>Product Name</div>;
-      },
-      dataIndex: "title",
-      key: "title",
-      render: (text, record, index) => {
-        return (
-          <p style={{ whiteSpace: "wrap", width: "120px" }}>
-            <strong>{text}</strong>
-          </p>
-        );
-      },
-    },
-
-    {
       title: "Supplier",
       dataIndex: "supplier",
       key: "supplier",
@@ -95,13 +87,15 @@ function ProductPage() {
         );
       },
     },
+
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
+      width: "1%",
       render: (text, record, index) => {
         return (
-          <div>
+          <div style={{ textAlign: "right" }}>
             <strong>£{numeral(text).format("0")}</strong>
           </div>
         );
@@ -111,35 +105,15 @@ function ProductPage() {
       title: "Discount",
       dataIndex: "discount",
       key: "discount",
+      width: "1%",
       render: (text, record, index) => {
         return (
-          <div>
+          <div style={{ textAlign: "right" }}>
             <strong>{numeral(text).format("0,0")}%</strong>
           </div>
         );
       },
     },
-    // {
-    //   title: "Size/Stock",
-    //   dataIndex: "sizes",
-    //   key: "sizes",
-    //   render: (sizes, record) => {
-    //     const sizeStockArr = sizes
-    //       .filter((item) => item.size && item.stock)
-    //       .map((item) => `${item.size}/${numeral(item.stock).format("0,0")}`);
-    //     return (
-    //       <>
-    //         {sizeStockArr.length > 0 && (
-    //           <div style={{ width: "maxContent" }}>
-    //             {sizeStockArr.map((item, index) => (
-    //               <div key={index}>{item}</div>
-    //             ))}
-    //           </div>
-    //         )}
-    //       </>
-    //     );
-    //   },
-    // },
     {
       title: "Sizes/Stock",
       dataIndex: "sizes",
@@ -210,38 +184,18 @@ function ProductPage() {
     });
   }, []);
 
-  React.useEffect(() => {
-    axios.get("http://localhost:9000/products").then((response) => {
-      // console.log(response.data);
-      setProducts(response.data);
-    });
-  }, [refresh]);
+  const [searchForm] = Form.useForm();
+  const [updateForm] = Form.useForm();
 
   const onFinish = (values) => {
     console.log(values);
+    let { title } = values;
 
-    //CALL API TO CREATE CUSTOMER
-    axios.post("http://localhost:9000/products", values).then((response) => {
-      if (response.status === 201) {
-        createForm.resetFields();
-        setRefresh((f) => f + 1);
-      }
-      // console.log(response.data);
-    });
-  };
-
-  const onEditFinish = (values) => {
-    console.log(values);
-
-    //CALL API TO CREATE CUSTOMER
     axios
-      .patch("http://localhost:9000/products/" + selectedProduct.id, values)
+      .get("http://localhost:9000/products/question/4/1?title=" + title, values)
       .then((response) => {
-        if (response.status === 200) {
-          updateForm.resetFields();
-          setEditModalVisible(false);
-          setRefresh((f) => f + 1);
-        }
+        console.log(response.data);
+        setProducts(response.data);
       });
   };
 
@@ -260,20 +214,20 @@ function ProductPage() {
       }
     });
   };
+  const onEditFinish = (values) => {
+    console.log(values);
 
-  // PAGINATION
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10, // change this value to the number of products you want to show per page
-  });
-
-  const handlePageChange = (page, pageSize) => {
-    setPagination({ current: page, pageSize });
+    //CALL API TO CREATE CUSTOMER
+    axios
+      .patch("http://localhost:9000/products/" + selectedProduct.id, values)
+      .then((response) => {
+        if (response.status === 200) {
+          updateForm.resetFields();
+          setEditModalVisible(false);
+          setRefresh((f) => f + 1);
+        }
+      });
   };
-
-  // CREATE FORM
-  const [createForm] = Form.useForm();
-  const [updateForm] = Form.useForm();
 
   return (
     <div>
@@ -282,8 +236,8 @@ function ProductPage() {
       </div>
       <Form
         className={Styles.form}
-        form={createForm}
-        name="create-product"
+        form={searchForm}
+        name="search"
         labelCol={{
           span: 8,
         }}
@@ -299,169 +253,11 @@ function ProductPage() {
           rules={[
             {
               required: true,
-              message: "Please input product!",
+              message: "Please input name!",
             },
           ]}
         >
           <Input />
-        </Form.Item>
-
-        {/* PRICE */}
-        <Form.Item
-          label="Price"
-          name="price"
-          rules={[
-            {
-              required: true,
-              message: "Please input price!",
-            },
-          ]}
-        >
-          <InputNumber />
-        </Form.Item>
-
-        {/* DISCOUNT */}
-        <Form.Item
-          label="Discount (%)"
-          name="discount"
-          rules={[
-            {
-              required: true,
-              message: "Please input discount!",
-            },
-          ]}
-        >
-          <InputNumber min={0} max={75} />
-        </Form.Item>
-
-        {/* BRANCH */}
-        <Form.Item
-          label="Branch"
-          name="branchId"
-          rules={[
-            {
-              required: true,
-              message: "Please choose branch of product!",
-            },
-          ]}
-        >
-          <Select
-            options={
-              branches &&
-              branches.map((c) => {
-                return {
-                  value: c._id,
-                  label: c.name,
-                };
-              })
-            }
-          />
-        </Form.Item>
-
-        {/* SUPPLIER */}
-        <Form.Item
-          label="Supplier"
-          name="supplierId"
-          rules={[
-            {
-              required: true,
-              message: "Please choose supplier of product!",
-            },
-          ]}
-        >
-          <Select
-            options={
-              suppliers &&
-              suppliers.map((c) => {
-                return {
-                  value: c._id,
-                  label: c.name,
-                };
-              })
-            }
-          />
-        </Form.Item>
-
-        {/* SIZE & STOCK */}
-
-        <Form.Item label="Sizes" name="size">
-          <Form.List name="size">
-            {(sizeFields, { add: addSize, remove: removeSize }) => (
-              <>
-                {sizeFields.map((sizeField, index) => (
-                  <div key={sizeField.key}>
-                    {/* SIZE */}
-                    <Form.Item
-                      label="Size"
-                      name={[sizeField.name, "size"]}
-                      rules={[{ required: true, message: "Pick one size!" }]}
-                    >
-                      <Select
-                        style={{ width: 120 }}
-                        options={[
-                          {
-                            value: "XS - Chest 33-34",
-                            label: "XS - Chest 33-34",
-                          },
-                          {
-                            value: "S - Chest 36-38",
-                            label: "S - Chest 36-38",
-                          },
-                          {
-                            value: "M - Chest 39-41",
-                            label: "M - Chest 39-41",
-                          },
-                          {
-                            value: "L - Chest 42-44",
-                            label: "L - Chest 42-44",
-                          },
-                          {
-                            value: "XL - Chest 45-48",
-                            label: "XL - Chest 45-48",
-                          },
-                          {
-                            value: "2XL - Chest 49-53",
-                            label: "2XL - Chest 49-53",
-                          },
-                        ]}
-                      />
-                    </Form.Item>
-
-                    {/* STOCK */}
-                    <Form.Item
-                      label="Stock"
-                      name={[sizeField.name, "stock"]}
-                      rules={[
-                        { required: true, message: "Please input the stock!" },
-                      ]}
-                      fieldKey={[sizeField.fieldKey, "stock"]}
-                    >
-                      <Input type="number" min={0} style={{ width: 100 }} />
-                    </Form.Item>
-
-                    {/* BTN DELETE SIZE */}
-                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                      <Button
-                        onClick={() => removeSize(sizeField.name)}
-                        icon={<DeleteOutlined />}
-                      >
-                        Delete size
-                      </Button>
-                    </Form.Item>
-                  </div>
-                ))}
-                {/* BTN ADD SIZE */}
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                  <Button
-                    onClick={() => addSize()}
-                    icon={<PlusCircleOutlined />}
-                  >
-                    Add size
-                  </Button>
-                </Form.Item>
-              </>
-            )}
-          </Form.List>
         </Form.Item>
 
         {/* SUBMIT */}
@@ -472,27 +268,18 @@ function ProductPage() {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Save
+            Search
           </Button>
         </Form.Item>
       </Form>
 
-      <Pagination
-        current={pagination.current}
-        pageSize={pagination.pageSize}
-        total={products.length}
-        onChange={handlePageChange}
-      />
-      <br />
+      {/* TABLE */}
       <Table
         className={Styles.table}
-        dataSource={products.slice(
-          (pagination.current - 1) * pagination.pageSize,
-          pagination.current * pagination.pageSize
-        )}
+        rowKey="_id"
+        dataSource={products}
         columns={columns}
         pagination={false}
-        rowKey="id"
       />
 
       {/* MODAL */}
@@ -699,5 +486,3 @@ function ProductPage() {
     </div>
   );
 }
-
-export default ProductPage;

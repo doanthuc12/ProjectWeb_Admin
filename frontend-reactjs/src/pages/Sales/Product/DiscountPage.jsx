@@ -28,13 +28,13 @@ export default function DiscountPage() {
       title: () => {
         return <div style={{ whiteSpace: "nowrap" }}>Category</div>;
       },
-      dataIndex: "category",
-      key: "category",
+      dataIndex: "branchId",
+      key: "branchId",
       width: "1%",
       render: (text, record, index) => {
         return (
           <div style={{ whiteSpace: "nowrap" }}>
-            <span>{record.category?.name}</span>
+            <span>{record.branchId?.name}</span>
           </div>
         );
       },
@@ -57,8 +57,8 @@ export default function DiscountPage() {
     },
     {
       title: "Product Name",
-      key: "name",
-      dataIndex: "name",
+      key: "title",
+      dataIndex: "title",
       render: (text, record, index) => {
         return (
           <div>

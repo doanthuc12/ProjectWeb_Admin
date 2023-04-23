@@ -106,12 +106,13 @@ router.delete("/:id", function (req, res, next) {
 // ------------------------------------------------------------------------------------------------
 //http://localhost:9000/products/question/1?discount=10
 
-const question1Schema = yup.object({
-  query: yup.object({
-    discount: yup.number().integer().min(0).max(100).required(),
-  }),
-  // params: yup.object({}),
-});
+// const question1Schema = yup.object({
+//   query: yup.object({
+//     discount: yup.number().integer().min(0).max(100).required(),
+
+//   }),
+//   params: yup.object({}),
+// });
 
 router.get("/question/1", function (req, res, next) {
   try {
@@ -159,12 +160,77 @@ router.get("/question/2", function (req, res, next) {
 //http://localhost:9000/products/question/2?stock=
 router.get("/question/2/1", function (req, res, next) {
   try {
-    // let stock = req.query.stock;
-    let query = { stock: { $lte: 10 } };
-    Product.find(query)
-
+    let query = { "sizes.stock": { $lte: 10 } }; // modify the query to match stock in sizes array
+    let projection = {
+      title: 1,
+      price: 1,
+      sizes: { $elemMatch: { stock: { $lte: 10 } } },
+    }; // project only required fields
+    Product.find(query, projection)
+      .populate("branchId")
+      .populate("supplier")
       .then((result) => {
         res.send(result);
+      })
+      .catch((err) => {
+        res.status(400).send({ message: err.message });
+      });
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
+router.get("/question/2/1", function (req, res, next) {
+  try {
+    let stock = req.query.sizes.stock;
+    const query = { "sizes.stock": { $lte: stock } };
+
+    let projection = {
+      title: 1,
+      price: 1,
+      sizes: { $elemMatch: { stock: { $lte: stock } } },
+    }; // project only required fields
+    Product.find(query, projection)
+      .populate("branchId")
+      .populate("supplierId")
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        res.status(400).send({ message: err.message });
+      });
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
+// SORT BY NAME
+// ------------------------------------------------------------------------------------------------
+//http://localhost:9000/products/4/1?stock=
+router.get("/question/4", function (req, res) {
+  const text = "Twisted Tailor";
+  const query = { title: new RegExp(`${text}`) };
+
+  Product.find(query)
+    .populate("branchId")
+    .populate("supplier")
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
+router.get("/question/4/1", function (req, res, next) {
+  try {
+    let text = req.query.title;
+    const query = { title: new RegExp(`${text}`) };
+    Product.find(query)
+      .populate("branchId")
+      .populate("supplier")
+      .then((result) => {
+        res.json(result);
       })
       .catch((err) => {
         res.status(400).send({ message: err.message });
