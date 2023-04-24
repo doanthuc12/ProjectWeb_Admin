@@ -8,12 +8,13 @@ export const useAuthStore = create(
     persist(
       (set, get) => ({
         auth: null,
-        login: ({ email, password }) => {
+        login: ({ email, password, roles }) => {
           // AXIOS: Call 1 api login => user
           axios
             .post("http://localhost:9000/auth/login-jwt", {
               email,
               password,
+              roles,
             })
             .then((response) => {
               return set({ auth: response.data }, false, {

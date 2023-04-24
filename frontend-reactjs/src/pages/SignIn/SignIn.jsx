@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Checkbox, Divider } from "antd";
+import { Form, Input, Button, Checkbox, Divider, Select } from "antd";
 import { useAuthStore } from "../../hooks/useAuthStore";
 import logo from "../../images/logo.png";
 import Styles from "./SignIn.module.css";
@@ -8,8 +8,8 @@ const LoginPage = () => {
   const { login } = useAuthStore((state) => state);
 
   const onFinish = async (values) => {
-    const { email, password } = values;
-    login({ email, password });
+    const { email, password, roles } = values;
+    login({ email, password, roles });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -58,6 +58,36 @@ const LoginPage = () => {
           ]}
         >
           <Input.Password placeholder="Nhập mật khẩu" />
+        </Form.Item>
+
+        {/* ROLES */}
+        <Form.Item
+          label="Roles"
+          name="roles"
+          rules={[
+            {
+              required: true,
+              message: "Please choose roles!",
+            },
+          ]}
+        >
+          <Select
+            style={{ width: 120 }}
+            options={[
+              {
+                value: "administrator",
+                label: "administrator",
+              },
+              {
+                value: "manager",
+                label: "manager",
+              },
+              {
+                value: "shipper",
+                label: "shipper",
+              },
+            ]}
+          />
         </Form.Item>
 
         <Form.Item

@@ -119,27 +119,6 @@ function ProductPage() {
         );
       },
     },
-    // {
-    //   title: "Size/Stock",
-    //   dataIndex: "sizes",
-    //   key: "sizes",
-    //   render: (sizes, record) => {
-    //     const sizeStockArr = sizes
-    //       .filter((item) => item.size && item.stock)
-    //       .map((item) => `${item.size}/${numeral(item.stock).format("0,0")}`);
-    //     return (
-    //       <>
-    //         {sizeStockArr.length > 0 && (
-    //           <div style={{ width: "maxContent" }}>
-    //             {sizeStockArr.map((item, index) => (
-    //               <div key={index}>{item}</div>
-    //             ))}
-    //           </div>
-    //         )}
-    //       </>
-    //     );
-    //   },
-    // },
     {
       title: "Sizes/Stock",
       dataIndex: "sizes",

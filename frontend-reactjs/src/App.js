@@ -25,12 +25,16 @@ import CustomerBirthPage from "./pages/Management/CustomerBirthPage";
 import OrderStatusPage from "./pages/Sales/Product/OrderStatusPage";
 
 import { useAuthStore } from "./hooks/useAuthStore";
+import MainMenuManager from "./components/Common/MainMenu/MainMenuManager";
+import MainMenuShipper from "./components/Common/MainMenu/MainMenuShipper";
 
 const { Header, Sider, Content } = Layout;
 
 function App() {
   const { auth, logout } = useAuthStore((state) => state);
   console.log(auth?.loggedInUser?.email);
+  console.log(auth?.loggedInUser?.roles);
+
   return (
     <div>
       <BrowserRouter>
@@ -46,8 +50,18 @@ function App() {
         {auth && (
           <Layout>
             <Sider theme="light" style={{ minHeight: "100vh" }}>
-              <MainMenu />
+              {/* <MainMenu /> */}
+              {auth && auth.loggedInUser.roles === "administrator" ? (
+                <MainMenu />
+              ) : null}
+              {auth && auth.loggedInUser.roles === "manager" ? (
+                <MainMenuManager />
+              ) : null}
+              {auth && auth.loggedInUser.roles === "shipper" ? (
+                <MainMenuShipper />
+              ) : null}
             </Sider>
+
             <Layout>
               <Header style={{ backgroundColor: "white" }}>
                 <div
@@ -69,86 +83,224 @@ function App() {
                 </div>
               </Header>
 
-              <Content
-                style={{
-                  padding: "50px",
-                  paddingTop: "30px",
-                  backgroundColor: "#e5effa",
-                }}
-              >
-                {/* Register routes */}
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/home" element={<HomePage />} />
+              {/* ADMINISTRATOR */}
+              {auth && auth.loggedInUser.roles === "administrator" ? (
+                <Content
+                  style={{
+                    padding: "50px",
+                    paddingTop: "30px",
+                    backgroundColor: "#e5effa",
+                  }}
+                >
+                  {/* Register routes */}
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/home" element={<HomePage />} />
 
-                  {/* MANAGEMENT */}
+                    {/* MANAGEMENT */}
 
-                  {/* MAN_CUSTOMERS */}
-                  <Route
-                    path="management/customers/list"
-                    element={<CustomerPage />}
-                  />
-                  <Route
-                    path="management/customers/address"
-                    element={<CustomerAddressPage />}
-                  />
-                  <Route
-                    path="management/customers/birthday"
-                    element={<CustomerBirthPage />}
-                  />
-                  {/* MAN_EMPLOYEES */}
-                  <Route
-                    path="management/employees/list"
-                    element={<EmployeesPage />}
-                  />
+                    {/* MAN_CUSTOMERS */}
+                    <Route
+                      path="management/customers/list"
+                      element={<CustomerPage />}
+                    />
+                    <Route
+                      path="management/customers/address"
+                      element={<CustomerAddressPage />}
+                    />
+                    <Route
+                      path="management/customers/birthday"
+                      element={<CustomerBirthPage />}
+                    />
+                    {/* MAN_EMPLOYEES */}
+                    <Route
+                      path="management/employees/list"
+                      element={<EmployeesPage />}
+                    />
 
-                  {/* MAN_SHIPPERS */}
-                  <Route
-                    path="management/shippers/list"
-                    element={<ShipperPage />}
-                  />
+                    {/* MAN_SHIPPERS */}
+                    <Route
+                      path="management/shippers/list"
+                      element={<ShipperPage />}
+                    />
 
-                  {/* MAN_PRODUCTS */}
-                  <Route
-                    path="/management/products"
-                    element={<ProductPage />}
-                  />
+                    {/* MAN_PRODUCTS */}
+                    <Route
+                      path="/management/products"
+                      element={<ProductPage />}
+                    />
 
-                  {/* SALES */}
-                  {/* SALES_PRODUCTS */}
-                  <Route
-                    path="/sales/products/list"
-                    element={<ProductPage />}
-                  />
-                  <Route
-                    path="sales/products/branches"
-                    element={<BranchesPage />}
-                  />
-                  <Route
-                    path="sales/products/suppliers"
-                    element={<SuppliersPage />}
-                  />
+                    {/* SALES */}
+                    {/* SALES_PRODUCTS */}
+                    <Route
+                      path="/sales/products/list"
+                      element={<ProductPage />}
+                    />
+                    <Route
+                      path="sales/products/branches"
+                      element={<BranchesPage />}
+                    />
+                    <Route
+                      path="sales/products/suppliers"
+                      element={<SuppliersPage />}
+                    />
 
-                  {/* ON_SALE */}
-                  <Route
-                    path="/sales/products/discount"
-                    element={<DiscountPage />}
-                  />
-                  <Route path="/sales/products/stock" element={<StockPage />} />
-                  <Route path="/sales/products/name" element={<TitlePage />} />
+                    {/* ON_SALE */}
+                    <Route
+                      path="/sales/products/discount"
+                      element={<DiscountPage />}
+                    />
+                    <Route
+                      path="/sales/products/stock"
+                      element={<StockPage />}
+                    />
+                    <Route
+                      path="/sales/products/name"
+                      element={<TitlePage />}
+                    />
 
-                  {/* SALES_ORDERS */}
+                    {/* SALES_ORDERS */}
 
-                  <Route path="/sales/orders/list" element={<OrdersPage />} />
-                  <Route
-                    path="/sales/orders/status"
-                    element={<OrderStatusPage />}
-                  />
+                    <Route path="/sales/orders/list" element={<OrdersPage />} />
+                    <Route
+                      path="/sales/orders/status"
+                      element={<OrderStatusPage />}
+                    />
 
-                  {/* NO MATCH ROUTE */}
-                  <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-              </Content>
+                    {/* NO MATCH ROUTE */}
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Routes>
+                </Content>
+              ) : null}
+
+              {/* MANAGER */}
+              {auth && auth.loggedInUser.roles === "manager" ? (
+                <Content
+                  style={{
+                    padding: "50px",
+                    paddingTop: "30px",
+                    backgroundColor: "#e5effa",
+                  }}
+                >
+                  {/* Register routes */}
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/home" element={<HomePage />} />
+
+                    {/* MANAGEMENT */}
+
+                    {/* MAN_CUSTOMERS */}
+                    <Route
+                      path="management/customers/list"
+                      element={<CustomerPage />}
+                    />
+                    <Route
+                      path="management/customers/address"
+                      element={<CustomerAddressPage />}
+                    />
+                    <Route
+                      path="management/customers/birthday"
+                      element={<CustomerBirthPage />}
+                    />
+
+                    {/* MAN_SHIPPERS */}
+                    <Route
+                      path="management/shippers/list"
+                      element={<ShipperPage />}
+                    />
+
+                    {/* MAN_PRODUCTS */}
+                    <Route
+                      path="/management/products"
+                      element={<ProductPage />}
+                    />
+
+                    {/* SALES */}
+                    {/* SALES_PRODUCTS */}
+                    <Route
+                      path="/sales/products/list"
+                      element={<ProductPage />}
+                    />
+                    <Route
+                      path="sales/products/branches"
+                      element={<BranchesPage />}
+                    />
+                    <Route
+                      path="sales/products/suppliers"
+                      element={<SuppliersPage />}
+                    />
+
+                    {/* ON_SALE */}
+                    <Route
+                      path="/sales/products/discount"
+                      element={<DiscountPage />}
+                    />
+                    <Route
+                      path="/sales/products/stock"
+                      element={<StockPage />}
+                    />
+                    <Route
+                      path="/sales/products/name"
+                      element={<TitlePage />}
+                    />
+
+                    {/* SALES_ORDERS */}
+
+                    <Route path="/sales/orders/list" element={<OrdersPage />} />
+                    <Route
+                      path="/sales/orders/status"
+                      element={<OrderStatusPage />}
+                    />
+
+                    {/* NO MATCH ROUTE */}
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Routes>
+                </Content>
+              ) : null}
+
+              {/* SHIPPER */}
+              {auth && auth.loggedInUser.roles === "shipper" ? (
+                <Content
+                  style={{
+                    padding: "50px",
+                    paddingTop: "30px",
+                    backgroundColor: "#e5effa",
+                  }}
+                >
+                  {/* Register routes */}
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/home" element={<HomePage />} />
+
+                    {/* MANAGEMENT */}
+
+                    {/* MAN_CUSTOMERS */}
+                    {/* <Route
+                      path="management/customers/list"
+                      element={<CustomerPage />}
+                    />
+                    <Route
+                      path="management/customers/address"
+                      element={<CustomerAddressPage />}
+                    />
+                    <Route
+                      path="management/customers/birthday"
+                      element={<CustomerBirthPage />}
+                    /> */}
+
+                    {/* SALES_ORDERS */}
+
+                    <Route path="/sales/orders/list" element={<OrdersPage />} />
+                    <Route
+                      path="/sales/orders/status"
+                      element={<OrderStatusPage />}
+                    />
+
+                    {/* NO MATCH ROUTE */}
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Routes>
+                </Content>
+              ) : null}
             </Layout>
           </Layout>
         )}

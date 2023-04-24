@@ -54,11 +54,12 @@ router.post("/login-db", async (req, res, next) => {
 // LOGIN WITH JWT + REFRESH TOKEN
 // ------------------------------------------------------------------------------------------------
 router.post("/login-jwt", async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, roles } = req.body;
 
   const found = await Login.findOne({
     email,
     password,
+    roles,
   });
 
   if (found) {
