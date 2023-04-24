@@ -182,17 +182,17 @@ router.get("/question/2/1", function (req, res, next) {
 
 router.get("/question/2/1", function (req, res, next) {
   try {
-    let stock = req.query.sizes.stock;
-    const query = { "sizes.stock": { $lte: stock } };
+    let stock = req.query.stock;
+    let query = { "sizes.stock": { $lte: stock } };
 
     let projection = {
       title: 1,
       price: 1,
-      sizes: { $elemMatch: { stock: { $lte: stock } } },
+      stock: { $elemMatch: { stock: { $lte: stock } } },
     }; // project only required fields
     Product.find(query, projection)
       .populate("branchId")
-      .populate("supplierId")
+      .populate("supplier")
       .then((result) => {
         res.send(result);
       })

@@ -8,13 +8,18 @@ import {
   Modal,
   Space,
   Table,
+  InputNumber,
   Popconfirm,
   DatePicker,
   Select,
   Pagination,
 } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { MdPublishedWithChanges } from "react-icons/md";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
+// import { MdPublishedWithChanges } from "react-icons/md";
 
 import Styles from "../../CommonPage.module.css";
 
@@ -48,6 +53,7 @@ function OrdersPage() {
         );
       },
     },
+    // CREATED DATE
     {
       title: "Created Date",
       key: "createdDate",
@@ -59,6 +65,7 @@ function OrdersPage() {
         );
       },
     },
+    // SHIPPED DATE
     {
       title: "Shipped Date",
       key: "shippedDate",
@@ -70,6 +77,7 @@ function OrdersPage() {
         );
       },
     },
+    // PAYMENT TYPE
     {
       title: "Payment Type",
       key: "paymentType",
@@ -81,6 +89,7 @@ function OrdersPage() {
         );
       },
     },
+    // STATUS
     {
       title: "Status",
       key: "status",
@@ -92,17 +101,8 @@ function OrdersPage() {
         );
       },
     },
-    // {
-    //   title: "Description",
-    //   key: "description",
-    //   render: (text, record, index) => {
-    //     return (
-    //       <div>
-    //         <span>{record.description}</span>
-    //       </div>
-    //     );
-    //   },
-    // },
+
+    // CUSTOMER
     {
       title: "Customer",
       dataIndex: "customer",
@@ -118,22 +118,24 @@ function OrdersPage() {
         );
       },
     },
-    {
-      title: "Employee",
-      dataIndex: "employee",
-      key: "employee",
+    // EMPLOYEE
+    // {
+    //   title: "Employee",
+    //   dataIndex: "employee",
+    //   key: "employee",
 
-      render: (text, record, index) => {
-        return (
-          <div style={{ whiteSpace: "nowrap" }}>
-            <strong>
-              {record.employee.firstName + " " + record.employee.lastName}
-            </strong>
-          </div>
-        );
-      },
-    },
+    //   render: (text, record, index) => {
+    //     return (
+    //       <div style={{ whiteSpace: "nowrap" }}>
+    //         <strong>
+    //           {record.employee.firstName + " " + record.employee.lastName}
+    //         </strong>
+    //       </div>
+    //     );
+    //   },
+    // },
 
+    // SHIPPING ADDRESS
     {
       title: "Shipping Information",
       dataIndex: "shippingAddress",
@@ -147,6 +149,7 @@ function OrdersPage() {
         );
       },
     },
+    // SHIPPER
     {
       title: "Shipper",
       dataIndex: "shipper",
@@ -162,19 +165,38 @@ function OrdersPage() {
         );
       },
     },
-    // {
-    //   title: "Order Detail",
-    //   dataIndex: "orderDetails",
-    //   key: "orderDetails",
-
-    //   render: (text, record, index) => {
-    //     return (
-    //       <div style={{ whiteSpace: "nowrap" }}>
-    //         <strong>{record.orderDetails.productId}</strong>
-    //       </div>
-    //     );
-    //   },
-    // },
+    // ORDER DETAIL
+    {
+      title: "Order Detail",
+      dataIndex: "orderDetails",
+      key: "orderDetails",
+      render: (orderDetails, record) => {
+        const orderDetailArr = orderDetails.map(
+          (item) =>
+            `Product: ${item.productId && item.productId.title}
+            Quantity: ${item.quantity}
+            Discount: ${item.discount}%`
+        );
+        return (
+          <div
+            style={{
+              whiteSpace: "nowrap",
+              width: "70px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {orderDetailArr.map((item, index) => (
+              <div key={index}>
+                {item.split("\n").map((line, index) => (
+                  <div key={index}>{line}</div>
+                ))}
+              </div>
+            ))}
+          </div>
+        );
+      },
+    },
     {
       title: "",
       key: "action",
@@ -185,8 +207,8 @@ function OrdersPage() {
             {/* BTN DELETE */}
             <Popconfirm
               style={{ width: 1000 }}
-              title="Do you want to delete status of order?"
-              description="Do you want to delete status of order?"
+              title="Do you want to delete order?"
+              description="Do you want to delete order?"
               okText="Accept"
               cancelText="Close"
               onConfirm={() => {
@@ -199,8 +221,8 @@ function OrdersPage() {
             {/* BTN EDIT */}
             <Popconfirm
               style={{ width: 1000 }}
-              title="Do you want to edit status of order?"
-              description="Do you want to edit status of order?"
+              title="Do you want to edit order?"
+              description="Do you want to edit order?"
               okText="Accept"
               cancelText="Close"
               onConfirm={() => {
@@ -208,19 +230,6 @@ function OrdersPage() {
               }}
             >
               <Button type="dashed" icon={<EditOutlined />} />
-            </Popconfirm>
-
-            <Popconfirm
-              style={{ width: 1000 }}
-              title="Do you want to change status of order?"
-              description="Do you want to change status of order?"
-              okText="Accept"
-              cancelText="Close"
-              onConfirm={() => {
-                selectOrders(record);
-              }}
-            >
-              <Button type="dashed" icon={<MdPublishedWithChanges />} />
             </Popconfirm>
           </Space>
         );
@@ -264,23 +273,42 @@ function OrdersPage() {
 
   const onFinish = (values) => {
     console.log(values);
+    const updatedValues = {
+      ...values,
+      orderDetails: values.orderDetails.map((detail) => ({
+        ...detail,
+        product: detail.productId,
+      })),
+    };
 
     //CALL API TO CREATE CUSTOMER
-    axios.post("http://localhost:9000/orders", values).then((response) => {
-      if (response.status === 201) {
-        createForm.resetFields();
-        setRefresh((f) => f + 1);
-      }
-      console.log(response.data);
-    });
+    axios
+      .post("http://localhost:9000/orders", updatedValues)
+      .then((response) => {
+        if (response.status === 201) {
+          createForm.resetFields();
+          setRefresh((f) => f + 1);
+        }
+        // console.log(response.data);
+      });
   };
 
   const onEditFinish = (values) => {
     console.log(values);
+    const updatedValues = {
+      ...values,
+      orderDetails: values.orderDetails.map((detail) => ({
+        ...detail,
+        product: detail.productId,
+      })),
+    };
 
     //CALL API TO CREATE CUSTOMER
     axios
-      .patch("http://localhost:9000/orders/" + selectedOrders._id, values)
+      .patch(
+        "http://localhost:9000/orders/" + selectedOrders._id,
+        updatedValues
+      )
       .then((response) => {
         if (response.status === 200) {
           updateForm.resetFields();
@@ -394,20 +422,6 @@ function OrdersPage() {
           />
         </Form.Item>
 
-        {/* DESCRIPTION */}
-        <Form.Item
-          label="Description"
-          name="description"
-          rules={[
-            {
-              type: "text",
-              required: false,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
         {/* PAYMENT */}
         <Form.Item
           label="Payment Type"
@@ -497,51 +511,82 @@ function OrdersPage() {
           />
         </Form.Item>
 
-        {/* ORDER_DETAILS */}
-        {/* <Form.Item
-          label="Product"
-          name="orderDetails"
-          rules={[
-            {
-              required: true,
-              message: "Please choose employee!",
-            },
-          ]}
-        >
-          <Select
-            options={
-              employees &&
-              employees.map((c) => {
-                return {
-                  value: c._id,
-                  label: c.fullName,
-                };
-              })
-            }
-          />
-        </Form.Item> */}
+        {/* ORDER DETAIL */}
+        <Form.Item label="Order Detail" name="orderDetail">
+          <Form.List name="product">
+            {(productFields, { add: addDetail, remove: removeDetail }) => (
+              <>
+                {productFields.map((productField, index) => (
+                  <div key={productField.key}>
+                    {/* PRODUCT */}
+                    <Form.Item
+                      label="Product"
+                      name={[productField.name, "product"]}
+                      rules={[{ required: true, message: "Pick one product!" }]}
+                    >
+                      <Select
+                        options={
+                          products &&
+                          products.map((c) => {
+                            return {
+                              value: c._id,
+                              label: c.title,
+                            };
+                          })
+                        }
+                      />
+                    </Form.Item>
 
-        <Form.Item
-          label="Product"
-          name="product"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng chọn Product",
-            },
-          ]}
-        >
-          <Select
-            options={
-              products &&
-              products.map((c) => {
-                return {
-                  value: c._id,
-                  label: c.name,
-                };
-              })
-            }
-          />
+                    {/* QUANTITY */}
+                    <Form.Item
+                      label="Quantity"
+                      name={[productField.name, "quantity"]}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input the quantity!",
+                        },
+                      ]}
+                    >
+                      <InputNumber min={0} />
+                    </Form.Item>
+
+                    {/* DISCOUNT */}
+                    <Form.Item
+                      label="Discount"
+                      name={[productField.name, "discount"]}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input the discount!",
+                        },
+                      ]}
+                    >
+                      <InputNumber min={0} />
+                    </Form.Item>
+                    {/* BTN DELETE */}
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                      <Button
+                        onClick={() => removeDetail(productFields.name)}
+                        icon={<DeleteOutlined />}
+                      >
+                        Delete
+                      </Button>
+                    </Form.Item>
+                  </div>
+                ))}
+                {/* BTN ADD*/}
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                  <Button
+                    onClick={() => addDetail()}
+                    icon={<PlusCircleOutlined />}
+                  >
+                    Add order detail
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
         </Form.Item>
 
         {/* SHIPPER */}
@@ -567,6 +612,7 @@ function OrdersPage() {
             }
           />
         </Form.Item>
+
         {/* SUBMIT */}
         <Form.Item
           wrapperCol={{
@@ -604,7 +650,7 @@ function OrdersPage() {
       <Modal
         open={editModalVisible}
         centered
-        title="Update orders"
+        title="Update Orders"
         onCancel={() => {
           setEditModalVisible(false);
         }}
@@ -617,7 +663,7 @@ function OrdersPage() {
       >
         <Form
           form={updateForm}
-          name=""
+          name="updateOrder"
           labelCol={{
             span: 8,
           }}
@@ -684,20 +730,6 @@ function OrdersPage() {
                 },
               ]}
             />
-          </Form.Item>
-
-          {/* DESCRIPTION */}
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[
-              {
-                type: "text",
-                required: false,
-              },
-            ]}
-          >
-            <Input />
           </Form.Item>
 
           {/* PAYMENT */}
@@ -789,27 +821,85 @@ function OrdersPage() {
             />
           </Form.Item>
 
-          {/* ORDER_DETAILS */}
-          {/* <Form.Item
-          label="Order Detail"
-          name="employee"
-          rules={[
-            {
-              required: true,
-              message: "Please choose employee!",
-            },
-          ]}
-        >
-          <TreeSelect
-            treeData={[
-              {
-                title: "productId",
-                value: "productId",
-                children: [{ title: "Bamboo", value: "bamboo" }],
-              },
-            ]}
-          />
-        </Form.Item> */}
+          {/* ORDER DETAIL */}
+          <Form.Item label="Order Detail" name="orderDetail">
+            <Form.List name="product">
+              {(productFields, { add: addDetail, remove: removeDetail }) => (
+                <>
+                  {productFields.map((productField, index) => (
+                    <div key={productField.key}>
+                      {/* PRODUCT */}
+                      <Form.Item
+                        label="Product"
+                        name={[productField.name, "product"]}
+                        rules={[
+                          { required: true, message: "Pick one product!" },
+                        ]}
+                      >
+                        <Select
+                          options={
+                            products &&
+                            products.map((c) => {
+                              return {
+                                value: c._id,
+                                label: c.title,
+                              };
+                            })
+                          }
+                        />
+                      </Form.Item>
+
+                      {/* QUANTITY */}
+                      <Form.Item
+                        label="Quantity"
+                        name={[productField.name, "quantity"]}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input the quantity!",
+                          },
+                        ]}
+                      >
+                        <InputNumber min={0} />
+                      </Form.Item>
+
+                      {/* DISCOUNT */}
+                      <Form.Item
+                        label="Discount"
+                        name={[productField.name, "discount"]}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input the discount!",
+                          },
+                        ]}
+                      >
+                        <InputNumber min={0} />
+                      </Form.Item>
+                      {/* BTN DELETE */}
+                      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <Button
+                          onClick={() => removeDetail(productFields.name)}
+                          icon={<DeleteOutlined />}
+                        >
+                          Delete
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  ))}
+                  {/* BTN ADD*/}
+                  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button
+                      onClick={() => addDetail()}
+                      icon={<PlusCircleOutlined />}
+                    >
+                      Add order detail
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
+          </Form.Item>
 
           {/* SHIPPER */}
           <Form.Item
@@ -833,85 +923,6 @@ function OrdersPage() {
                 })
               }
             />
-          </Form.Item>
-          <Form.Item
-            label="Product"
-            name="product"
-            rules={[
-              {
-                required: true,
-                message: "Please choose product!",
-              },
-            ]}
-          >
-            <Select
-              options={
-                products &&
-                products.map((c) => {
-                  return {
-                    value: c._id,
-                    label: c.name,
-                  };
-                })
-              }
-            />
-          </Form.Item>
-        </Form>
-
-        {/* FORM EDIT STATUS */}
-        <Form
-          form={updateForm}
-          name="updateOrders"
-          labelCol={{
-            span: 8,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          onFinish={onEditFinish}
-        >
-          {/* STATUS */}
-          <Form.Item
-            label="Status"
-            name="status"
-            rules={[
-              {
-                required: true,
-                message: "Please choose the payment type!",
-              },
-            ]}
-          >
-            <Select
-              style={{ width: 120 }}
-              options={[
-                {
-                  value: "WAITING",
-                  label: "WAITING",
-                },
-                {
-                  value: "COMPLETED",
-                  label: "COMPLETED",
-                },
-                {
-                  value: "CANCELED",
-                  label: "CANCELED",
-                },
-              ]}
-            />
-          </Form.Item>
-
-          {/* DESCRIPTION */}
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[
-              {
-                type: "text",
-                required: false,
-              },
-            ]}
-          >
-            <Input />
           </Form.Item>
         </Form>
       </Modal>

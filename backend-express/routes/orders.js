@@ -14,7 +14,7 @@ var router = express.Router();
 router.get("/", function (req, res, next) {
   try {
     Order.find()
-      .populate("orderDetails.product")
+      .populate("orderDetails.productId")
       .populate("customer")
       .populate("employee")
       .populate("product")

@@ -41,13 +41,16 @@ export default function StockPage() {
     },
 
     {
-      title: "Supplier",
+      title: () => {
+        return <div style={{ whiteSpace: "nowrap" }}>Supplier</div>;
+      },
       dataIndex: "supplier",
       key: "supplier",
+      width: "1%",
       render: (text, record, index) => {
         return (
-          <div>
-            <strong>{record.supplier && record.supplier.name}</strong>
+          <div style={{ whiteSpace: "nowrap" }}>
+            <span>{record.supplier?.name}</span>
           </div>
         );
       },
@@ -72,7 +75,7 @@ export default function StockPage() {
       render: (text, record, index) => {
         return (
           <div style={{ textAlign: "right" }}>
-            <strong>{numeral(text).format("0,0$")}</strong>
+            <strong>£{numeral(text).format("0")}</strong>
           </div>
         );
       },

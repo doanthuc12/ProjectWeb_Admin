@@ -8,9 +8,9 @@ const { Schema, model } = mongoose;
 // https://mongoosejs.com/docs/validation.html#built-in-validators
 
 const orderDetailSchema = new Schema({
-  productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
-  quantity: { type: Number, require: true, min: 0 },
-  price: { type: Number, required: true, min: 0, default: 0 },
+  productId: { type: Schema.Types.ObjectId, ref: "Product" },
+  quantity: { type: Number, min: 0 },
+  // price: { type: Number, required: true, min: 0, default: 0 },
   discount: { type: Number, min: 0, max: 75, default: 0 },
 });
 
@@ -87,8 +87,15 @@ const orderSchema = new Schema({
 
   shippingAddress: { type: String, required: true },
   description: { type: String, required: false },
-
-  orderDetails: [orderDetailSchema],
+  // orderDetails: { orderDetailSchema },
+  orderDetails: [
+    {
+      productId: { type: Schema.Types.ObjectId, ref: "Product" },
+      quantity: { type: Number, min: 0 },
+      // price: { type: Number, required: true, min: 0, default: 0 },
+      discount: { type: Number, min: 0, max: 75, default: 0 },
+    },
+  ],
 });
 
 // Virtual with Populate
@@ -121,7 +128,7 @@ orderSchema.virtual("product", {
 });
 
 orderSchema.virtual("orderDetails.product", {
-  ref: "orderDetails.product",
+  ref: "orderDetails.productId",
   localField: "productId",
   foreignField: "_id",
   justOne: true,
