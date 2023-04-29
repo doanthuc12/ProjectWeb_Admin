@@ -39,7 +39,7 @@ router.get("/:id", function (req, res, next) {
       .populate("employee")
       .populate("shipper")
       .populate("product")
-      .populate("orderDetails.product")
+      .populate("orderDetails.productId")
       // .populate({ path: 'orderDetails.product', populate: { path: 'category' } })
       .then((result) => {
         res.send(result);

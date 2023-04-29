@@ -173,7 +173,9 @@ function OrdersPage() {
       render: (orderDetails, record) => {
         const orderDetailArr = orderDetails.map(
           (item) =>
-            `Product: ${item.productId && item.productId.title}
+            `Product: ${item.productId && item.productId.title.substr(0, 10)}${
+              item.productId && item.productId.title.length > 10 ? "..." : ""
+            }
             Quantity: ${item.quantity}
             Discount: ${item.discount}%`
         );
@@ -181,7 +183,7 @@ function OrdersPage() {
           <div
             style={{
               whiteSpace: "nowrap",
-              width: "70px",
+              width: "140px",
               display: "flex",
               flexDirection: "column",
             }}
@@ -197,6 +199,7 @@ function OrdersPage() {
         );
       },
     },
+    // ACTION
     {
       title: "",
       key: "action",
@@ -273,42 +276,23 @@ function OrdersPage() {
 
   const onFinish = (values) => {
     console.log(values);
-    const updatedValues = {
-      ...values,
-      orderDetails: values.orderDetails.map((detail) => ({
-        ...detail,
-        product: detail.productId,
-      })),
-    };
 
     //CALL API TO CREATE CUSTOMER
-    axios
-      .post("http://localhost:9000/orders", updatedValues)
-      .then((response) => {
-        if (response.status === 201) {
-          createForm.resetFields();
-          setRefresh((f) => f + 1);
-        }
-        // console.log(response.data);
-      });
+    axios.post("http://localhost:9000/orders", values).then((response) => {
+      if (response.status === 201) {
+        createForm.resetFields();
+        setRefresh((f) => f + 1);
+      }
+      // console.log(response.data);
+    });
   };
 
   const onEditFinish = (values) => {
     console.log(values);
-    const updatedValues = {
-      ...values,
-      orderDetails: values.orderDetails.map((detail) => ({
-        ...detail,
-        product: detail.productId,
-      })),
-    };
 
     //CALL API TO CREATE CUSTOMER
     axios
-      .patch(
-        "http://localhost:9000/orders/" + selectedOrders._id,
-        updatedValues
-      )
+      .patch("http://localhost:9000/orders/" + selectedOrders._id, values)
       .then((response) => {
         if (response.status === 200) {
           updateForm.resetFields();
@@ -512,8 +496,8 @@ function OrdersPage() {
         </Form.Item>
 
         {/* ORDER DETAIL */}
-        <Form.Item label="Order Detail" name="orderDetail">
-          <Form.List name="product">
+        <Form.Item label="Order Detail" name="orderDetails">
+          <Form.List name="orderDetails">
             {(productFields, { add: addDetail, remove: removeDetail }) => (
               <>
                 {productFields.map((productField, index) => (
@@ -822,8 +806,8 @@ function OrdersPage() {
           </Form.Item>
 
           {/* ORDER DETAIL */}
-          <Form.Item label="Order Detail" name="orderDetail">
-            <Form.List name="product">
+          <Form.Item label="Order Detail" name="orderDetails">
+            <Form.List name="orderDetails">
               {(productFields, { add: addDetail, remove: removeDetail }) => (
                 <>
                   {productFields.map((productField, index) => (
