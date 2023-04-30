@@ -11,12 +11,16 @@ import {
   Select,
   Popconfirm,
   Pagination,
+  Upload,
+  message,
 } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
   PlusCircleOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import numeral from "numeral";
 import "numeral/locales/vi";
 
@@ -41,6 +45,13 @@ function ProductPage() {
   //Refresh
   const [refresh, setRefresh] = React.useState(0);
 
+  const normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
   //columns of antd table
   const columns = [
     {
@@ -55,6 +66,7 @@ function ProductPage() {
         );
       },
     },
+    // BRANCH
     {
       title: "Branch",
       dataIndex: "branchId",
@@ -68,6 +80,20 @@ function ProductPage() {
         );
       },
     },
+    // IMAGE
+    {
+      title: "Picture",
+      key: "imageUrl",
+      dataIndex: "imageUrl",
+      width: "1%",
+      render: (text, record, index) => {
+        return (
+          <img src={"http://localhost:9000" + text} style={{ height: 60 }} />
+        );
+      },
+    },
+
+    // PRODUCT NAME
     {
       title: () => {
         return <div style={{ whiteSpace: "nowrap" }}>Product Name</div>;
@@ -82,7 +108,7 @@ function ProductPage() {
         );
       },
     },
-
+    // SUPPLIER
     {
       title: "Supplier",
       dataIndex: "supplier",
@@ -95,6 +121,7 @@ function ProductPage() {
         );
       },
     },
+    // PRICE
     {
       title: "Price",
       dataIndex: "price",
@@ -107,6 +134,7 @@ function ProductPage() {
         );
       },
     },
+    // DISCOUNT
     {
       title: "Discount",
       dataIndex: "discount",
@@ -119,6 +147,7 @@ function ProductPage() {
         );
       },
     },
+    // SIZES/STOCK
     {
       title: "Sizes/Stock",
       dataIndex: "sizes",
@@ -136,6 +165,7 @@ function ProductPage() {
         );
       },
     },
+    // ACTION
     {
       title: "",
       key: "action",
@@ -143,6 +173,37 @@ function ProductPage() {
       render: (text, record, index) => {
         return (
           <Space>
+            <Upload
+              showUploadList={false}
+              name="file"
+              action={
+                "http://localhost:9000/upload/products/" + record._id + "/image"
+              }
+              headers={{ authorization: "authorization-text" }}
+              onChange={(info) => {
+                if (info.file.status !== "uploading") {
+                  console.log(info.file, info.fileList);
+                }
+
+                if (info.file.status === "done") {
+                  message.success(
+                    `${info.file.name} file uploaded successfully`
+                  );
+
+                  setRefresh((f) => f + 1);
+                } else if (info.file.status === "error") {
+                  message.error(`${info.file.name} file upload failed.`);
+                }
+              }}
+            >
+              <Button icon={<UploadOutlined />} />
+            </Upload>
+
+            <Button
+              type="dashed"
+              icon={<EditOutlined />}
+              onClick={() => selectProducts(record)}
+            />
             <Popconfirm
               style={{ width: 1000 }}
               title="Do you want to delete this product?"
@@ -441,6 +502,26 @@ function ProductPage() {
               </>
             )}
           </Form.List>
+        </Form.Item>
+
+        {/* UPLOAD */}
+        <Form.Item
+          label="Upload"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+        >
+          <Upload action="/upload.do" listType="picture-card">
+            <div>
+              <PlusOutlined />
+              <div
+                style={{
+                  marginTop: 8,
+                }}
+              >
+                Upload
+              </div>
+            </div>
+          </Upload>
         </Form.Item>
 
         {/* SUBMIT */}

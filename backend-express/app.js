@@ -20,6 +20,8 @@ var ordersRouter = require("./routes/orders");
 var shippersRouter = require("./routes/shippers");
 var authRouter = require("./routes/auth");
 
+var uploadRouter = require("./routes/upload");
+
 var app = express();
 
 // view engine setup
@@ -70,6 +72,8 @@ app.use("/orders", ordersRouter);
 app.use("/branches", branchesRouter);
 app.use("/shippers", shippersRouter);
 app.use("/auth", authRouter);
+
+app.use("/upload", uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

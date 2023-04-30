@@ -7,6 +7,7 @@ const productSchema = Schema(
     title: { type: String, required: true },
     price: { type: Number, required: true, min: 0, default: 0 },
     discount: { type: Number, min: 0, max: 75, default: 0 },
+    // imgLeave: { type: String, required: false },
     sizes: [
       {
         size: {
