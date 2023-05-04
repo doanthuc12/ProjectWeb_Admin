@@ -34,9 +34,7 @@ function ProductPage() {
   const [branches, setBranches] = React.useState([]);
   const [suppliers, setSuppliers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
-
-  // const [colors, setColors] = React.useState([]);
-  // const [sizes, setSizes] = React.useState([]);
+  const [imageUrl, setImageUrl] = React.useState(null);
 
   //Select customer
   const [editModalVisible, setEditModalVisible] = React.useState(false);
@@ -50,6 +48,25 @@ function ProductPage() {
       return e;
     }
     return e?.fileList;
+  };
+
+  const handleUpload = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await fetch("http://localhost:9000/upload/products", {
+        method: "POST",
+        body: formData,
+        headers: {
+          authorization: "authorization-text",
+        },
+      });
+      const { imageUrl } = await response.json();
+      setImageUrl(imageUrl);
+      message.success(`${file.name} uploaded successfully`);
+    } catch (error) {
+      message.error(`${file.name} upload failed.`);
+    }
   };
 
   //columns of antd table
@@ -88,7 +105,11 @@ function ProductPage() {
       width: "1%",
       render: (text, record, index) => {
         return (
-          <img src={"http://localhost:9000" + text} style={{ height: 60 }} />
+          <img
+            alt="img"
+            src={"http://localhost:9000" + text}
+            style={{ height: 60 }}
+          />
         );
       },
     },
@@ -199,11 +220,6 @@ function ProductPage() {
               <Button icon={<UploadOutlined />} />
             </Upload>
 
-            <Button
-              type="dashed"
-              icon={<EditOutlined />}
-              onClick={() => selectProducts(record)}
-            />
             <Popconfirm
               style={{ width: 1000 }}
               title="Do you want to delete this product?"
@@ -229,7 +245,6 @@ function ProductPage() {
             >
               <Button type="dashed" icon={<EditOutlined />} />
             </Popconfirm>
-            {/* <Button onClick={() => selectCustomers(record)}>Sửa</Button> */}
           </Space>
         );
       },
@@ -259,6 +274,7 @@ function ProductPage() {
 
   const onFinish = (values) => {
     console.log(values);
+    message.success("Submit success!");
 
     //CALL API TO CREATE CUSTOMER
     axios.post("http://localhost:9000/products", values).then((response) => {
@@ -272,6 +288,7 @@ function ProductPage() {
 
   const onEditFinish = (values) => {
     console.log(values);
+    // message.success("Submit success!");
 
     //CALL API TO CREATE CUSTOMER
     axios
@@ -314,6 +331,12 @@ function ProductPage() {
   // CREATE FORM
   const [createForm] = Form.useForm();
   const [updateForm] = Form.useForm();
+
+  // const onFill = () => {
+  //   createForm.setFieldsValue({
+  //     url: "https://images.asos-media.com/",
+  //   });
+  // };
 
   return (
     <div>
@@ -424,8 +447,8 @@ function ProductPage() {
 
         {/* SIZE & STOCK */}
 
-        <Form.Item label="Sizes" name="size">
-          <Form.List name="size">
+        <Form.Item label="Sizes" name="sizes">
+          <Form.List name="sizes">
             {(sizeFields, { add: addSize, remove: removeSize }) => (
               <>
                 {sizeFields.map((sizeField, index) => (
@@ -466,19 +489,20 @@ function ProductPage() {
                         ]}
                       />
                     </Form.Item>
-
                     {/* STOCK */}
                     <Form.Item
                       label="Stock"
                       name={[sizeField.name, "stock"]}
                       rules={[
-                        { required: true, message: "Please input the stock!" },
+                        {
+                          required: true,
+                          message: "Please input the stock!",
+                        },
                       ]}
                       fieldKey={[sizeField.fieldKey, "stock"]}
                     >
                       <Input type="number" min={0} style={{ width: 100 }} />
                     </Form.Item>
-
                     {/* BTN DELETE SIZE */}
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                       <Button
@@ -504,25 +528,27 @@ function ProductPage() {
           </Form.List>
         </Form.Item>
 
-        {/* UPLOAD */}
-        <Form.Item
-          label="Upload"
+        {/* IMG LEAVE */}
+        {/* <Form.Item
+          label="ImgLeave"
+          name="imgLeave"
           valuePropName="fileList"
           getValueFromEvent={normFile}
         >
-          <Upload action="/upload.do" listType="picture-card">
-            <div>
-              <PlusOutlined />
-              <div
-                style={{
-                  marginTop: 8,
-                }}
-              >
-                Upload
+          <Upload
+            customRequest={({ file }) => handleUpload(file)}
+            listType="picture-card"
+          >
+            {imageUrl ? (
+              <img src={`http://localhost:9000${imageUrl}`} alt="img" />
+            ) : (
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
               </div>
-            </div>
+            )}
           </Upload>
-        </Form.Item>
+        </Form.Item> */}
 
         {/* SUBMIT */}
         <Form.Item
@@ -673,7 +699,6 @@ function ProductPage() {
           </Form.Item>
 
           {/* SIZE & STOCK */}
-
           <Form.Item label="Sizes" name="sizes">
             <Form.List name="sizes">
               {(sizeFields, { add: addSize, remove: removeSize }) => (
@@ -753,6 +778,20 @@ function ProductPage() {
                 </>
               )}
             </Form.List>
+          </Form.Item>
+
+          {/* UPLOAD */}
+          <Form.Item label="Upload" name="imgUrl">
+            <Upload action="/upload.do" listType="picture-card">
+              <div>
+                <Button icon={<UploadOutlined />} />
+                <div
+                  style={{
+                    marginTop: 8,
+                  }}
+                ></div>
+              </div>
+            </Upload>
           </Form.Item>
         </Form>
       </Modal>

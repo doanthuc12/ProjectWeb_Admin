@@ -13,6 +13,7 @@ import {
   DatePicker,
   Select,
   Pagination,
+  message,
 } from "antd";
 import {
   DeleteOutlined,
@@ -276,6 +277,7 @@ function OrdersPage() {
 
   const onFinish = (values) => {
     console.log(values);
+    message.success("Submit success!");
 
     //CALL API TO CREATE CUSTOMER
     axios.post("http://localhost:9000/orders", values).then((response) => {
