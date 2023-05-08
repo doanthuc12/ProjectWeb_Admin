@@ -92,7 +92,7 @@ const orderSchema = new Schema({
       productId: {
         type: Schema.Types.ObjectId,
         ref: "Product",
-        required: true,
+        // required: true,
       },
       quantity: { type: Number, min: 0, default: 1 },
       discount: { type: Number, min: 0, max: 75, default: 0 },

@@ -509,7 +509,7 @@ function OrdersPage() {
                     {/* PRODUCT */}
                     <Form.Item
                       label="Product"
-                      name={[productField.name, "product"]}
+                      name={[productField.name, "productId"]}
                       rules={[{ required: true, message: "Pick one product!" }]}
                     >
                       <Select
@@ -819,7 +819,7 @@ function OrdersPage() {
                       {/* PRODUCT */}
                       <Form.Item
                         label="Product"
-                        name={[productField.name, "product"]}
+                        name={[productField.name, "productId"]}
                         rules={[
                           { required: true, message: "Pick one product!" },
                         ]}
