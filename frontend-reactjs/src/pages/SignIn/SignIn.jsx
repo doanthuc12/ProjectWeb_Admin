@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Checkbox, Divider, Select } from "antd";
+import { Form, Input, Button, Checkbox, Divider, Select, message } from "antd";
 import { useAuthStore } from "../../hooks/useAuthStore";
 import logo from "../../images/logo.png";
 import Styles from "./SignIn.module.css";
@@ -9,11 +9,19 @@ const LoginPage = () => {
 
   const onFinish = async (values) => {
     const { email, password, roles } = values;
-    login({ email, password, roles });
+    try {
+      await login({ email, password, roles });
+      // message.success("Login success!");
+    } catch (error) {
+      console.log("Failed:", error);
+      message.error("Login failed!");
+      return;
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+    message.error("Login failed!");
   };
 
   return (
@@ -38,26 +46,26 @@ const LoginPage = () => {
           label="Email"
           name="email"
           rules={[
-            { required: true, message: "Email không được để trống" },
-            { type: "email", message: "Email không hợp lệ" },
+            { required: true, message: "Email is empty!" },
+            { type: "email", message: "Invalid email" },
           ]}
         >
-          <Input placeholder="Nhập email" />
+          <Input placeholder="Please input email!" />
         </Form.Item>
 
         <Form.Item
           label="Password"
           name="password"
           rules={[
-            { required: true, message: "Mật khẩu không được để trống" },
+            { required: true, message: "Password is empty!" },
             {
               min: 6,
               max: 10,
-              message: "Độ dài mật khẩu phải nằm trong khoảng 6 đến 10 ký tự",
+              message: "Password length must be between 6 ~ 10 characters",
             },
           ]}
         >
-          <Input.Password placeholder="Nhập mật khẩu" />
+          <Input.Password placeholder="Please input password!" />
         </Form.Item>
 
         {/* ROLES */}

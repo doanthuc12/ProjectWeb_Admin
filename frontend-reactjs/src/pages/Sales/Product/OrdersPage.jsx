@@ -113,7 +113,8 @@ function OrdersPage() {
         return (
           <div style={{ whiteSpace: "nowrap" }}>
             <strong>
-              {record.customer.firstName + " " + record.customer.lastName}
+              {record.customer &&
+                record.customer.firstName + " " + record.customer.lastName}
             </strong>
           </div>
         );
@@ -160,7 +161,8 @@ function OrdersPage() {
         return (
           <div style={{ whiteSpace: "nowrap" }}>
             <strong>
-              {record.shipper.firstName + " " + record.shipper.lastName}
+              {record.shipper &&
+                record.shipper.firstName + " " + record.shipper.lastName}
             </strong>
           </div>
         );

@@ -10,7 +10,6 @@ const { Schema, model } = mongoose;
 const orderDetailSchema = new Schema({
   productId: { type: Schema.Types.ObjectId, ref: "Product" },
   quantity: { type: Number, min: 0 },
-  // price: { type: Number, required: true, min: 0, default: 0 },
   discount: { type: Number, min: 0, max: 75, default: 0 },
 });
 
@@ -90,12 +89,14 @@ const orderSchema = new Schema({
   // orderDetails: [{orderDetailSchema}] ,
   orderDetails: [
     {
-      productId: { type: Schema.Types.ObjectId, ref: "Product" },
+      productId: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
       quantity: { type: Number, min: 0, default: 1 },
       discount: { type: Number, min: 0, max: 75, default: 0 },
     },
-    // { quantity: { type: Number | String, min: 0, default: 1 } },
-    // { discount: { type: Number | String, min: 0, max: 75, default: 0 } },
   ],
 });
 
