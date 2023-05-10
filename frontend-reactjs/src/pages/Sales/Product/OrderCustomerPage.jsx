@@ -1,15 +1,12 @@
-import { Button, Form, Table, Select } from "antd";
+import { Button, Form, Table, Input } from "antd";
 import axios from "axios";
-// import numeral from "numeral";
 import moment from "moment";
 import React from "react";
 
 import Styles from "../../../pages/CommonPage.module.css";
-// import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-
 import MultiButtonGroup from "../../../components/Features/MultiButtonGroup/MultiButtonGroup";
 
-export default function OrderStatusPage() {
+export default function OrderCustomerPage() {
   const [orders, setOrders] = React.useState([]);
 
   // Columns of Antd Table
@@ -26,18 +23,25 @@ export default function OrderStatusPage() {
         );
       },
     },
-    // Status
+
+    // CUSTOMER
     {
-      title: "Status",
-      key: "status",
+      title: "Customer",
+      dataIndex: "customer",
+      key: "customer",
+
       render: (text, record, index) => {
         return (
-          <div>
-            <span>{record.status}</span>
+          <div style={{ whiteSpace: "nowrap" }}>
+            <strong>
+              {record.customer &&
+                record.customer.firstName + " " + record.customer.lastName}
+            </strong>
           </div>
         );
       },
     },
+
     // Created Date
     {
       title: "Created Date",
@@ -76,24 +80,6 @@ export default function OrderStatusPage() {
       },
     },
 
-    // CUSTOMER
-    {
-      title: "Customer",
-      dataIndex: "customer",
-      key: "customer",
-
-      render: (text, record, index) => {
-        return (
-          <div style={{ whiteSpace: "nowrap" }}>
-            <strong>
-              {record.customer &&
-                record.customer.firstName + " " + record.customer.lastName}
-            </strong>
-          </div>
-        );
-      },
-    },
-
     // SHIPPING ADDRESS
     {
       title: "Shipping Information",
@@ -104,6 +90,18 @@ export default function OrderStatusPage() {
         return (
           <div>
             <span>{record.shippingAddress}</span>
+          </div>
+        );
+      },
+    },
+    // Status
+    {
+      title: "Status",
+      key: "status",
+      render: (text, record, index) => {
+        return (
+          <div>
+            <span>{record.status}</span>
           </div>
         );
       },
@@ -148,11 +146,14 @@ export default function OrderStatusPage() {
   const [searchForm] = Form.useForm();
   const onFinish = (values) => {
     console.log(values);
-    let { status } = values;
+    let { firstName } = values;
 
     // CALL API TO CREATE ORDERS
     axios
-      .get("http://localhost:9000/orders/question/7/1?status=" + status, values)
+      .get(
+        "http://localhost:9000/orders/question/7/2?firstName=" + firstName,
+        values
+      )
       .then((response) => {
         console.log(response.data);
         setOrders(response.data);
@@ -178,32 +179,16 @@ export default function OrderStatusPage() {
       >
         {/* FIRST NAME */}
         <Form.Item
-          label="Status"
-          name="status"
+          label="Customer's First Name"
+          name="firstName"
           rules={[
             {
               required: true,
-              message: "Please input status!",
+              message: "Please input first name!",
             },
           ]}
         >
-          <Select
-            style={{ width: 120 }}
-            options={[
-              {
-                value: "WAITING",
-                label: "WAITING",
-              },
-              {
-                value: "COMPLETED",
-                label: "COMPLETED",
-              },
-              {
-                value: "CANCELED",
-                label: "CANCELED",
-              },
-            ]}
-          />
+          <Input />
         </Form.Item>
 
         {/* SUBMIT */}

@@ -20,7 +20,6 @@ import {
   EditOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-// import { MdPublishedWithChanges } from "react-icons/md";
 
 import Styles from "../../CommonPage.module.css";
 
@@ -180,7 +179,7 @@ function OrdersPage() {
               item.productId && item.productId.title.length > 10 ? "..." : ""
             }
             Quantity: ${item.quantity}
-            Discount: ${item.discount}%`
+            Discount: ${item.productId && item.productId.discount}%`
         );
         return (
           <div
@@ -519,6 +518,7 @@ function OrdersPage() {
                             return {
                               value: c._id,
                               label: c.title,
+                              // discount: c.discount,
                             };
                           })
                         }
@@ -539,19 +539,6 @@ function OrdersPage() {
                       <InputNumber min={0} />
                     </Form.Item>
 
-                    {/* DISCOUNT */}
-                    <Form.Item
-                      label="Discount"
-                      name={[productField.name, "discount"]}
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input the discount!",
-                        },
-                      ]}
-                    >
-                      <InputNumber min={0} />
-                    </Form.Item>
                     {/* BTN DELETE */}
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                       <Button
@@ -851,19 +838,6 @@ function OrdersPage() {
                         <InputNumber min={0} />
                       </Form.Item>
 
-                      {/* DISCOUNT */}
-                      <Form.Item
-                        label="Discount"
-                        name={[productField.name, "discount"]}
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input the discount!",
-                          },
-                        ]}
-                      >
-                        <InputNumber min={0} />
-                      </Form.Item>
                       {/* BTN DELETE */}
                       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                         <Button

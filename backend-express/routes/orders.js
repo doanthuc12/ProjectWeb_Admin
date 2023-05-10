@@ -117,7 +117,7 @@ router.get("/question/7", function (req, res) {
   const query = { status: new RegExp(`${text}`) };
 
   Order.find(query)
-    .populate("orderDetails.product")
+    .populate("orderDetails.productId")
     .populate("customer")
     .populate("employee")
     .populate("shipper")
@@ -127,6 +127,52 @@ router.get("/question/7", function (req, res) {
     .catch((error) => {
       res.status(500).json(error);
     });
+});
+
+// GET ORDERS BY STATUS
+//http://localhost:9000/orders/question/7/1?status=
+router.get("/question/7/1", function (req, res, next) {
+  try {
+    let text = req.query.status;
+    const query = { status: new RegExp(`${text}`) };
+    Order.find(query)
+      .populate("customer")
+      .populate("employee")
+      .populate("shipper")
+      .populate("product")
+      .populate("orderDetails.productId")
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => {
+        res.status(400).send({ message: err.message });
+      });
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
+// GET ORDERS BY CUSTOMER NAME
+//http://localhost:9000/orders/question/7/2?firstName=
+router.get("/question/7/2", function (req, res, next) {
+  try {
+    let text = req.query.customer.firstName;
+    const query = { firstName: new RegExp(`${text}`) };
+    Order.find(query)
+      .populate("customer")
+      .populate("employee")
+      .populate("shipper")
+      .populate("product")
+      .populate("orderDetails.productId")
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => {
+        res.status(400).send({ message: err.message });
+      });
+  } catch (err) {
+    res.sendStatus(500);
+  }
 });
 
 // ------------------------------------------------------------------------------------------------
@@ -180,25 +226,6 @@ router.get("/question/8b", function (req, res) {
     .catch((error) => {
       res.status(500).json(error);
     });
-});
-
-// GET ORDERS BY STATUS
-//http://localhost:9000/orders/question/7/1?status=
-router.get("/question/7/1", function (req, res, next) {
-  try {
-    let text = req.query.status;
-    const query = { status: new RegExp(`${text}`) };
-    Order.find(query)
-
-      .then((result) => {
-        res.json(result);
-      })
-      .catch((err) => {
-        res.status(400).send({ message: err.message });
-      });
-  } catch (err) {
-    res.sendStatus(500);
-  }
 });
 
 // ------------------------------------------------------------------------------------------------

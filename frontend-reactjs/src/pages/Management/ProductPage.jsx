@@ -20,7 +20,7 @@ import {
   PlusCircleOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { PlusOutlined } from "@ant-design/icons";
+// import { PlusOutlined } from "@ant-design/icons";
 import numeral from "numeral";
 import "numeral/locales/vi";
 
@@ -34,7 +34,7 @@ function ProductPage() {
   const [branches, setBranches] = React.useState([]);
   const [suppliers, setSuppliers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
-  const [imageUrl, setImageUrl] = React.useState(null);
+  // const [imageUrl, setImageUrl] = React.useState(null);
 
   //Select customer
   const [editModalVisible, setEditModalVisible] = React.useState(false);
@@ -43,31 +43,31 @@ function ProductPage() {
   //Refresh
   const [refresh, setRefresh] = React.useState(0);
 
-  const normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
+  // const normFile = (e) => {
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   return e?.fileList;
+  // };
 
-  const handleUpload = async (file) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const response = await fetch("http://localhost:9000/upload/products", {
-        method: "POST",
-        body: formData,
-        headers: {
-          authorization: "authorization-text",
-        },
-      });
-      const { imageUrl } = await response.json();
-      setImageUrl(imageUrl);
-      message.success(`${file.name} uploaded successfully`);
-    } catch (error) {
-      message.error(`${file.name} upload failed.`);
-    }
-  };
+  // const handleUpload = async (file) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("file", file);
+  //     const response = await fetch("http://localhost:9000/upload/products", {
+  //       method: "POST",
+  //       body: formData,
+  //       headers: {
+  //         authorization: "authorization-text",
+  //       },
+  //     });
+  //     const { imageUrl } = await response.json();
+  //     setImageUrl(imageUrl);
+  //     message.success(`${file.name} uploaded successfully`);
+  //   } catch (error) {
+  //     message.error(`${file.name} upload failed.`);
+  //   }
+  // };
 
   //columns of antd table
   const columns = [
@@ -332,12 +332,6 @@ function ProductPage() {
   const [createForm] = Form.useForm();
   const [updateForm] = Form.useForm();
 
-  // const onFill = () => {
-  //   createForm.setFieldsValue({
-  //     url: "https://images.asos-media.com/",
-  //   });
-  // };
-
   return (
     <div>
       <div>
@@ -529,26 +523,61 @@ function ProductPage() {
         </Form.Item>
 
         {/* IMG LEAVE */}
-        {/* <Form.Item
-          label="ImgLeave"
+        <Form.Item
+          label="Image"
           name="imgLeave"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
+          rules={[
+            {
+              required: false,
+              message: "Please input link img!",
+            },
+          ]}
         >
-          <Upload
-            customRequest={({ file }) => handleUpload(file)}
-            listType="picture-card"
-          >
-            {imageUrl ? (
-              <img src={`http://localhost:9000${imageUrl}`} alt="img" />
-            ) : (
-              <div>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
+          <Input />
+        </Form.Item>
+
+        {/* CAROUSELS */}
+        <Form.Item label="Carousels" name="carousels">
+          <Form.List name="carousels">
+            {(imgFields, { add: addImg, remove: removeImg }) => (
+              <>
+                {imgFields.map((imgField, index) => (
+                  <div key={imgField.key}>
+                    {/* CAROUSEL */}
+                    <Form.Item
+                      label="Img"
+                      name={[imgField.name, "Img"]}
+                      rules={[
+                        { required: true, message: "Input link of img!" },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    {/* BTN DELETE CAROUSEL */}
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                      <Button
+                        onClick={() => removeImg(imgField.name)}
+                        icon={<DeleteOutlined />}
+                      >
+                        Delete img
+                      </Button>
+                    </Form.Item>
+                  </div>
+                ))}
+                {/* BTN ADD SIZE */}
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                  <Button
+                    onClick={() => addImg()}
+                    icon={<PlusCircleOutlined />}
+                  >
+                    Add img
+                  </Button>
+                </Form.Item>
+              </>
             )}
-          </Upload>
-        </Form.Item> */}
+          </Form.List>
+        </Form.Item>
 
         {/* SUBMIT */}
         <Form.Item

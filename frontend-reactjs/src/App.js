@@ -23,6 +23,7 @@ import TitlePage from "./pages/Sales/Product/TitlePage";
 import CustomerAddressPage from "./pages/Management/CustomerAddressPage";
 import CustomerBirthPage from "./pages/Management/CustomerBirthPage";
 import OrderStatusPage from "./pages/Sales/Product/OrderStatusPage";
+import OrderCustomerPage from "./pages/Sales/Product/OrderCustomerPage";
 
 import { useAuthStore } from "./hooks/useAuthStore";
 import MainMenuManager from "./components/Common/MainMenu/MainMenuManager";
@@ -166,6 +167,10 @@ function App() {
                       path="/sales/orders/status"
                       element={<OrderStatusPage />}
                     />
+                    {/* <Route
+                      path="/sales/orders/customerName"
+                      element={<OrderCustomerPage />}
+                    /> */}
 
                     {/* NO MATCH ROUTE */}
                     <Route path="*" element={<NotFoundPage />} />
@@ -251,6 +256,10 @@ function App() {
                       path="/sales/orders/status"
                       element={<OrderStatusPage />}
                     />
+                    <Route
+                      path="/sales/orders/customerName"
+                      element={<OrderCustomerPage />}
+                    />
 
                     {/* NO MATCH ROUTE */}
                     <Route path="*" element={<NotFoundPage />} />
@@ -294,6 +303,10 @@ function App() {
                     <Route
                       path="/sales/orders/status"
                       element={<OrderStatusPage />}
+                    />
+                    <Route
+                      path="/sales/orders/customerName"
+                      element={<OrderCustomerPage />}
                     />
 
                     {/* NO MATCH ROUTE */}

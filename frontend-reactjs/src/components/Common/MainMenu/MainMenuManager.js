@@ -80,10 +80,10 @@ const items = [
         label: "Sort by status",
         key: "sales/orders/status",
       },
-      {
-        label: "Sort by total price",
-        key: "sales/orders/payment-status ",
-      },
+      // {
+      //   label: "Sort by customer's name",
+      //   key: "/sales/orders/customerName",
+      // },
     ],
   },
 

@@ -95,7 +95,7 @@ const orderSchema = new Schema({
         // required: true,
       },
       quantity: { type: Number, min: 0, default: 1 },
-      discount: { type: Number, min: 0, max: 75, default: 0 },
+      // discount: { type: Number, min: 0, max: 75, default: 0 },
     },
   ],
 });

@@ -7,9 +7,9 @@ const productSchema = Schema(
     title: { type: String, required: true },
     price: { type: Number, required: true, min: 0, default: 0 },
     discount: { type: Number, min: 0, max: 75, default: 0 },
-    imgLeave: { type: Array, required: false },
-    imgHover: { type: Array, required: false },
-    thumbnails: { type: Array, required: false },
+    imgLeave: { type: String, required: false },
+    // imgHover: { type: Array, required: false },
+    // thumbnails: { type: Array, required: false },
     carousels: { type: Array, required: false },
     sizes: [
       {
