@@ -440,8 +440,16 @@ function ProductPage() {
         </Form.Item>
 
         {/* SIZE & STOCK */}
-
-        <Form.Item label="Sizes" name="sizes">
+        <Form.Item
+          label="Sizes"
+          name="sizes"
+          rules={[
+            {
+              required: true,
+              message: "Please set the sizes & stock!",
+            },
+          ]}
+        >
           <Form.List name="sizes">
             {(sizeFields, { add: addSize, remove: removeSize }) => (
               <>
@@ -728,7 +736,16 @@ function ProductPage() {
           </Form.Item>
 
           {/* SIZE & STOCK */}
-          <Form.Item label="Sizes" name="sizes">
+          <Form.Item
+            label="Sizes"
+            name="sizes"
+            rules={[
+              {
+                required: true,
+                message: "Please set the sizes & stock!",
+              },
+            ]}
+          >
             <Form.List name="sizes">
               {(sizeFields, { add: addSize, remove: removeSize }) => (
                 <>
@@ -809,18 +826,61 @@ function ProductPage() {
             </Form.List>
           </Form.Item>
 
-          {/* UPLOAD */}
-          <Form.Item label="Upload" name="imgUrl">
-            <Upload action="/upload.do" listType="picture-card">
-              <div>
-                <Button icon={<UploadOutlined />} />
-                <div
-                  style={{
-                    marginTop: 8,
-                  }}
-                ></div>
-              </div>
-            </Upload>
+          {/* IMG LEAVE */}
+          <Form.Item
+            label="Image"
+            name="imgLeave"
+            rules={[
+              {
+                required: false,
+                message: "Please input link img!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          {/* CAROUSELS */}
+          <Form.Item label="Carousels" name="carousels">
+            <Form.List name="carousels">
+              {(imgFields, { add: addImg, remove: removeImg }) => (
+                <>
+                  {imgFields.map((imgField, index) => (
+                    <div key={imgField.key}>
+                      {/* CAROUSEL */}
+                      <Form.Item
+                        label="Img"
+                        name={[imgField.name, "Img"]}
+                        rules={[
+                          { required: true, message: "Input link of img!" },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+
+                      {/* BTN DELETE CAROUSEL */}
+                      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <Button
+                          onClick={() => removeImg(imgField.name)}
+                          icon={<DeleteOutlined />}
+                        >
+                          Delete img
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  ))}
+                  {/* BTN ADD SIZE */}
+                  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button
+                      onClick={() => addImg()}
+                      icon={<PlusCircleOutlined />}
+                    >
+                      Add img
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
           </Form.Item>
         </Form>
       </Modal>

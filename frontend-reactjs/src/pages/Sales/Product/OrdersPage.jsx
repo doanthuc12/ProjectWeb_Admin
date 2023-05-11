@@ -39,6 +39,9 @@ function OrdersPage() {
   //Refresh
   const [refresh, setRefresh] = React.useState(0);
 
+  //Total price
+  // const [totalPrice, setTotalPrice] = useState(0);
+
   //columns of antd table
   const columns = [
     {
@@ -119,23 +122,6 @@ function OrdersPage() {
         );
       },
     },
-    // EMPLOYEE
-    // {
-    //   title: "Employee",
-    //   dataIndex: "employee",
-    //   key: "employee",
-
-    //   render: (text, record, index) => {
-    //     return (
-    //       <div style={{ whiteSpace: "nowrap" }}>
-    //         <strong>
-    //           {record.employee.firstName + " " + record.employee.lastName}
-    //         </strong>
-    //       </div>
-    //     );
-    //   },
-    // },
-
     // SHIPPING ADDRESS
     {
       title: "Shipping Information",
@@ -173,34 +159,54 @@ function OrdersPage() {
       dataIndex: "orderDetails",
       key: "orderDetails",
       render: (orderDetails, record) => {
-        const orderDetailArr = orderDetails.map(
-          (item) =>
-            `Product: ${item.productId && item.productId.title.substr(0, 10)}${
-              item.productId && item.productId.title.length > 10 ? "..." : ""
-            }
+        let totalPrice = 0;
+        const orderDetailArr = orderDetails.map((item) => {
+          const productPrice =
+            item.productId.price *
+            (1 - item.productId.discount / 100) *
+            item.quantity;
+          totalPrice += productPrice;
+
+          return `Product: ${
+            item.productId && item.productId.title.substr(0, 10)
+          }${item.productId && item.productId.title.length > 10 ? "..." : ""}
+          Product Price: ${item.productId.price}
             Quantity: ${item.quantity}
-            Discount: ${item.productId && item.productId.discount}%`
-        );
+            Discount: ${item.productId && item.productId.discount}%
+            Total Price: £${productPrice.toLocaleString("en-US")}
+            `;
+        });
         return (
           <div
             style={{
               whiteSpace: "nowrap",
-              width: "140px",
+              width: "170px",
               display: "flex",
               flexDirection: "column",
             }}
           >
             {orderDetailArr.map((item, index) => (
-              <div key={index}>
+              <div
+                style={{
+                  borderBottom: "solid gray 0.3px",
+                  marginBottom: "5px",
+                  marginTop: "5px",
+                }}
+                key={index}
+              >
                 {item.split("\n").map((line, index) => (
                   <div key={index}>{line}</div>
                 ))}
               </div>
             ))}
+            <div style={{ color: "red" }}>
+              Sum: £{totalPrice.toLocaleString("en-US")}
+            </div>
           </div>
         );
       },
     },
+
     // ACTION
     {
       title: "",

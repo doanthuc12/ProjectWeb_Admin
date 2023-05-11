@@ -259,4 +259,31 @@ router.get("/question/13", function (req, res) {
       res.status(500).json(error);
     });
 });
+
+// QUESTIONS 3
+// ------------------------------------------------------------------------------------------------
+// http://localhost:9000/products/questions/3?price=100000
+router.get("/questions/3", async (req, res, next) => {
+  try {
+    // let finalPrice = price * (100 - discount) / 100;
+    const s = { $subtract: [100, "$discount"] }; // (100 - 5)
+    const m = { $multiply: ["$price", s] }; // price * 95
+    const n = { $multiply: ["$quantity", m] }; // quantity * price
+    const d = { $divide: [n, 100] }; // price * 95 / 100
+
+    const { totalPrice } = req.query;
+
+    let aggregate = [{ $match: { $expr: { $lte: [d, price] } } }];
+    Order.aggregate(aggregate)
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
