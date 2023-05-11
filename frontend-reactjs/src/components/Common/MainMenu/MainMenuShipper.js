@@ -1,6 +1,4 @@
 import { HomeOutlined, SettingOutlined } from "@ant-design/icons";
-// import { BsPersonCheck } from "react-icons/bs";
-// import { FaShippingFast } from "react-icons/fa";
 import { FiShoppingBag } from "react-icons/fi";
 import Styles from "./MainMenu.module.css";
 import React from "react";
@@ -10,26 +8,6 @@ import logo from "../../../images/logo.png";
 
 const items = [
   { label: "Home Page", key: "home", icon: <HomeOutlined /> }, // remember to pass the key prop
-  // CUSTOMERS
-  // {
-  //   label: "Customers",
-  //   key: "management/customers",
-  //   icon: <BsPersonCheck />,
-  //   children: [
-  //     {
-  //       label: "List of customers",
-  //       key: "management/customers/list",
-  //     },
-  //     {
-  //       label: "Sort by address",
-  //       key: "management/customers/address",
-  //     },
-  //     {
-  //       label: "Sort by birthday",
-  //       key: "management/customers/birthday",
-  //     },
-  //   ],
-  // },
 
   // ORDERS
   {

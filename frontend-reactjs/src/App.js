@@ -281,22 +281,6 @@ function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/home" element={<HomePage />} />
 
-                    {/* MANAGEMENT */}
-
-                    {/* MAN_CUSTOMERS */}
-                    {/* <Route
-                      path="management/customers/list"
-                      element={<CustomerPage />}
-                    />
-                    <Route
-                      path="management/customers/address"
-                      element={<CustomerAddressPage />}
-                    />
-                    <Route
-                      path="management/customers/birthday"
-                      element={<CustomerBirthPage />}
-                    /> */}
-
                     {/* SALES_ORDERS */}
 
                     <Route path="/sales/orders/list" element={<OrdersPage />} />
@@ -304,10 +288,10 @@ function App() {
                       path="/sales/orders/status"
                       element={<OrderStatusPage />}
                     />
-                    <Route
+                    {/* <Route
                       path="/sales/orders/customerName"
                       element={<OrderCustomerPage />}
-                    />
+                    /> */}
 
                     {/* NO MATCH ROUTE */}
                     <Route path="*" element={<NotFoundPage />} />

@@ -52,10 +52,6 @@ const items = [
         label: "On sale",
         key: "sales/products/discount",
       },
-      // {
-      //   label: "Sort by total price",
-      //   key: "sales/products/totalprice",
-      // },
       {
         label: "Product Name",
         key: "sales/products/name",

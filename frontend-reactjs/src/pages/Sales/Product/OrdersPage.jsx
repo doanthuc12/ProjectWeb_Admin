@@ -39,9 +39,6 @@ function OrdersPage() {
   //Refresh
   const [refresh, setRefresh] = React.useState(0);
 
-  //Total price
-  // const [totalPrice, setTotalPrice] = useState(0);
-
   //columns of antd table
   const columns = [
     {

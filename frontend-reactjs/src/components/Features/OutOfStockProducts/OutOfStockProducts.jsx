@@ -8,7 +8,7 @@ import "numeral/locales/vi";
 
 numeral.locale("vi");
 
-function ProductPage() {
+function OutOfStockProductPage() {
   const [products, setProducts] = React.useState([]);
 
   //Refresh
@@ -109,4 +109,4 @@ function ProductPage() {
   );
 }
 
-export default ProductPage;
+export default OutOfStockProductPage;
